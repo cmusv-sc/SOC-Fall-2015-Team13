@@ -58,6 +58,8 @@ object main extends BaseScalaTemplate[play.api.templates.HtmlFormat.Appendable,F
 
 Seq[Any](format.raw/*18.32*/("""
 
+
+
 <!DOCTYPE html>
 
 <html>
