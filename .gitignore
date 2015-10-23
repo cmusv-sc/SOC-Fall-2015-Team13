@@ -5,3 +5,5 @@ ApacheCMDA-Backend/.settings/
 ApacheCMDA-Frontend/.settings/
 ApacheCMDA-Backend/.idea_modules/
 ApacheCMDA-Frontend/.idea_modules/
+ApacheCMDA-Frontend/target/
+ApacheCMDA-Backend/target/
