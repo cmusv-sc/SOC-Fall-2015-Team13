@@ -69,6 +69,16 @@ public class User {
 		this.highestDegree = highestDegree;
 	}
 
+	public User(String userName, String password, String firstName,
+				String lastName, String affiliation) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.affiliation = affiliation;
+	}
+
 	public long getId() {
 		return id;
 	}

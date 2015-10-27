@@ -6,7 +6,10 @@
 GET         /home                                                controllers.ClimateServiceController.home(email ?= null, vfile ?= null, dataset ?= null)
 GET 		/													 controllers.ClimateServiceController.home(email ?= null, vfile ?= null, dataset ?= null)
 
-
+# Sign up/Log in page for Social Network
+GET         /signup                                              controllers.SignupController.signup()
+GET         /login                                               controllers.LoginController.login()
+POST        /signup/newUser                                      controllers.SignupController.newUser()
 # BugReporting
 GET         /bugs                                                controllers.BugReportController.reports()
 GET         /newReport                                           controllers.BugReportController.newReport()

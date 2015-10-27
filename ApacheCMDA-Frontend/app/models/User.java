@@ -21,7 +21,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import play.data.validation.Constraints;
+import util.APICall;
+import util.Constants;
 
 @Entity
 public class User {
@@ -47,6 +50,8 @@ public class User {
 	private String faxNumber;
 	private String researchFields;
 	private String highestDegree;
+
+	private static final String ADD_USER_CALL = Constants.NEW_BACKEND+"users/add";
 
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
 	// private Set<ClimateService> climateServices = new
@@ -188,7 +193,17 @@ public class User {
 		this.highestDegree = highestDegree;
 	}
 
-	@Override
+    /**
+     * Create a new user
+     *
+     * @param jsonData
+     * @return the response from the API server
+     */
+    public static JsonNode create(JsonNode jsonData) {
+        return APICall.postAPI(ADD_USER_CALL, jsonData);
+    }
+
+    @Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", password="
 				+ password + ", firstName=" + firstName + ", lastName="
