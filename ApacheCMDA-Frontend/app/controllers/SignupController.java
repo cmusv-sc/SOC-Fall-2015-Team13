@@ -48,6 +48,7 @@ public class SignupController extends Controller {
             jsonData.put("lastName", dc.field("lastName").value());
             jsonData.put("affiliation", dc.field("affiliation").value());
             JsonNode response = User.create(jsonData);
+            System.out.println("user created with response: " + response);
             Application.flashMsg(response);
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -57,6 +58,6 @@ public class SignupController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-        return redirect("/climate/climateServices");
+        return ok(home.render(dc.field("firstName").value(), userForm));
     }
 }
