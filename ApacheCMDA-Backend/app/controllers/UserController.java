@@ -155,7 +155,28 @@ public class UserController extends Controller {
 
 		return ok(result);
 	}
-	
+
+	public Result getUserByName(String username, String format) {
+		if (username == null) {
+			System.out.println("username is null or empty!");
+			return badRequest("username is null or empty!");
+		}
+
+		List<User> users = userRepository.findByUserName(username);
+		if (users.size()==0) {
+			System.out.println("User is not existed");
+			return badRequest("User is not existed");
+		}
+
+		User user = users.get(0);
+		String result = new String();
+		if (format.equals("json")) {
+			result = new Gson().toJson(user);
+		}
+
+		return ok(result);
+	}
+
 	public Result getAllUsers(String format) {
 		Iterable<User> userIterable = userRepository.findAll();
 		List<User> userList = new ArrayList<User>();

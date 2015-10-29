@@ -19,7 +19,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
-import models.metadata.ClimateService;
 import play.libs.Json;
 import play.mvc.*;
 import play.data.Form;
@@ -58,6 +57,7 @@ public class SignupController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-        return ok(home.render(dc.field("firstName").value(), userForm));
+//        return ok(home.render(dc.field("firstName").value(), userForm));
+        return redirect("/network/home/" + dc.field("username").value());
     }
 }

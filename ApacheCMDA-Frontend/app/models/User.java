@@ -51,7 +51,8 @@ public class User {
 	private String researchFields;
 	private String highestDegree;
 
-	private static final String ADD_USER_CALL = Constants.NEW_BACKEND+"users/add";
+	private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
+    private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/name/";
 
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
 	// private Set<ClimateService> climateServices = new
@@ -141,6 +142,10 @@ public class User {
 		this.id = id;
 	}
 
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
+    }
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
@@ -201,6 +206,23 @@ public class User {
      */
     public static JsonNode create(JsonNode jsonData) {
         return APICall.postAPI(ADD_USER_CALL, jsonData);
+    }
+
+    /**
+     * Get a user based on its username
+     * @return
+     */
+    public static User get(String username) {
+        JsonNode json = APICall
+                .callAPI(GET_USER_CALL + username);
+        User user = new User();
+        System.out.println("json is " + json);
+        user.setId(json.path("id").asText());
+        user.setUserName(json.path("userName").asText());
+        user.setFirstName(json.path("firstName").asText());
+        user.setAffiliation(json.path("affiliation").asText());
+        user.setLastName(json.path("lastName").asText());
+        return user;
     }
 
     @Override

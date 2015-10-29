@@ -10,7 +10,8 @@ GET 		/													 controllers.ClimateServiceController.home(email ?= null, vf
 GET         /signup                                              controllers.SignupController.signup()
 GET         /login                                               controllers.LoginController.login()
 POST        /signup/newUser                                      controllers.SignupController.newUser()
-#GET         /network/home                                        controllers.HomeController.home(firstName ?= null)
+GET         /network/home/:username                              controllers.HomeController.home(username: String)
+
 # BugReporting
 GET         /bugs                                                controllers.BugReportController.reports()
 GET         /newReport                                           controllers.BugReportController.newReport()
