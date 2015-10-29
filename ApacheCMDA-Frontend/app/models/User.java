@@ -52,7 +52,7 @@ public class User {
 	private String highestDegree;
 
 	private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
-    private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/name/";
+    private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
 
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
 	// private Set<ClimateService> climateServices = new
@@ -212,9 +212,9 @@ public class User {
      * Get a user based on its username
      * @return
      */
-    public static User get(String username) {
+    public static User get(String id) {
         JsonNode json = APICall
-                .callAPI(GET_USER_CALL + username);
+                .callAPI(GET_USER_CALL + id);
         User user = new User();
         System.out.println("json is " + json);
         user.setId(json.path("id").asText());

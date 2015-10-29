@@ -34,8 +34,8 @@ public class HomeController extends Controller {
     final static Form<User> userForm = Form
             .form(User.class);
 
-    public static Result home(String username) {
-        User user = User.get(username);
+    public static Result home(String id) {
+        User user = User.get(id);
         return ok(home.render(user, userForm));
     }
 }
