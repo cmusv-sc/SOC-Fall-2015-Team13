@@ -52,6 +52,7 @@ public class User {
 	private String highestDegree;
 
 	private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
+	private static final String LOGIN_USER_CALL = Constants.NEW_BACKEND + "users/login";
     private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
 
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
@@ -224,6 +225,22 @@ public class User {
         user.setLastName(json.path("lastName").asText());
         return user;
     }
+
+	/**
+	 * Verify the password and get the user
+	 * @return
+	 */
+	public static User verifyAndGet(JsonNode jsonData) {
+		JsonNode json = APICall.postAPI(LOGIN_USER_CALL, jsonData);
+		User user = new User();
+		System.out.println("json is " + json);
+		user.setId(json.path("id").asText());
+		user.setUserName(json.path("userName").asText());
+		user.setFirstName(json.path("firstName").asText());
+		user.setAffiliation(json.path("affiliation").asText());
+		user.setLastName(json.path("lastName").asText());
+		return user;
+	}
 
     @Override
 	public String toString() {

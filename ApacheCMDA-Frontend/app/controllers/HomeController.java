@@ -38,4 +38,24 @@ public class HomeController extends Controller {
         User user = User.get(id);
         return ok(home.render(user, userForm));
     }
+
+    public static Result login() {
+        Form<User> dc = userForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        User user = new User();
+        try {
+            jsonData.put("username", dc.field("username").value());
+            jsonData.put("password", dc.field("password").value());
+            user = User.verifyAndGet(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
+        }
+
+        return ok(home.render(user, userForm));
+    }
 }

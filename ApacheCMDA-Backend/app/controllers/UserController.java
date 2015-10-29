@@ -77,6 +77,33 @@ public class UserController extends Controller {
 		}
 	}
 
+	public Result loginUser() {
+		JsonNode json = request().body().asJson();
+		if (json == null) {
+			System.out.println("User info not present, expecting json data");
+			return badRequest("User info not present, expecting json data");
+		}
+
+		String userName = json.path("username").asText();
+		String password = json.path("password").asText();
+
+		List<User> users = userRepository.findByUserName(userName);
+		if (users.size() == 0) {
+			System.out.println("User is not existed");
+			return badRequest("User is not existed");
+		}
+
+		User user = users.get(0);
+
+		if (!password.equals(user.getPassword())) {
+			System.out.println("Password is wrong");
+			return ok("Password doesn't match");
+		}
+
+		String result = new Gson().toJson(user);
+		return ok(result);
+
+	}
 	public Result deleteUser(Long id) {
 		User deleteUser = userRepository.findOne(id);
 		if (deleteUser == null) {
