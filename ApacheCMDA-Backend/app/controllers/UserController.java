@@ -97,7 +97,7 @@ public class UserController extends Controller {
 
 		if (!password.equals(user.getPassword())) {
 			System.out.println("Password is wrong");
-			return ok("Password doesn't match");
+			return badRequest("Password doesn't match");
 		}
 
 		String result = new Gson().toJson(user);

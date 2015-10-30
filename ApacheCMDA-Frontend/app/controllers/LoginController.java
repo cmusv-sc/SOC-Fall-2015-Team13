@@ -21,6 +21,6 @@ import play.mvc.*;
 import views.html.network.*;
 public class LoginController extends Controller{
     public static Result login() {
-        return ok(login.render());
+        return ok(login.render(null, null, null));
     }
 }

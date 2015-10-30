@@ -51,7 +51,12 @@ public class HomeController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall
                     .createResponse(APICall.ResponseType.CONVERSIONERROR));
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            user.setUserName(dc.field("username").value());
+            user.setPassword(dc.field("password").value());
+            return ok(login.render(user, userForm, "Incorrect Password"));
+        }
+        catch (Exception e) {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
