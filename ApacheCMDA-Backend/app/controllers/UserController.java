@@ -89,8 +89,8 @@ public class UserController extends Controller {
 
 		List<User> users = userRepository.findByUserName(userName);
 		if (users.size() == 0) {
-			System.out.println("User is not existed");
-			return badRequest("User is not existed");
+			System.out.println("User doesn't exist");
+			return badRequest("User doesn't exist");
 		}
 
 		User user = users.get(0);

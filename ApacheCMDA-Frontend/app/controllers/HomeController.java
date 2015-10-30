@@ -54,7 +54,8 @@ public class HomeController extends Controller {
         } catch (NumberFormatException e) {
             user.setUserName(dc.field("username").value());
             user.setPassword(dc.field("password").value());
-            return ok(login.render(user, userForm, "Incorrect Password"));
+//            return ok(login.render(user, userForm, e.getMessage()));
+            return redirect(controllers.routes.LoginController.login(user.getUserName(), e.getMessage()));
         }
         catch (Exception e) {
             e.printStackTrace();

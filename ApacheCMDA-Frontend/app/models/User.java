@@ -234,11 +234,16 @@ public class User {
 		JsonNode json = APICall.postAPI(LOGIN_USER_CALL, jsonData);
 		User user = new User();
 		System.out.println("json is " + json);
-		user.setId(json.path("id").asText());
-		user.setUserName(json.path("userName").asText());
-		user.setFirstName(json.path("firstName").asText());
-		user.setAffiliation(json.path("affiliation").asText());
-		user.setLastName(json.path("lastName").asText());
+		try {
+			user.setId(json.path("id").asText());
+			user.setUserName(json.path("userName").asText());
+			user.setFirstName(json.path("firstName").asText());
+			user.setAffiliation(json.path("affiliation").asText());
+			user.setLastName(json.path("lastName").asText());
+		}
+		catch (NumberFormatException e) {
+			throw new NumberFormatException(json.path("error").asText());
+		}
 		return user;
 	}
 

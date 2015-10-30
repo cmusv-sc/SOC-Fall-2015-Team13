@@ -20,7 +20,7 @@ package controllers;
 import play.mvc.*;
 import views.html.network.*;
 public class LoginController extends Controller{
-    public static Result login() {
-        return ok(login.render(null, null, null));
+    public static Result login(String username, String error) {
+        return ok(login.render(username, error));
     }
 }
