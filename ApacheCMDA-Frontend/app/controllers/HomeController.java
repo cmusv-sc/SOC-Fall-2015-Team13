@@ -25,6 +25,7 @@ import play.mvc.*;
 import play.data.Form;
 import util.APICall;
 import views.html.network.*;
+import java.util.List;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -61,7 +62,11 @@ public class HomeController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-
         return ok(home.render(user, userForm));
+    }
+    
+    public static Result followers(String id) {
+    	List<User> users =User.getFollowers(id);
+    	return ok(followers.render(users));
     }
 }

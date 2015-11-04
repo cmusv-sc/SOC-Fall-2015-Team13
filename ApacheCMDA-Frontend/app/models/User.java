@@ -21,7 +21,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import play.data.validation.Constraints;
 import util.APICall;
 import util.Constants;
@@ -54,6 +62,7 @@ public class User {
 	private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
 	private static final String LOGIN_USER_CALL = Constants.NEW_BACKEND + "users/login";
     private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
+    private static final String GET_FOLLOWERS_CALL = Constants.NEW_BACKEND + "users/getfollowers/";
 
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
 	// private Set<ClimateService> climateServices = new
@@ -224,6 +233,26 @@ public class User {
         user.setAffiliation(json.path("affiliation").asText());
         user.setLastName(json.path("lastName").asText());
         return user;
+    }
+    
+    public static List<User> getFollowers(String id) {
+        JsonNode json = APICall
+                .callAPI(GET_FOLLOWERS_CALL + id);
+        
+        List<User> users= new ArrayList<User>();
+        Iterator<JsonNode> iterator = json.elements();
+        while (iterator.hasNext()){
+        	User user = new User();
+        	JsonNode token = iterator.next();
+        	user.setId(token.path("id").asText());
+			user.setUserName(token.path("userName").asText());
+			user.setFirstName(token.path("firstName").asText());
+			user.setAffiliation(token.path("affiliation").asText());
+			user.setLastName(token.path("lastName").asText());
+        	users.add(user);
+        }
+        System.out.println("json is " + json);
+        return users;
     }
 
 	/**

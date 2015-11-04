@@ -260,5 +260,28 @@ public class UserController extends Controller {
 		}
 		
 	}
+	
+	public Result follow(long id1, long id2) {
+		userRepository.addFollower(id1, id2);
+		return ok("Followed");
+	}
+	
+	public Result unfollow(long id1, long id2) {
+		userRepository.deleteFollower(id1, id2);
+		return ok("Unfollowed");
+	}
+	
+	public Result getFollowers(long id, String format) {
+		List<User> users = userRepository.findFollowers(id);
+		if (users.size()==0) {
+			System.out.println("The user does not have any follower");
+			return badRequest("The user does not have any follower");
+		}
+		String result = new String();
+		if (format.equals("json")) {
+			result = new Gson().toJson(users);
+		}
+		return ok(result);
+	}
 
 }

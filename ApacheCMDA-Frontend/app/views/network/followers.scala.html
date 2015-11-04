@@ -15,7 +15,7 @@
 * limitations under the License.											   *
 *******************************************************************************@
 
-@(user: User, userForm: play.data.Form[User])
+@(users: List[User])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,24 +69,19 @@
                             <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
                         </div>
                         <div class="col-sm-6 col-md-8">
-                            <h4>
-                                @user.getFirstName @user.getLastName</h4>
+
                             <p>
-                                <i class="glyphicon glyphicon-user"></i>@user.getUserName()
-                                <br />
-                                <i class="glyphicon glyphicon-home"></i>@user.getAffiliation()
-                                <br />
+
                                 <!-- Split button -->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">
-                                    Social</button>
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span><span class="sr-only">Social</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href=@("/network/followers/" + user.getId)>Followers</a></li>
-                                    <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Following</a></li>
+                         	<h4>Followers</h4>
+                         
+                                <ul>
+                                @for(user<-users){
+                                    <li>@user.getFirstName @user.getLastName </li>
+                                    }
                                 </ul>
+                                
                             </div>
                         </div>
                     </div>

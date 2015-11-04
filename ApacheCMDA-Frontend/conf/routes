@@ -12,6 +12,7 @@ GET         /login                                               controllers.Log
 POST        /signup/newUser                                      controllers.SignupController.newUser()
 GET         /network/home/:id                                    controllers.HomeController.home(id: String)
 POST        /network/home                                        controllers.HomeController.login()
+GET         /network/followers/:id                          	controllers.HomeController.followers(id: String)
 
 # BugReporting
 GET         /bugs                                                controllers.BugReportController.reports()
