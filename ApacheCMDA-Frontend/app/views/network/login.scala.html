@@ -14,7 +14,6 @@
 * See the License for the specific language governing permissions and         *
 * limitations under the License.											   *
 *******************************************************************************@
-@(username: String, error: String)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,9 +62,8 @@
           <div class="form-title">
             <h1><a href="/login" class="title_lable <%=lc%>">Log in</a> / <a href='/signup' class="title_lable <%=sc%>">Sign up</a></h1>
           </div>
-          <form class="form-horizontal" action="/network/home" method="POST" id="logForm"> <!-- Form -->
-              @if(error == null || error.isEmpty()) {
-              <div class="form-group">
+          <form class="form-horizontal" data-target="<%=stage %>" action="<%=formTarget %>" method="POST" onsubmit="return passwordCheck()" id="logForm"> <!-- Form -->
+            <div class="form-group">
               <label for="inputUname" class="col-sm-2 control-label">Username</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" name="username" id="inputUname">
@@ -77,30 +75,6 @@
                 <input type="password" class="form-control" id="inputPassword" name="password">
               </div>
             </div>
-              } else {
-                  <div class="form-group">
-                      <label for="inputUname" class="col-sm-2 control-label">Username</label>
-                      <div class="col-sm-10">
-                          <input type="text" class="form-control" name="username" id="inputUname" placeholder="@username">
-                      </div>
-                  </div>
-                  @if(!error.contains("Password")) {
-                      <div class="warning " id="warningbar">
-                          <p>@error</p>
-                      </div>
-                  }
-                  <div class="form-group">
-                      <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-                      <div class="col-sm-10">
-                          <input type="password" class="form-control" id="inputPassword" name="password">
-                      </div>
-                  </div>
-                  @if(error.contains("Password")) {
-                      <div class="warning " id="warningbar">
-                          <p>@error</p>
-                      </div>
-                  }
-              }
             @*<div class="form-group <%=secondPasswdClass%>" id="pwd2" >*@
               @*<label for="inputPassword2" class="col-sm-2 control-label ">Password</label>*@
               @*<div class="col-sm-10">*@

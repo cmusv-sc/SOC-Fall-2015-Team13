@@ -8,12 +8,9 @@ GET 		/													 controllers.ClimateServiceController.home(email ?= null, vf
 
 # Sign up/Log in page for Social Network
 GET         /signup                                              controllers.SignupController.signup()
-GET         /login                                               controllers.LoginController.login(username ?= null, error ?=null)
+GET         /login                                               controllers.LoginController.login()
 POST        /signup/newUser                                      controllers.SignupController.newUser()
-GET         /network/home/:id                                    controllers.HomeController.home(id: String)
-POST        /network/home                                        controllers.HomeController.login()
-GET         /network/followers/:id                          	controllers.HomeController.followers(id: String)
-
+#GET         /network/home                                        controllers.HomeController.home(firstName ?= null)
 # BugReporting
 GET         /bugs                                                controllers.BugReportController.reports()
 GET         /newReport                                           controllers.BugReportController.newReport()

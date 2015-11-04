@@ -15,84 +15,15 @@
 * limitations under the License.											   *
 *******************************************************************************@
 
-@(user: User, userForm: play.data.Form[User])
+@(firstName: String, userForm: play.data.Form[User])
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Home Page</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet"
-    href='@routes.Assets.at("stylesheets/bootstrap.css")'>
-    <link rel="stylesheet"
-    href='@routes.Assets.at("stylesheets/navbar-fixed-top.css")'>
-    <link rel="stylesheet"
-    href='@routes.Assets.at("stylesheets/custom.css")'>
-    <link rel="stylesheet"
-    href='@routes.Assets.at("stylesheets/profile.css")'>
-    <link rel="stylesheet" media="screen"
-    href='@routes.Assets.at("stylesheets/main.css")'>
-    <link rel="shortcut icon" type="image/png"
-    href='@routes.Assets.at("images/favicon.png")'>
-    <link href='@routes.Assets.at("stylesheets/bootstrap-editable.css")'
-    rel="stylesheet" />
-    <link href='@routes.Assets.at("stylesheets/jquery.tablesorter.pager.css")'
-    rel="stylesheet" />
-    <link href='@routes.Assets.at("stylesheets/style.css")'
-    rel="stylesheet" />
-
-    <script src='@routes.Assets.at("javascripts/jquery-1.9.0.min.js")'
-    type="text/javascript"></script>
-    <script src='@routes.Assets.at("javascripts/bootstrap.min.js")'
-    type="text/javascript"></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/lastLoader.js")'></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/jquery.metadata.js")'></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/jquery.tablesorter.js")'></script>
-
-
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/jstree.js")'></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/keyword_tree.js")'></script>
-
-    <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
+  <title></title>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="well well-sm">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-4">
-                            <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
-                        </div>
-                        <div class="col-sm-6 col-md-8">
-                            <h4>
-                                @user.getFirstName @user.getLastName</h4>
-                            <p>
-                                <i class="glyphicon glyphicon-user"></i>@user.getUserName()
-                                <br />
-                                <i class="glyphicon glyphicon-home"></i>@user.getAffiliation()
-                                <br />
-                                <!-- Split button -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary">
-                                    Social</button>
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span><span class="sr-only">Social</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href=@("/network/followers/" + user.getId)>Followers</a></li>
-                                    <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Following</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>Welcome to the Network @firstName </h1>
 </body>
 </html>

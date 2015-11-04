@@ -100,12 +100,7 @@ public class APICall {
 							catch (Exception e){
 								return createResponse(ResponseType.SUCCESS);
 							}
-						} else if (response.getStatus() == 400) {
-							ObjectNode jsonData = Json.newObject();
-							jsonData.put("error", response.getBody());
-							return jsonData;
-						}
-						else {
+						} else {
 							return createResponse(ResponseType.SAVEERROR);
 						}
 					}

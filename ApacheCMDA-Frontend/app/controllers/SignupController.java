@@ -19,6 +19,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
+import models.metadata.ClimateService;
 import play.libs.Json;
 import play.mvc.*;
 import play.data.Form;
@@ -40,7 +41,6 @@ public class SignupController extends Controller {
     public static Result newUser() {
         Form<User> dc = userForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
-        String id = "";
         try {
             jsonData.put("username", dc.field("username").value());
             jsonData.put("password", dc.field("password").value());
@@ -49,7 +49,6 @@ public class SignupController extends Controller {
             jsonData.put("affiliation", dc.field("affiliation").value());
             JsonNode response = User.create(jsonData);
             System.out.println("user created with response: " + response);
-            id = response.toString();
             Application.flashMsg(response);
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -59,7 +58,6 @@ public class SignupController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-//        return redirect("/network/home/" + dc.field("username").value());
-        return redirect("/network/home/" + id);
+        return ok(home.render(dc.field("firstName").value(), userForm));
     }
 }
