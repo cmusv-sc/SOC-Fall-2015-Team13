@@ -4,10 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 @Entity
 public class Post implements Comparable<Post> {
@@ -15,7 +11,7 @@ public class Post implements Comparable<Post> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String author;
+    private long authorID;
 
     private String content;
 
@@ -23,8 +19,8 @@ public class Post implements Comparable<Post> {
 
     private long timeStamp;
 
-    public Post(String author, String content, int likes, long timeStamp) {
-        this.author = author;
+    public Post(long author, String content, int likes, long timeStamp) {
+        this.authorID = author;
         this.content = content;
         this.likes = likes;
         this.timeStamp = timeStamp;
@@ -41,12 +37,12 @@ public class Post implements Comparable<Post> {
         this.id = id;
     }
 
-    public String getAuthor() {
-        return author;
+    public long getAuthorID() {
+        return authorID;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorID(long author) {
+        this.authorID = author;
     }
 
     public String getContent() {

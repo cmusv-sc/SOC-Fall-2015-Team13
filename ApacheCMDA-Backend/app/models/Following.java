@@ -11,11 +11,11 @@ public class Following {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String source;
+    private long source;
 
-    private String target;
+    private long target;
 
-    public Following(String source, String target) {
+    public Following(long source, long target) {
         this.source = source;
         this.target = target;
     }
@@ -23,19 +23,19 @@ public class Following {
     public Following() {
     }
 
-    public String getSource() {
+    public long getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(long source) {
         this.source = source;
     }
 
-    public String getTarget() {
+    public long getTarget() {
         return target;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(long target) {
         this.target = target;
     }
 }

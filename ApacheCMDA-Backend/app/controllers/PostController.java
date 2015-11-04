@@ -50,31 +50,23 @@ public class PostController extends Controller {
     }
 
 
-    public Result getPost(String author) {
-        if (author == null) {
-            System.out.println("author is null or empty!");
-            return badRequest("author is null or empty!");
-        }
+    public Result getPost(long id) {
 
-        List<Post> result = postRepository.findPost(author);
+        List<Post> result = postRepository.findPost(id);
 
         return ok(new Gson().toJson(result));
     }
 
     /**
-     * Return the post of the author and its followers(for personal wall)
+     * Return the post of the id and its followers(for personal wall)
      *
-     * @param author
+     * @param id
      * @return
      */
-    public Result getPersonalPostWall(String author) {
-        if (author == null) {
-            System.out.println("author is null or empty!");
-            return badRequest("author is null or empty!");
-        }
-        //add both the post of author itself and its followers
-        List<Following> followingList = followingRepository.findFollowedPeopleByName(author);
-        List<Post> posts = new ArrayList<>(postRepository.findPost(author));
+    public Result getPersonalPostWall(long id) {
+        //add both the post of id itself and its following users
+        List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
+        List<Post> posts = new ArrayList<>(postRepository.findPost(id));
         for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
         Collections.sort(posts);
         return ok(new Gson().toJson(posts));

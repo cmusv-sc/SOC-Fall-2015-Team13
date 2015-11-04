@@ -44,13 +44,9 @@ public class FollowingController extends Controller {
     }
 
 
-    public Result getFollowing(String source) {
-        if (source == null) {
-            System.out.println("User id is null or empty!");
-            return badRequest("User id is null or empty!");
-        }
+    public Result getFollowing(long source) {
 
-        List<Following> result = followingRepository.findFollowedPeopleByName(source);
+        List<Following> result = followingRepository.findFollowedPeopleByID(source);
 
         return ok(new Gson().toJson(result));
     }

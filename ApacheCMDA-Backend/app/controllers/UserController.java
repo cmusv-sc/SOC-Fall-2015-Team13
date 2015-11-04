@@ -77,6 +77,33 @@ public class UserController extends Controller {
 		}
 	}
 
+	public Result loginUser() {
+		JsonNode json = request().body().asJson();
+		if (json == null) {
+			System.out.println("User info not present, expecting json data");
+			return badRequest("User info not present, expecting json data");
+		}
+
+		String userName = json.path("username").asText();
+		String password = json.path("password").asText();
+
+		List<User> users = userRepository.findByUserName(userName);
+		if (users.size() == 0) {
+			System.out.println("User doesn't exist");
+			return badRequest("User doesn't exist");
+		}
+
+		User user = users.get(0);
+
+		if (!password.equals(user.getPassword())) {
+			System.out.println("Password is wrong");
+			return badRequest("Password doesn't match");
+		}
+
+		String result = new Gson().toJson(user);
+		return ok(result);
+
+	}
 	public Result deleteUser(Long id) {
 		User deleteUser = userRepository.findOne(id);
 		if (deleteUser == null) {
@@ -155,7 +182,28 @@ public class UserController extends Controller {
 
 		return ok(result);
 	}
-	
+
+	public Result getUserByName(String username, String format) {
+		if (username == null) {
+			System.out.println("username is null or empty!");
+			return badRequest("username is null or empty!");
+		}
+
+		List<User> users = userRepository.findByUserName(username);
+		if (users.size()==0) {
+			System.out.println("User is not existed");
+			return badRequest("User is not existed");
+		}
+
+		User user = users.get(0);
+		String result = new String();
+		if (format.equals("json")) {
+			result = new Gson().toJson(user);
+		}
+
+		return ok(result);
+	}
+
 	public Result getAllUsers(String format) {
 		Iterable<User> userIterable = userRepository.findAll();
 		List<User> userList = new ArrayList<User>();
@@ -211,6 +259,29 @@ public class UserController extends Controller {
 			return badRequest("User is not deleted");
 		}
 		
+	}
+	
+	public Result follow(long id1, long id2) {
+		userRepository.addFollower(id1, id2);
+		return ok("Followed");
+	}
+	
+	public Result unfollow(long id1, long id2) {
+		userRepository.deleteFollower(id1, id2);
+		return ok("Unfollowed");
+	}
+	
+	public Result getFollowers(long id, String format) {
+		List<User> users = userRepository.findFollowers(id);
+		if (users.size()==0) {
+			System.out.println("The user does not have any follower");
+			return badRequest("The user does not have any follower");
+		}
+		String result = new String();
+		if (format.equals("json")) {
+			result = new Gson().toJson(users);
+		}
+		return ok(result);
 	}
 
 }

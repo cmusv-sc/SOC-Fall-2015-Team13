@@ -18,6 +18,6 @@ import java.util.List;
 @Singleton
 public interface FollowingRepository extends CrudRepository<Following, Long> {
     @Query(value = "select f.* from Following f where f.source=?", nativeQuery = true)
-    List<Following> findFollowedPeopleByName(String source);
+    List<Following> findFollowedPeopleByID(long source);
 
 }

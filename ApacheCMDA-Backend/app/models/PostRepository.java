@@ -13,7 +13,7 @@ import java.util.List;
 @Named
 @Singleton
 public interface PostRepository extends CrudRepository<Post, Long> {
-    @Query(value = "select p.* from Post p where p.author=? order by p.timeStamp desc", nativeQuery = true)
-    List<Post> findPost(String author);
+    @Query(value = "select p.* from Post p where p.authorID=? order by p.timeStamp desc", nativeQuery = true)
+    List<Post> findPost(long id);
 
 }

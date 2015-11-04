@@ -47,19 +47,24 @@ DELETE        /parameter/deleteParameter/service/:id/name/:name                 
 
 # Users
 GET           /users/:id                                                                    @controllers.UserController.getUser(id: Long, format: String="json")
+GET           /users/name/:username                                                         @controllers.UserController.getUserByName(username: String, format: String="json")
 POST          /users/add                                                                    @controllers.UserController.addUser
+POST          /users/login                                                                  @controllers.UserController.loginUser
 PUT           /users/update/:id                                                             @controllers.UserController.updateUser(id: Long)
 DELETE        /users/delete/:id                                                             @controllers.UserController.deleteUser(id: Long)
 GET           /users/getAllUsers/json                                                       @controllers.UserController.getAllUsers(format: String="json")
 POST          /users/isUserValid                                                            @controllers.UserController.isUserValid
 DELETE        /users/delete/userName/:userName/password/:password                           @controllers.UserController.deleteUserByUserNameandPassword(userName: String, password: String)
+POST          /users/follow                                                                 @controllers.UserController.follow(id1: Long, id2: Long)
+DELETE        /users/unfollow                                                               @controllers.UserController.unfollow(id1: Long, id2: Long)
+GET           /users/getfollowers/:id                                                       @controllers.UserController.getFollowers(id: Long, format: String="json")
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                                                                 controllers.Assets.at(path="/public", file)
 
 # Following
-GET           /following/:source                                                            @controllers.FollowingController.getFollowing(source: String)
+GET           /following/:source                                                            @controllers.FollowingController.getFollowing(source: Long)
 
 # Post
-GET           /post/:author                                                                 @controllers.PostController.getPost(author: String)
-GET           /post/personal/:author                                                        @controllers.PostController.getPersonalPostWall(author: String)
+GET           /post/:id                                                                 @controllers.PostController.getPost(id: Long)
+GET           /post/personal/:id                                                        @controllers.PostController.getPersonalPostWall(id: Long)
