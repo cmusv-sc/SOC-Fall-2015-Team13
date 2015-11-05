@@ -68,16 +68,64 @@
                 <div class="col-md-4 bg_blur ">
                     <a href="#" class="follow_btn hidden-xs">Follow</a>
                 </div>
-                <div class="col-md-8  col-xs-12">
-                    <img src="http://placehold.it/380x500" class="img-thumbnail picture hidden-xs" />
-                    <img src="http://placehold.it/380x500" class="img-thumbnail visible-xs picture_mob" />
-                    <div class="header" style="color : white">
-                        <h1>@user.getFirstName @user.getLastName</h1>
-                        <h4>@user.getAffiliation</h4>
-                        <span></span>
+                <div class="well well-sm">
+                    <div class="col-md-8  col-xs-12">
+                        <img src="@user.getUrl" class="img-thumbnail picture hidden-xs" />
+                        <img src="@user.getUrl" class="img-thumbnail visible-xs picture_mob" />
+                        <div class="header" style="color : white">
+                            <h1>@user.getFirstName @user.getLastName</h1>
+                            <h4>@user.getAffiliation</h4>
+                            <span></span>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="wrapper">
+                <div class="box">
+                    <div class="row row-offcanvas row-offcanvas-left">
+                            <!-- sidebar -->
+                        <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar">
+                            <div class="col-sm-6 col-md-8">
+                                <h4> @user.getFirstName @user.getLastName</h4>
+                                <i class="glyphicon glyphicon-user"></i>@user.getUserName()
+                                <br>
+                                <i class="glyphicon glyphicon-home"></i>@user.getEmail
+                                <br>
+                                <i class="glyphicon glyphicon-home"></i>@user.getTitle
+                                <br>
+                                <i class="glyphicon glyphicon-home"></i>@user.getResearchFields
+                            </div>
+                        </div>
+                        <div class="column col-sm-10 col-xs-11" id="main">
+                                <!-- /top nav -->
+                            <div class="full col-sm-10">
+                                <div class="row">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="clearfix"></div>
+                                            This is first post
+                                            <hr>
+                                            Likes: 15
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="clearfix"></div>
+                                            This is second post
+                                            <hr>
+                                            Likes: 15
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--/row-->
+                        </div><!-- /padding -->
+                    </div>
+                        <!-- /main -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     </body>
 </html>

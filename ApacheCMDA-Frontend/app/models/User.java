@@ -60,6 +60,8 @@ public class User {
     private String researchFields;
     private String highestDegree;
 
+    private String url;
+
     private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
     private static final String LOGIN_USER_CALL = Constants.NEW_BACKEND + "users/login";
     private static final String UPDATE_USER_CALL = Constants.NEW_BACKEND + "users/update/";
@@ -212,6 +214,16 @@ public class User {
         this.highestDegree = highestDegree;
     }
 
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+
     /**
      * Create a new user
      *
@@ -251,6 +263,7 @@ public class User {
         user.setMailingAddress(json.path("mailingAddress").asText());
         user.setPhoneNumber(json.path("phoneNumber").asText());
         user.setResearchFields(json.path("researchFields").asText());
+        user.setUrl(json.path("url").asText());
         return user;
     }
 
