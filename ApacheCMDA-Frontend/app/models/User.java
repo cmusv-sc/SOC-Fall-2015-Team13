@@ -51,7 +51,9 @@ public class User {
 	private String researchFields;
 	private String highestDegree;
 
-	private static final String ADD_USER_CALL = Constants.NEW_BACKEND+"users/add";
+	private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
+	private static final String LOGIN_USER_CALL = Constants.NEW_BACKEND + "users/login";
+    private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
 
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
 	// private Set<ClimateService> climateServices = new
@@ -141,6 +143,10 @@ public class User {
 		this.id = id;
 	}
 
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
+    }
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
@@ -202,6 +208,44 @@ public class User {
     public static JsonNode create(JsonNode jsonData) {
         return APICall.postAPI(ADD_USER_CALL, jsonData);
     }
+
+    /**
+     * Get a user based on its username
+     * @return
+     */
+    public static User get(String id) {
+        JsonNode json = APICall
+                .callAPI(GET_USER_CALL + id);
+        User user = new User();
+        System.out.println("json is " + json);
+        user.setId(json.path("id").asText());
+        user.setUserName(json.path("userName").asText());
+        user.setFirstName(json.path("firstName").asText());
+        user.setAffiliation(json.path("affiliation").asText());
+        user.setLastName(json.path("lastName").asText());
+        return user;
+    }
+
+	/**
+	 * Verify the password and get the user
+	 * @return
+	 */
+	public static User verifyAndGet(JsonNode jsonData) {
+		JsonNode json = APICall.postAPI(LOGIN_USER_CALL, jsonData);
+		User user = new User();
+		System.out.println("json is " + json);
+		try {
+			user.setId(json.path("id").asText());
+			user.setUserName(json.path("userName").asText());
+			user.setFirstName(json.path("firstName").asText());
+			user.setAffiliation(json.path("affiliation").asText());
+			user.setLastName(json.path("lastName").asText());
+		}
+		catch (NumberFormatException e) {
+			throw new NumberFormatException(json.path("error").asText());
+		}
+		return user;
+	}
 
     @Override
 	public String toString() {
