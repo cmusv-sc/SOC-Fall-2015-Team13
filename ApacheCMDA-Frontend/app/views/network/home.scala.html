@@ -14,7 +14,8 @@
 * See the License for the specific language governing permissions and *
 * limitations under the License. *
 *******************************************************************************@
-@(user: User, userForm: play.data.Form[User])
+@(user: User, userForm: play.data.Form[User], users: List[User])
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,6 +80,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="wrapper">
                 <div class="box">
@@ -127,5 +129,18 @@
         </div>
     </div>
 
+        <div class="row panel" style="color : black">
+            <div style="width : 20 %">
+                <p>
+            <h4>Followers</h4>
+                <ul>
+                @for(user <- users) {
+                    <li>@user.getFirstName @user.getLastName </li>
+                }
+                </ul>
+                </p>
+
+            </div> </div>
+    </div>
     </body>
 </html>

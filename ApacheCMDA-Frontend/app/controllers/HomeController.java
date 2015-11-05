@@ -26,6 +26,7 @@ import play.data.Form;
 import util.APICall;
 import views.html.network.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,7 +39,7 @@ public class HomeController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        return ok(home.render(user, userForm));
+        return ok(home.render(user, userForm, new ArrayList<User>()));
     }
 
     public static Result login() {
@@ -61,7 +62,7 @@ public class HomeController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-        return ok(home.render(user, userForm));
+        return ok(home.render(user, userForm, new ArrayList<User>()));
     }
 
     public static Result followers(String id) {
