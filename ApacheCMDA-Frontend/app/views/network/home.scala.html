@@ -60,7 +60,7 @@
     <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
 </head>
 <body>
-    @header(user.getUserName())
+    @header(user.getUserName(), user.getId().toString)
     <br/>
     <div class="container">
         <div class="row">
