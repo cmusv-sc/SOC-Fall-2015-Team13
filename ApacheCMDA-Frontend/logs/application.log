@@ -225,3 +225,66 @@ http://localhost:9034/users/1
 2015-11-05 11:23:27,101 - [INFO] - from application in play-akka.actor.default-dispatcher-65 
 http://localhost:9034/users/1
 
+2015-11-05 11:27:42,101 - [INFO] - from play in play-internal-execution-context-4 
+datasource [jdbc:h2:file:data/db;DB_CLOSE_DELAY=-1] bound to JNDI as DefaultDS
+
+2015-11-05 11:27:42,106 - [INFO] - from play in play-internal-execution-context-4 
+database [default] connected at jdbc:h2:file:data/db
+
+2015-11-05 11:27:42,370 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2015-11-05 11:28:11,320 - [INFO] - from play in play-internal-execution-context-4 
+datasource [jdbc:h2:file:data/db;DB_CLOSE_DELAY=-1] bound to JNDI as DefaultDS
+
+2015-11-05 11:28:11,328 - [INFO] - from play in play-internal-execution-context-4 
+database [default] connected at jdbc:h2:file:data/db
+
+2015-11-05 11:28:11,594 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2015-11-05 11:28:11,605 - [INFO] - from application in play-akka.actor.default-dispatcher-68 
+http://localhost:9034/users/1
+
+2015-11-05 11:28:41,810 - [INFO] - from play in play-internal-execution-context-4 
+datasource [jdbc:h2:file:data/db;DB_CLOSE_DELAY=-1] bound to JNDI as DefaultDS
+
+2015-11-05 11:28:41,815 - [INFO] - from play in play-internal-execution-context-4 
+database [default] connected at jdbc:h2:file:data/db
+
+2015-11-05 11:28:41,982 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2015-11-05 11:28:41,990 - [INFO] - from application in play-akka.actor.default-dispatcher-73 
+http://localhost:9034/users/1
+
+2015-11-05 11:28:45,599 - [INFO] - from application in play-akka.actor.default-dispatcher-68 
+http://localhost:9034/users/1
+
+2015-11-05 11:29:44,302 - [INFO] - from play in play-internal-execution-context-4 
+datasource [jdbc:h2:file:data/db;DB_CLOSE_DELAY=-1] bound to JNDI as DefaultDS
+
+2015-11-05 11:29:44,304 - [INFO] - from play in play-internal-execution-context-4 
+database [default] connected at jdbc:h2:file:data/db
+
+2015-11-05 11:29:44,413 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2015-11-05 11:29:44,422 - [INFO] - from application in play-akka.actor.default-dispatcher-77 
+http://localhost:9034/users/1
+
+2015-11-05 11:29:51,039 - [INFO] - from application in play-akka.actor.default-dispatcher-86 
+http://localhost:9034/users/1
+
+2015-11-05 11:29:51,818 - [INFO] - from application in play-akka.actor.default-dispatcher-88 
+http://localhost:9034/users/1
+
+2015-11-05 11:29:53,002 - [INFO] - from application in play-akka.actor.default-dispatcher-88 
+http://localhost:9034/users/1
+
+2015-11-05 11:29:53,601 - [INFO] - from application in play-akka.actor.default-dispatcher-90 
+http://localhost:9034/users/1
+
+2015-11-05 11:29:54,262 - [INFO] - from application in play-akka.actor.default-dispatcher-90 
+http://localhost:9034/users/1
+

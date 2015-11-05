@@ -45,7 +45,11 @@ body {
     height: 300px;
     background-size: cover;
 }
-
+.wall-paper
+{
+    background-image:url('http://www.uib.no/sites/w3.uib.no/files/media/colourbox1886329_0.jpg');
+    background-size: cover;
+}
 .follow_btn {
     text-decoration: none;
     position: absolute;
