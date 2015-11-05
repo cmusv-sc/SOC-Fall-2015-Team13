@@ -68,27 +68,25 @@
                 <div class="col-md-4 bg_blur ">
                     <a href="#" class="follow_btn hidden-xs">Follow</a>
                 </div>
-                <div class="col-md-8  col-xs-12">
-                    <img src="http://placehold.it/380x500" class="img-thumbnail picture hidden-xs" />
-                    <img src="http://placehold.it/380x500" class="img-thumbnail visible-xs picture_mob" />
-                    <div class="header" style="color : white">
-                        <h1>@user.getFirstName @user.getLastName</h1>
-                        <h4>@user.getAffiliation</h4>
-                        <span></span>
+                <div class="well well-sm">
+                    <div class="col-md-8  col-xs-12">
+                        <img src="@user.getUrl" class="img-thumbnail picture hidden-xs" />
+                        <img src="@user.getUrl" class="img-thumbnail visible-xs picture_mob" />
+                        <div class="header" style="color : white">
+                            <h1>@user.getFirstName @user.getLastName</h1>
+                            <h4>@user.getAffiliation</h4>
+                            <span></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            @*user.setId(json.path("id").asText());*@
-            @*user.setUserName(json.path("userName").asText());*@
-            @*user.setFirstName(json.path("firstName").asText());*@
-            @*user.setAffiliation(json.path("affiliation").asText());*@
-            @*user.setLastName(json.path("lastName").asText());*@
-            @*user.setTitle(json.path("title").asText());*@
-            @*user.setEmail(json.path("email").asText());*@
-            @*user.setMailingAddress(json.path("mailingAddress").asText());*@
-            @*user.setPhoneNumber(json.path("phoneNumber").asText());*@
-            @*user.setResearchFields(json.path("researchFields").asText());*@
+
             <form class="form-horizontal" action="/network/home/profile/update/@user.getId " method="POST" id="logForm">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Image URL</span>
+                    <input type="text" class="form-control" name="url" value="@user.getUrl" aria-describedby="sizing-addon1">
+                </div>
+                <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">First Name</span>
                     <input type="text" class="form-control" name="firstname" value="@user.getFirstName" aria-describedby="sizing-addon1">

@@ -42,6 +42,7 @@ public class ProfileController extends Controller {
         jsonData.put("phoneNumber", dc.field("phonenumber").value());
         jsonData.put("researchFields", dc.field("researchfields").value());
         jsonData.put("email", dc.field("email").value());
+        jsonData.put("url", dc.field("url").value());
         User.update(id, jsonData);
         User user = User.get(id);
         return ok(profile.render(user, userForm));

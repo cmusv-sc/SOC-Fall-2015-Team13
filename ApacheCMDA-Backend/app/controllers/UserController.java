@@ -136,6 +136,7 @@ public class UserController extends Controller {
         String faxNumber = json.path("faxNumber").asText();
         String researchFields = json.path("researchFields").asText();
         String highestDegree = json.path("highestDegree").asText();
+        String url = json.path("url").asText();
         try {
             User updateUser = userRepository.findOne(id);
 
@@ -150,6 +151,7 @@ public class UserController extends Controller {
             updateUser.setPhoneNumber(phoneNumber);
             updateUser.setResearchFields(researchFields);
             updateUser.setTitle(title);
+            updateUser.setUrl(url);
 
             User savedUser = userRepository.save(updateUser);
             System.out.println("User updated: " + savedUser.getFirstName()
