@@ -43,6 +43,8 @@
         rel="stylesheet" />
         <link href='@routes.Assets.at("stylesheets/style.css")'
         rel="stylesheet" />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
         <script src='@routes.Assets.at("javascripts/jquery-1.9.0.min.js")'
         type="text/javascript"></script>
@@ -59,108 +61,74 @@
         <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
     </head>
     <body>
-        @header(user.getUserName())
-        <div class="container">
-            <h1>Edit Profile</h1>
-            <hr>
-            <div class="row">
-                    <!-- left column -->
-                <div class="col-md-3">
-                    <div class="text-center">
-                        <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
-                        <h6>Upload a different photo...</h6>
-
-                        <input type="file" class="form-control">
+        @header(user.getUserName(), user.getId().toString)
+        <br/>
+        <div class="container" style="margin-top : 20 px ; margin-bottom : 20 px ;">
+            <div class="row panel">
+                <div class="col-md-4 bg_blur ">
+                    <a href="#" class="follow_btn hidden-xs">Follow</a>
+                </div>
+                <div class="col-md-8  col-xs-12">
+                    <img src="http://placehold.it/380x500" class="img-thumbnail picture hidden-xs" />
+                    <img src="http://placehold.it/380x500" class="img-thumbnail visible-xs picture_mob" />
+                    <div class="header">
+                        <h1>@user.getFirstName @user.getLastName</h1>
+                        <h4>@user.getAffiliation</h4>
+                        <span></span>
                     </div>
                 </div>
-
-                    <!-- edit form column -->
-                <div class="col-md-9 personal-info">
-                        <!--            <div class="alert alert-info alert-dismissable">
-              <a class="panel-close close" data-dismiss="alert">×</a>
-              <i class="fa fa-coffee"></i>
-              This is an <strong>.alert</strong>. Use this to show important messages to the user.
-            </div> -->
-                    <h3>Personal info</h3>
-
-                    <form class="form-horizontal" role="form">
-
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">First name:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="Jane">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Last name:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="Bishop">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Company:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Email:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="janesemail@gmail.com">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Time Zone:</label>
-                            <div class="col-lg-8">
-                                <div class="ui-select">
-                                    <select id="user_time_zone" class="form-control">
-                                        <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                                        <option value="Alaska">(GMT-09:00) Alaska</option>
-                                        <option value="Pacific Time (US &amp; Canada)">
-                                            (GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                                        <option value="Arizona">(GMT-07:00) Arizona</option>
-                                        <option value="Mountain Time (US &amp; Canada)">
-                                            (GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                                        <option value="Central Time (US &amp; Canada)" selected="selected">
-                                            (GMT-06:00) Central Time (US &amp; Canada)</option>
-                                        <option value="Eastern Time (US &amp; Canada)">
-                                            (GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                                        <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Username:</label>
-                            <div class="col-md-8">
-                                <input class="form-control" type="text" value="janeuser">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Password:</label>
-                            <div class="col-md-8">
-                                <input class="form-control" type="password" value="11111122333">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Confirm password:</label>
-                            <div class="col-md-8">
-                                <input class="form-control" type="password" value="11111122333">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label"></label>
-                            <div class="col-md-8">
-                                <input type="button" class="btn btn-primary" value="Save Changes">
-                                <span></span>
-                                <input type="reset" class="btn btn-default" value="Cancel">
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
             </div>
-        </div>
-        <hr>
+            @*user.setId(json.path("id").asText());*@
+            @*user.setUserName(json.path("userName").asText());*@
+            @*user.setFirstName(json.path("firstName").asText());*@
+            @*user.setAffiliation(json.path("affiliation").asText());*@
+            @*user.setLastName(json.path("lastName").asText());*@
+            @*user.setTitle(json.path("title").asText());*@
+            @*user.setEmail(json.path("email").asText());*@
+            @*user.setMailingAddress(json.path("mailingAddress").asText());*@
+            @*user.setPhoneNumber(json.path("phoneNumber").asText());*@
+            @*user.setResearchFields(json.path("researchFields").asText());*@
+            <form class="form-horizontal" action="/network/home/profile/update/@user.getId " method="POST" id="logForm">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">First Name</span>
+                    <input type="text" class="form-control" name="firstname" value="@user.getFirstName" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Last Name</span>
+                    <input type="text" class="form-control" name="lastname" value="@user.getLastName" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Email</span>
+                    <input type="text" class="form-control" name="email" value="@user.getEmail" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Affiliation</span>
+                    <input type="text" class="form-control" name="affiliation" value="@user.getAffiliation" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Title</span>
+                    <input type="text" class="form-control" name="title" value="@user.getTitle" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">PhoneNumber</span>
+                    <input type="text" class="form-control" name="phonenumber" value="@user.getPhoneNumber" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Research Fields</span>
+                    <input type="text" class="form-control" name="researchfields" value="@user.getResearchFields" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
     </body>
 </html>

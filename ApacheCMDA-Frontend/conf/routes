@@ -13,7 +13,9 @@ POST        /signup/newUser                                  controllers.SignupC
 GET         /network/home/:id                                controllers.HomeController.home(id: String)
 POST        /network/home                                    controllers.HomeController.login()
 GET         /network/followers/:id                           controllers.HomeController.followers(id: String)
-GET         /network/home/profile
+GET         /network/home/profile/:id                        controllers.ProfileController.get(id: String)
+POST        /network/home/profile/update/:id                 controllers.ProfileController.update(id: String)
+
 
 
 # BugReporting

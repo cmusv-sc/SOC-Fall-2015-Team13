@@ -62,6 +62,7 @@ public class User {
 
     private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
     private static final String LOGIN_USER_CALL = Constants.NEW_BACKEND + "users/login";
+    private static final String UPDATE_USER_CALL = Constants.NEW_BACKEND + "users/update/";
     private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
 
     private static final String GET_FOLLOWERS_CALL = Constants.NEW_BACKEND + "users/getfollowers/";
@@ -222,13 +223,22 @@ public class User {
     }
 
     /**
+     * update a new user
+     *
+     * @param jsonData
+     * @return the response from the API server
+     */
+    public static JsonNode update(String id, JsonNode jsonData) {
+        return APICall.putAPI(UPDATE_USER_CALL + id, jsonData);
+    }
+
+    /**
      * Get a user based on its username
      *
      * @return
      */
     public static User get(String id) {
-        JsonNode json = APICall
-                .callAPI(GET_USER_CALL + id);
+        JsonNode json = APICall.callAPI(GET_USER_CALL + id);
         User user = new User();
         System.out.println("json is " + json);
         user.setId(json.path("id").asText());
@@ -236,6 +246,11 @@ public class User {
         user.setFirstName(json.path("firstName").asText());
         user.setAffiliation(json.path("affiliation").asText());
         user.setLastName(json.path("lastName").asText());
+        user.setTitle(json.path("title").asText());
+        user.setEmail(json.path("email").asText());
+        user.setMailingAddress(json.path("mailingAddress").asText());
+        user.setPhoneNumber(json.path("phoneNumber").asText());
+        user.setResearchFields(json.path("researchFields").asText());
         return user;
     }
 
@@ -300,6 +315,7 @@ public class User {
         }
         return user;
     }
+
 
     @Override
     public String toString() {
