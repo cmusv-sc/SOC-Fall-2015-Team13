@@ -26,13 +26,15 @@ import play.data.Form;
 import util.APICall;
 import views.html.network.*;
 
+import java.util.List;
+
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HomeController extends Controller {
-    final static Form<User> userForm = Form
-            .form(User.class);
+    final static Form<User> userForm = Form.form(User.class);
 
     public static Result home(String id) {
         User user = User.get(id);
@@ -49,19 +51,22 @@ public class HomeController extends Controller {
             user = User.verifyAndGet(jsonData);
         } catch (IllegalStateException e) {
             e.printStackTrace();
-            Application.flashMsg(APICall
-                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.CONVERSIONERROR));
         } catch (NumberFormatException e) {
             user.setUserName(dc.field("username").value());
             user.setPassword(dc.field("password").value());
 //            return ok(login.render(user, userForm, e.getMessage()));
             return redirect(controllers.routes.LoginController.login(user.getUserName(), e.getMessage()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-
         return ok(home.render(user, userForm));
     }
+
+    public static Result followers(String id) {
+        List<User> users = User.getFollowers(id);
+        return ok(followers.render(users));
+    }
+
 }
