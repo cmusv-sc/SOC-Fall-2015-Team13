@@ -19,47 +19,54 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
+import models.metadata.ClimateService;
 import play.libs.Json;
 import play.mvc.*;
 import play.data.Form;
 import util.APICall;
 import views.html.network.*;
+import java.util.List;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SignupController extends Controller {
+public class HomeController extends Controller {
     final static Form<User> userForm = Form
             .form(User.class);
 
-    public static Result signup() {
-        return ok(signup.render());
+    public static Result home(String id) {
+        User user = User.get(id);
+        return ok(home.render(user, userForm));
     }
 
-    public static Result newUser() {
+    public static Result login() {
         Form<User> dc = userForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
-        String id = "";
+        User user = new User();
         try {
             jsonData.put("username", dc.field("username").value());
             jsonData.put("password", dc.field("password").value());
-            jsonData.put("firstName", dc.field("firstName").value());
-            jsonData.put("lastName", dc.field("lastName").value());
-            jsonData.put("affiliation", dc.field("affiliation").value());
-            JsonNode response = User.create(jsonData);
-            System.out.println("user created with response: " + response);
-            id = response.toString();
-            Application.flashMsg(response);
+            user = User.verifyAndGet(jsonData);
         } catch (IllegalStateException e) {
             e.printStackTrace();
             Application.flashMsg(APICall
                     .createResponse(APICall.ResponseType.CONVERSIONERROR));
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            user.setUserName(dc.field("username").value());
+            user.setPassword(dc.field("password").value());
+//            return ok(login.render(user, userForm, e.getMessage()));
+            return redirect(controllers.routes.LoginController.login(user.getUserName(), e.getMessage()));
+        }
+        catch (Exception e) {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-//        return redirect("/network/home/" + dc.field("username").value());
-        return redirect("/network/home/" + id);
+        return ok(home.render(user, userForm));
+    }
+    
+    public static Result followers(String id) {
+    	List<User> users =User.getFollowers(id);
+    	return ok(followers.render(users));
     }
 }
