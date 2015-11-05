@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and         *
 * limitations under the License.											   *
 *******************************************************************************@
-@()
+@(username: String)
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,6 +37,20 @@
         <li><a href="#">Feeds</a>
         </li>
         <li><a href="#">Search</a>
+        </li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+        <li class="dropdown"><a href="#"
+        class="dropdown-toggle" data-toggle="dropdown">@username<b
+        class="caret"></b></a>
+          <ul class="dropdown-menu">
+
+            <li><a href="@routes.LoginController.login()">Log Out</a></li>
+
+          </ul>
+
         </li>
 
       </ul>
