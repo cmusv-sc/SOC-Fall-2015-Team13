@@ -26,10 +26,14 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.APICall;
+import util.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostController extends Controller {
-    final static Form<User> userForm = Form.form(User.class);
     final static Form<Post> postForm = Form.form(Post.class);
+
     public static Result newPost() {
         Form<Post> dc = postForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
@@ -38,8 +42,6 @@ public class PostController extends Controller {
             jsonData.put("authorId", dc.field("authorId").value());
             id = dc.field("authorId").value();
             jsonData.put("content", dc.field("postContent").value());
-            long currentTime = System.currentTimeMillis();
-            jsonData.put("timestamp", currentTime);
             JsonNode response = Post.create(jsonData);
             System.out.println("post created with response: " + response);
             Application.flashMsg(response);

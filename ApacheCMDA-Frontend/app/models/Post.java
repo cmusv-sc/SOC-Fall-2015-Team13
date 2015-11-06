@@ -23,8 +23,12 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import play.data.validation.Constraints;
+import play.mvc.Result;
 import util.APICall;
 import util.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -38,11 +42,18 @@ public class Post {
     private int numOfLikes;
     private long timestamp;
 
-    private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post";
-
-    public Post(){
+    public static String getADD_POST_CALL() {
+        return ADD_POST_CALL;
     }
-    
+
+    private String authorName;
+
+    private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post";
+    private static final String GET_POST_CALL = Constants.NEW_BACKEND + "post/personal/";
+
+    public Post() {
+    }
+
     public Post(String authorId, String content) {
         this.authorId = authorId;
         this.content = content;
@@ -90,9 +101,16 @@ public class Post {
         return timestamp;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
     /**
-     * Create a new user
+     * Create a new post
      *
      * @param jsonData
      * @return the response from the API server
@@ -101,9 +119,32 @@ public class Post {
         return APICall.postAPI(ADD_POST_CALL, jsonData);
     }
 
+    /**
+     * Get a user based on its username
+     *
+     * @return
+     */
+
+    //{"id":5,"authorID":1,"authorName":"bluebyte60","content":"ff","likes":0,"timeStamp":1446785065268}
+    public static List<Post> get(String id) {
+        JsonNode json = APICall.callAPI(GET_POST_CALL + id);
+        List<Post> posts = new ArrayList<>();
+        for (JsonNode node : json) {
+            Post p = new Post();
+            p.setContent(node.path("content").asText());
+            p.setAuthorName(node.path("authorName").asText());
+            p.setTimestamp(node.path("timeStamp").asLong());
+            p.setAuthorId(node.path("authorID").asText());
+            p.setNumOfLikes(node.path("likes").asInt());
+            posts.add(p);
+            System.out.println(posts);
+        }
+        return posts;
+    }
+
     @Override
     public String toString() {
-        return "Post [id=" + id + ", authorId=" + authorId + ", content="
+        return "Post [id=" + id + ", authorId=" + authorId + " authorName=" + authorName + ", content="
                 + content + ", numOfLikes=" + numOfLikes + ", timestamp="
                 + timestamp + "]";
     }

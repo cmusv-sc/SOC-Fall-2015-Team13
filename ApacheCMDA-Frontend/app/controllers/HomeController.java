@@ -18,6 +18,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Post;
 import models.User;
 import models.metadata.ClimateService;
 import play.libs.Json;
@@ -39,7 +40,9 @@ public class HomeController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        return ok(home.render(user, userForm, new ArrayList<User>()));
+        List<Post> posts = Post.get(id);
+        for (Post p : posts) System.out.println(p);
+        return ok(home.render(user, userForm, new ArrayList<User>(), posts));
     }
 
     public static Result login() {
@@ -62,7 +65,7 @@ public class HomeController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-        return ok(home.render(user, userForm, new ArrayList<User>()));
+        return ok(home.render(user, userForm, new ArrayList<User>(), Post.get(String.valueOf(user.getId()))));
     }
 
     public static Result followers(String id) {
