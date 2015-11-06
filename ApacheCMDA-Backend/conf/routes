@@ -68,3 +68,4 @@ GET           /following/:source                                                
 # Post
 GET           /post/:id                                                                 @controllers.PostController.getPost(id: Long)
 GET           /post/personal/:id                                                        @controllers.PostController.getPersonalPostWall(id: Long)
+POST          /post                                                                     @controllers.PostController.publishPost

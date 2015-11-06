@@ -15,7 +15,7 @@ POST        /network/home                                    controllers.HomeCon
 GET         /network/followers/:id                           controllers.HomeController.followers(id: String)
 GET         /network/home/profile/:id                        controllers.ProfileController.get(id: String)
 POST        /network/home/profile/update/:id                 controllers.ProfileController.update(id: String)
-
+POST        /network/home/newPost                            controllers.PostController.newPost()
 
 
 # BugReporting
