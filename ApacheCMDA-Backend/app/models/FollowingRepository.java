@@ -20,4 +20,6 @@ public interface FollowingRepository extends CrudRepository<Following, Long> {
     @Query(value = "select f.* from Following f where f.source=?", nativeQuery = true)
     List<Following> findFollowedPeopleByID(long source);
 
+
+
 }
