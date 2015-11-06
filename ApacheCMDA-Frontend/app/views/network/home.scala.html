@@ -14,7 +14,8 @@
 * See the License for the specific language governing permissions and *
 * limitations under the License. *
 *******************************************************************************@
-@(user: User, userForm: play.data.Form[User], users: List[User])
+@(user: User, userForm: play.data.Form[User], users: List[User], posts: List[Post])
+@import util.TimeConvert
 
 
 <!DOCTYPE html>
@@ -69,15 +70,15 @@
                 <div class="col-md-4 bg_blur ">
                     <a href="#" class="follow_btn hidden-xs">Follow</a>
                 </div>
-                    <div class="col-md-8  col-xs-12">
-                        <img src="@user.getUrl" class="img-thumbnail picture hidden-xs" />
-                        <img src="@user.getUrl" class="img-thumbnail visible-xs picture_mob" />
-                        <div class="header" style="color : white">
-                            <h1>@user.getFirstName @user.getLastName</h1>
-                            <h4>@user.getAffiliation</h4>
-                            <span></span>
-                        </div>
+                <div class="col-md-8  col-xs-12">
+                    <img src="@user.getUrl" class="img-thumbnail picture hidden-xs" />
+                    <img src="@user.getUrl" class="img-thumbnail visible-xs picture_mob" />
+                    <div class="header" style="color : white">
+                        <h1>@user.getFirstName @user.getLastName</h1>
+                        <h4>@user.getAffiliation</h4>
+                        <span></span>
                     </div>
+                </div>
 
             </div>
             <div class="row nav">
@@ -86,52 +87,49 @@
                     <div class="row-md-3 row-xs-3 "><i class="glyphicon-envelope glyphicon"></i> @user.getEmail</div>
                     <div class="row-md-3 row-xs-3 "><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getTitle</div>
                     <div class="row-md-3 row-xs-3 "><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getResearchFields
-                        <a class="glyphicon-pencil glyphicon" style="float: right" href="@routes.ProfileController.get(user.getId().toString())"> Edit</a></div>
+                        <a class="glyphicon-pencil glyphicon" style="float : right" href="@routes.ProfileController.get(user.getId().toString())">
+                            Edit</a></div>
 
                 </div>
-                <div class="col-md-8 col-xs-12" style="margin: 0px;padding: 0px;">
-                    <div class="col-md-4 col-xs-4 well"><i class="glyphicon-home glyphicon"></i> <a href="@routes.ProfileController.get(user.getId().toString())">About</a></div>
+                <div class="col-md-8 col-xs-12" style="margin : 0 px ; padding : 0 px ;">
+                    <div class="col-md-4 col-xs-4 well"><i class="glyphicon-home glyphicon"></i> <a href="@routes.ProfileController.get(user.getId().toString())">
+                        About</a></div>
                     <div class="col-md-4 col-xs-4 well"><i class="glyphicon-pencil glyphicon"></i> Post</div>
                     <div class="col-md-4 col-xs-4 well"><i class="fa fa-thumbs-o-up fa-lg"></i> Followers</div>
                 </div>
             </div>
             <div class="box row" id="main">
                 <div class="col-md-4 row-xs-12"></div>
-                <div class="col-md-8 col-xs-12" style="margin: 0px;padding: 0px;">
-                    <!-- /top nav -->
-                <div class="full col-sm-12">
-                    <div class="row">
-                        <form class="form-horizontal panel panel-default" action="@routes.SignupController.newUser()" method="POST" id="postForm">
-                            <div class="panel-body">
-                                <input type="text" class="form-control clearfix" placeholder="What's on your mind?" id="postContent" name="postContent">
-                                <hr>
-                                <div class="col-sm-offfset-11 col-sm-12">
-                                    <button type="submit" class="btn btn-primary" style = "float:right">Post</button>
+                <div class="col-md-8 col-xs-12" style="margin : 0 px ; padding : 0 px ;">
+                        <!-- /top nav -->
+                    <div class="full col-sm-12">
+                        <div class="row">
+                            <form class="form-horizontal panel panel-default" action="@routes.PostController.newPost()" method="POST" id="postForm">
+                                <div class="panel-body">
+                                    <input type="text" class="form-control clearfix" placeholder="What's on your mind?" id="postContent" name="postContent">
+                                    <hr>
+                                    <div class="col-sm-offfset-11 col-sm-12">
+                                        <button type="submit" class="btn btn-primary" style = "float : right">Post</button>
+                                    </div>
+                                    <input type="hidden" name="authorId" value="@user.getId">
                                 </div>
-                            </div>
-                        </form>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="clearfix"></div>
-                                This is first post
-                                <hr>
-                                Likes: 15
-                            </div>
+                            </form>
+                            @for(post <- posts) {
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        @post.getAuthorName : @post.getContent
+                                        <hr>
+                                        @TimeConvert.format(post.getTimestamp)
+                                        Likes: @post.getNumOfLikes
+                                    </div>
+                                </div>
+                            }
                         </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="clearfix"></div>
-                                This is second post
-                                <hr>
-                                Likes: 15
-                            </div>
-                        </div>
-                    </div>
-                </div><!--/row-->
+                    </div><!--/row-->
+                </div>
             </div>
         </div>
-    </div>
 
         <div class="row panel" style="color : black">
             <div style="width : 20 %">

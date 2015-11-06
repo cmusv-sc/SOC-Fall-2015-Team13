@@ -13,6 +13,8 @@ public class Post implements Comparable<Post> {
 
     private long authorID;
 
+    private String authorName;
+
     private String content;
 
     private int likes;
@@ -67,6 +69,15 @@ public class Post implements Comparable<Post> {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     @Override

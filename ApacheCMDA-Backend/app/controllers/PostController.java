@@ -37,15 +37,17 @@ import java.util.List;
 @Singleton
 public class PostController extends Controller {
 
-    private final PostRepository postRepository;
-    private final FollowingRepository followingRepository;
+    private PostRepository postRepository;
+    private FollowingRepository followingRepository;
+    private UserRepository userRepository;
 
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
     @Inject
-    public PostController(PostRepository postRepository, FollowingRepository followingRepository) {
+    public PostController(PostRepository postRepository, FollowingRepository followingRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.followingRepository = followingRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -68,6 +70,10 @@ public class PostController extends Controller {
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
         for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
         Collections.sort(posts);
+        for (Post p : posts) {
+            User user = userRepository.findByID(p.getAuthorID());
+            p.setAuthorName(user.getUserName());
+        }
         return ok(new Gson().toJson(posts));
     }
 
@@ -81,24 +87,15 @@ public class PostController extends Controller {
         // Parse JSON file
         String author = json.path("authorId").asText();
         String content = json.path("content").asText();
-        String timestamp = json.path("timestamp").asText();
 
         try {
             long authorId = Long.parseLong(author);
-            long time = Long.parseLong(timestamp);
+            long time = System.currentTimeMillis();
             Post post = new Post(authorId, content, 0, time);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
             return created(new Gson().toJson(post.getId()));
-        }
-        catch (NumberFormatException ex) {
-            ex.printStackTrace();
-            System.out.println("Post cannot be created because authorId and timestamp are in wrong formats: "
-                    + author + " " + timestamp);
-            return badRequest("Post cannot be created because authorId and timestamp are in wrong formats: "
-                    + author + " " + timestamp);
-        }
-        catch (PersistenceException pe) {
+        } catch (PersistenceException pe) {
             pe.printStackTrace();
             System.out.println("Post not saved: " + content);
             return badRequest("Post not saved: " + content);

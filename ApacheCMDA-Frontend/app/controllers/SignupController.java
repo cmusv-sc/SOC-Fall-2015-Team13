@@ -30,8 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SignupController extends Controller {
-    final static Form<User> userForm = Form
-            .form(User.class);
+    final static Form<User> userForm = Form.form(User.class);
 
     public static Result signup() {
         return ok(signup.render());
