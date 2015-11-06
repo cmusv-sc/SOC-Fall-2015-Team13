@@ -16,17 +16,16 @@
  */
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
-import models.Following;
-import models.FollowingRepository;
-import models.Post;
-import models.PostRepository;
+import models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +69,40 @@ public class PostController extends Controller {
         for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
         Collections.sort(posts);
         return ok(new Gson().toJson(posts));
+    }
+
+    public Result publishPost() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("Post not created, expecting Json data");
+            return badRequest("Post not created, expecting Json data");
+        }
+
+        // Parse JSON file
+        String author = json.path("authorId").asText();
+        String content = json.path("content").asText();
+        String timestamp = json.path("timestamp").asText();
+
+        try {
+            long authorId = Long.parseLong(author);
+            long time = Long.parseLong(timestamp);
+            Post post = new Post(authorId, content, 0, time);
+            postRepository.save(post);
+            System.out.println("Post succesfully saved: " + post.getId());
+            return created(new Gson().toJson(post.getId()));
+        }
+        catch (NumberFormatException ex) {
+            ex.printStackTrace();
+            System.out.println("Post cannot be created because authorId and timestamp are in wrong formats: "
+                    + author + " " + timestamp);
+            return badRequest("Post cannot be created because authorId and timestamp are in wrong formats: "
+                    + author + " " + timestamp);
+        }
+        catch (PersistenceException pe) {
+            pe.printStackTrace();
+            System.out.println("Post not saved: " + content);
+            return badRequest("Post not saved: " + content);
+        }
     }
 
 }
