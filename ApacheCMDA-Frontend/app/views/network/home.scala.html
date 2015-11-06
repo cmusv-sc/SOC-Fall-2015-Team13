@@ -82,14 +82,15 @@
             </div>
             <div class="row nav">
                 <div class="col-md-4 row-xs-12">
-                    <div class="row-md-3 row-xs-3"><i class="glyphicon glyphicon-user"></i> @user.getUserName()</div>
-                    <div class="row-md-3 row-xs-3"><i class="glyphicon-pencil glyphicon"></i> @user.getEmail</div>
-                    <div class="row-md-3 row-xs-3"><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getTitle</div>
-                    <div class="row-md-3 row-xs-3"><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getResearchFields</div>
+                    <div class="row-md-3 row-xs-3 well-margin"><i class="glyphicon glyphicon-user"></i> @user.getUserName()</div>
+                    <div class="row-md-3 row-xs-3 "><i class="glyphicon-envelope glyphicon"></i> @user.getEmail</div>
+                    <div class="row-md-3 row-xs-3 "><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getTitle</div>
+                    <div class="row-md-3 row-xs-3 "><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getResearchFields
+                        <a class="glyphicon-pencil glyphicon" style="float: right" href="@routes.ProfileController.get(user.getId().toString())"> Edit</a></div>
 
                 </div>
                 <div class="col-md-8 col-xs-12" style="margin: 0px;padding: 0px;">
-                    <div class="col-md-4 col-xs-4 well"><i class="glyphicon-home glyphicon"></i> About</div>
+                    <div class="col-md-4 col-xs-4 well"><i class="glyphicon-home glyphicon"></i> <a href="@routes.ProfileController.get(user.getId().toString())">About</a></div>
                     <div class="col-md-4 col-xs-4 well"><i class="glyphicon-pencil glyphicon"></i> Post</div>
                     <div class="col-md-4 col-xs-4 well"><i class="fa fa-thumbs-o-up fa-lg"></i> Followers</div>
                 </div>
@@ -100,6 +101,15 @@
                     <!-- /top nav -->
                 <div class="full col-sm-12">
                     <div class="row">
+                        <form class="form-horizontal panel panel-default" action="@routes.SignupController.newUser()" method="POST" id="postForm">
+                            <div class="panel-body">
+                                <input type="text" class="form-control clearfix" placeholder="What's on your mind?" id="postContent" name="postContent">
+                                <hr>
+                                <div class="col-sm-offfset-11 col-sm-12">
+                                    <button type="submit" class="btn btn-primary" style = "float:right">Post</button>
+                                </div>
+                            </div>
+                        </form>
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="clearfix"></div>

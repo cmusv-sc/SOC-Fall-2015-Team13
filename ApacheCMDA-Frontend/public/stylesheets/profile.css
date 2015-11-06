@@ -8,6 +8,10 @@ small {
     color: #999;
 }
 
+.well-margin {
+    margin-top: -20px;
+    border-radius: 0px !important;
+}
 .well {
     margin-top: -20px;
     background-color: #007FBD;
