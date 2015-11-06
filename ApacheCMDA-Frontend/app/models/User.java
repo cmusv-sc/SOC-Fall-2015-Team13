@@ -323,6 +323,7 @@ public class User {
             user.setResearchFields(json.path("researchFields").asText());
             user.setTitle(json.path("title").asText());
             user.setPhoneNumber(json.path("phoneNumber").asText());
+			user.setUrl(json.path("url").asText());
         } catch (NumberFormatException e) {
             throw new NumberFormatException(json.path("error").asText());
         }

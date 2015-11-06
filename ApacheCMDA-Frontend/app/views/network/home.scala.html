@@ -65,7 +65,7 @@
     <body>
         @header(user.getUserName(), user.getId().toString)
         <br/>
-        <div class="container" style="margin-top:20 px;margin-bottom:20px;">
+        <div class="container" style="margin-top:20px;margin-bottom:20px;">
             <div class="row panel wall-paper">
                 <div class="col-md-4 bg_blur ">
                     <a href="#" class="follow_btn hidden-xs">Follow</a>
@@ -87,7 +87,7 @@
                     <div class="row-md-3 row-xs-3 "><i class="glyphicon-envelope glyphicon"></i> @user.getEmail</div>
                     <div class="row-md-3 row-xs-3 "><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getTitle</div>
                     <div class="row-md-3 row-xs-3 "><i class="fa fa-thumbs-o-up fa-lg"></i> @user.getResearchFields
-                        <a class="glyphicon-pencil glyphicon" style="float : right" href="@routes.ProfileController.get(user.getId().toString())">
+                        <a class="glyphicon-pencil glyphicon" style="float:right" href="@routes.ProfileController.get(user.getId().toString())">
                             Edit</a>
                     </div>
 
@@ -110,8 +110,8 @@
                                 <div class="panel-body">
                                     <input type="text" class="form-control clearfix" placeholder="What's on your mind?" id="postContent" name="postContent">
                                     <hr>
-                                    <div class="col-sm-offfset-11 col-sm-12">
-                                        <button type="submit" class="btn btn-primary" style = "float : right">Post</button>
+                                    <div class="col-sm-offset-11 col-sm-1">
+                                        <button type="submit" class="btn btn-primary" style="float:right">Post</button>
                                     </div>
                                     <input type="hidden" name="authorId" value="@user.getId">
                                 </div>
