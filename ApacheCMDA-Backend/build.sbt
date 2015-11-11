@@ -20,7 +20,10 @@ libraryDependencies ++= Seq(
   "org.mockito" % "mockito-core" % "1.10.19" % "test",
   "mysql" % "mysql-connector-java" % "5.1.34",
   "com.google.code.gson" % "gson" % "2.3.1",
-  "org.hibernate" % "hibernate-c3p0" % "4.3.7.Final"
+  "org.hibernate" % "hibernate-c3p0" % "4.3.7.Final",
+  "org.apache.lucene" % "lucene-analyzers-common" % "5.3.1",
+  "org.apache.lucene" % "lucene-core" % "5.3.1",
+  "org.apache.lucene" % "lucene-queryparser" % "5.3.1"
 )
 
 
