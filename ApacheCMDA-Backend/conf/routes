@@ -66,6 +66,12 @@ GET           /assets/*file                                                     
 GET           /following/:source                                                            @controllers.FollowingController.getFollowing(source: Long)
 
 # Post
-GET           /post/:id                                                                 @controllers.PostController.getPost(id: Long)
-GET           /post/personal/:id                                                        @controllers.PostController.getPersonalPostWall(id: Long)
-POST          /post                                                                     @controllers.PostController.publishPost
+GET           /post/:id                                                                     @controllers.PostController.getPost(id: Long)
+GET           /post/personal/:id                                                            @controllers.PostController.getPersonalPostWall(id: Long)
+POST          /post                                                                         @controllers.PostController.publishPost
+
+# Search full text search
+GET           /search/:keyword                                                              @controllers.SearchController.defaultSearch(keyword: String)
+# field are, "lastName", "firstName", "researchField"
+GET           /searchFuzzy/:field/:keyword                                                  @controllers.SearchController.fuzzySearch(keyword: String, field: String)
+GET           /searchExactly/:field/:keyword                                                @controllers.SearchController.exactlySearch(keyword: String, field: String)
