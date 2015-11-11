@@ -42,7 +42,8 @@ public class HomeController extends Controller {
         User user = User.get(id);
         List<Post> posts = Post.get(id);
         for (Post p : posts) System.out.println(p);
-        return ok(home.render(user, userForm, new ArrayList<User>(), posts));
+        List<User> users = User.getFollowers(id);
+        return ok(home.render(user, userForm, users, posts));
     }
 
     public static Result login() {
@@ -65,7 +66,8 @@ public class HomeController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
-        return ok(home.render(user, userForm, new ArrayList<User>(), Post.get(String.valueOf(user.getId()))));
+        List<User> users = User.getFollowers(String.valueOf(user.getId()));
+        return ok(home.render(user, userForm, users, Post.get(String.valueOf(user.getId()))));
     }
 
     public static Result followers(String id) {
