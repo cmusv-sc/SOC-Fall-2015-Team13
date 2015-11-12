@@ -19,7 +19,7 @@ import java.util.List;
 public interface FollowingRepository extends CrudRepository<Following, Long> {
     @Query(value = "select f.* from Following f where f.source=?", nativeQuery = true)
     List<Following> findFollowedPeopleByID(long source);
-
-
-
+    
+    @Query(value = "select f.* from Following f where f.source=?1 and f.target=?2", nativeQuery = true)
+    Following findFollowing(long source, long target);
 }

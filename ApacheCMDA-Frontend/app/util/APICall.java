@@ -84,6 +84,33 @@ public class APICall {
 		}
 
 	}
+	
+	public static JsonNode callAPIParameters(String apiString, String paraName1, String para1, String paraName2, String para2) {
+		Promise<WS.Response> responsePromise = WS
+				.url(apiString).setQueryParameter(paraName1, para1).setQueryParameter(paraName2, para2).get();
+		Console.print(responsePromise.get());
+		final Promise<JsonNode> bodyPromise = responsePromise
+				.map(new Function<WS.Response, JsonNode>() {
+					@Override
+					public JsonNode apply(WS.Response response)
+							throws Throwable {
+						if (response.getStatus() == 200
+								|| response.getStatus() == 201) {
+							return response.asJson();
+						} else {
+							Logger.info(""+response.getStatus());
+							return createResponse(ResponseType.GETERROR);
+						}
+					}
+				});
+
+		try {
+			return bodyPromise.get(10000L);
+		} catch (Exception e) {
+			return createResponse(ResponseType.TIMEOUT);
+		}
+
+	}
 
 	public static JsonNode postAPI(String apiString, JsonNode jsonData) {
 		Promise<WS.Response> responsePromise = WS.url(apiString).post(jsonData);

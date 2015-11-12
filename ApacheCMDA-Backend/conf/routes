@@ -46,6 +46,8 @@ PUT           /parameter/updateParameter/name/:oldName                          
 DELETE        /parameter/deleteParameter/service/:id/name/:name                             @controllers.ParameterController.deleteParameterByName(id:Long, name: String)
 
 # Users
+GET           /users/follow                                                           		@controllers.UserController.follow()
+GET	          /users/unfollow                                                            	@controllers.UserController.unfollow()
 GET           /users/:id                                                                    @controllers.UserController.getUser(id: Long, format: String="json")
 GET           /users/name/:username                                                         @controllers.UserController.getUserByName(username: String, format: String="json")
 POST          /users/add                                                                    @controllers.UserController.addUser
@@ -55,8 +57,6 @@ DELETE        /users/delete/:id                                                 
 GET           /users/getAllUsers/json                                                       @controllers.UserController.getAllUsers(format: String="json")
 POST          /users/isUserValid                                                            @controllers.UserController.isUserValid
 DELETE        /users/delete/userName/:userName/password/:password                           @controllers.UserController.deleteUserByUserNameandPassword(userName: String, password: String)
-POST          /users/follow                                                                 @controllers.UserController.follow(id1: Long, id2: Long)
-DELETE        /users/unfollow                                                               @controllers.UserController.unfollow(id1: Long, id2: Long)
 GET           /users/getfollowers/:id                                                       @controllers.UserController.getFollowers(id: Long, format: String="json")
 
 # Map static resources from the /public folder to the /assets URL path

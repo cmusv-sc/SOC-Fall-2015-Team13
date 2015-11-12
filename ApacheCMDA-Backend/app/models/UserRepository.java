@@ -40,12 +40,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "select u.* from User u where u.id=?", nativeQuery = true)
     User findByID(long id);
 
-    @Query(value = "insert into Following (source, target) values (?1,?2)", nativeQuery = true)
-    void addFollower(long user1_ID, long user2_ID);
-
-    @Query(value = "delete from Following where source=?1 and target=?2", nativeQuery = true)
-    void deleteFollower(long user1_ID, long user2_ID);
-
     @Query(value = "select User.* from User, Following where ((Following.target = ?1) and (User.id = Following.source))", nativeQuery = true)
     List<User> findFollowers(long user_ID);
 }

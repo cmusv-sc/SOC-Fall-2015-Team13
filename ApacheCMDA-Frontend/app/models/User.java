@@ -68,6 +68,8 @@ public class User {
     private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
 
     private static final String GET_FOLLOWERS_CALL = Constants.NEW_BACKEND + "users/getfollowers/";
+    private static final String FOLLOW_CALL = Constants.NEW_BACKEND + "users/follow";
+    private static final String UNFOLLOW_CALL = Constants.NEW_BACKEND + "users/unfollow";
 
 
     // @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
@@ -266,6 +268,16 @@ public class User {
         user.setUrl(json.path("url").asText());
         return user;
     }
+    
+    public static void follow(String source, String target) {
+    	         APICall.callAPIParameters(FOLLOW_CALL,"source",source,"target",target);
+    	         System.out.println(FOLLOW_CALL + "?source="+ source + "&target=" + target);
+    	    
+    }
+    
+    public static void unfollow(String source, String target) {
+    	APICall.callAPIParameters(UNFOLLOW_CALL,"source",source,"target",target);
+}
 
 
     public static List<User> getFollowers(String id) {

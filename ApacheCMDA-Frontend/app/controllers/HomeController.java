@@ -43,7 +43,16 @@ public class HomeController extends Controller {
         List<Post> posts = Post.get(id);
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
-        return ok(home.render(user, userForm, users, posts));
+        String viewerId = session("current_user");
+        int follow=1;
+        for(User u : users){
+        	if(viewerId.equals(String.valueOf(u.getId()))){
+        		follow=0;
+        	}
+        }
+        
+
+        return ok(home.render(user, userForm, users, viewerId, posts,follow));
     }
 
     public static Result login() {
@@ -66,10 +75,29 @@ public class HomeController extends Controller {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
+        session("current_user", String.valueOf(user.getId()));
         List<User> users = User.getFollowers(String.valueOf(user.getId()));
-        return ok(home.render(user, userForm, users, Post.get(String.valueOf(user.getId()))));
+       String viewerId = String.valueOf(user.getId());
+       int follow =1;
+       for(User u : users){
+       	if(viewerId.equals(String.valueOf(u.getId()))){
+       		follow=0;
+       	}
+       }
+       
+        return ok(home.render(user, userForm, users, viewerId, Post.get(String.valueOf(user.getId())),follow));
     }
 
+    public static Result follow(String source, String target) {
+    	User.follow(source, target);
+    	return redirect("/network/home/" + target);
+    }
+    
+    public static Result unfollow(String source, String target) {
+    	User.unfollow(source, target);
+    	return redirect("/network/home/" + target);
+    }
+    
     public static Result followers(String id) {
         List<User> users = User.getFollowers(id);
         return ok(followers.render(users));

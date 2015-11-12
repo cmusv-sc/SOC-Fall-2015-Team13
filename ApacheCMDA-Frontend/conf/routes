@@ -17,6 +17,9 @@ GET         /network/home/profile/:id                        controllers.Profile
 POST        /network/home/profile/update/:id                 controllers.ProfileController.update(id: String)
 POST        /network/home/newPost                            controllers.PostController.newPost()
 
+# Follow/Unfollow a user
+GET        /network/follow/:source/:target              	controllers.HomeController.follow(source: String, target: String)
+GET        /network/unfollow/:source/:target            	controllers.HomeController.unfollow(source: String, target: String)
 
 # BugReporting
 GET         /bugs                                            controllers.BugReportController.reports()
