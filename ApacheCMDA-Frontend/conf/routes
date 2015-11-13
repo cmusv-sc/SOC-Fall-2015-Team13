@@ -18,8 +18,8 @@ POST        /network/home/profile/update/:id                 controllers.Profile
 POST        /network/home/newPost                            controllers.PostController.newPost()
 
 # Follow/Unfollow a user
-GET        /network/follow/:source/:target              	controllers.HomeController.follow(source: String, target: String)
-GET        /network/unfollow/:source/:target            	controllers.HomeController.unfollow(source: String, target: String)
+GET         /network/follow/:source/:target                  controllers.HomeController.follow(source: String, target: String)
+GET         /network/unfollow/:source/:target                controllers.HomeController.unfollow(source: String, target: String)
 
 # BugReporting
 GET         /bugs                                            controllers.BugReportController.reports()
@@ -52,3 +52,6 @@ GET         /climate/getSearchResult                         controllers.Dataset
 
 #Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                                    controllers.Assets.at(path="/public", file)
+
+#User Search
+POST         /network/search/:id                             controllers.SearchController.search(id: String)
