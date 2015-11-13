@@ -22,7 +22,8 @@ import models.Post;
 import models.User;
 import models.metadata.ClimateService;
 import play.libs.Json;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
 import play.data.Form;
 import util.APICall;
 import views.html.network.*;
@@ -77,13 +78,13 @@ public class HomeController extends Controller {
         }
         session("current_user", String.valueOf(user.getId()));
         List<User> users = User.getFollowers(String.valueOf(user.getId()));
-       String viewerId = String.valueOf(user.getId());
-       int follow =1;
-       for(User u : users){
-       	if(viewerId.equals(String.valueOf(u.getId()))){
-       		follow=0;
-       	}
-       }
+        String viewerId = String.valueOf(user.getId());
+        int follow =1;
+        for(User u : users){
+            if(viewerId.equals(String.valueOf(u.getId()))){
+                follow=0;
+            }
+        }
        
         return ok(home.render(user, userForm, users, viewerId, Post.get(String.valueOf(user.getId())),follow));
     }
