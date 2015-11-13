@@ -70,6 +70,8 @@ public class User {
     private static final String GET_FOLLOWERS_CALL = Constants.NEW_BACKEND + "users/getfollowers/";
     private static final String FOLLOW_CALL = Constants.NEW_BACKEND + "users/follow";
     private static final String UNFOLLOW_CALL = Constants.NEW_BACKEND + "users/unfollow";
+    private static final String DEFAULT_SEARCH_CALL = Constants.NEW_BACKEND + "search/";
+
 
 
     // @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
@@ -276,7 +278,7 @@ public class User {
     }
     
     public static void unfollow(String source, String target) {
-    	APICall.callAPIParameters(UNFOLLOW_CALL,"source",source,"target",target);
+    	APICall.callAPIParameters(UNFOLLOW_CALL, "source", source, "target", target);
 }
 
 
@@ -340,6 +342,24 @@ public class User {
             throw new NumberFormatException(json.path("error").asText());
         }
         return user;
+    }
+
+
+    public static List<User> search(String keyword) {
+        List<User> searchedUsers = new ArrayList<>();
+        if(keyword.trim().equals("")) return searchedUsers;
+        JsonNode json = APICall.callAPI(DEFAULT_SEARCH_CALL + keyword);
+        for (JsonNode node : json) {
+            User user = new User();
+            user.setId(node.path("id").asLong());
+            user.setEmail(node.path("email").asText());
+            user.setFirstName(node.path("firstName").asText());
+            user.setLastName(node.path("lastName").asText());
+            user.setUrl(node.path("url").asText());
+            user.setResearchFields(node.path("researchFields").asText());
+            searchedUsers.add(user);
+        }
+        return searchedUsers;
     }
 
 
