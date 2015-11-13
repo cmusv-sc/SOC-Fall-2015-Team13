@@ -70,7 +70,7 @@ public class User {
     private static final String GET_FOLLOWERS_CALL = Constants.NEW_BACKEND + "users/getfollowers/";
     private static final String FOLLOW_CALL = Constants.NEW_BACKEND + "users/follow";
     private static final String UNFOLLOW_CALL = Constants.NEW_BACKEND + "users/unfollow";
-    private static final String DEFAULT_SEARCH_CALL = Constants.NEW_BACKEND + "search/";
+    private static final String DEFAULT_SEARCH_CALL = Constants.NEW_BACKEND + "search/user/";
 
 
 

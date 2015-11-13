@@ -45,7 +45,7 @@ POST        /climate/download/climateServices                controllers.Climate
 POST        /climate/edit/climateServices                    controllers.ClimateServiceController.editClimateService()
 GET         /climate/new/climateServices                     controllers.ClimateServiceController.addClimateServices()
 GET         /climate/oneService                              controllers.ClimateServiceController.oneService(url ?= null)
-#Keyword search
+#Keyword searchUser
 GET         /climate/datasets                                controllers.DatasetController.datasetList()
 GET         /climate/searchDataSet                           controllers.DatasetController.searchDataset()
 GET         /climate/getSearchResult                         controllers.DatasetController.getSearchResult()
@@ -54,4 +54,7 @@ GET         /climate/getSearchResult                         controllers.Dataset
 GET         /assets/*file                                    controllers.Assets.at(path="/public", file)
 
 #User Search
-POST         /network/search/:id                             controllers.SearchController.search(id: String)
+POST        /network/search/user/:id                         controllers.SearchController.searchUser(id: String)
+
+#Post Search
+POST        /network/search/post/:id                         controllers.SearchController.searchPost(id: String)

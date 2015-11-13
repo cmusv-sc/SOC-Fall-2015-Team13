@@ -25,12 +25,31 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import util.APICall;
 import views.html.network.*;
+
 import java.util.List;
 
 public class SearchController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
-    public static Result search(String id) {
+    public static Result searchPost(String id) {
+        User user = User.get(id);
+        List<User> users = User.getFollowers(id);
+        String viewerId = session("current_user");
+        int follow = 1;
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
+            }
+        }
+        //srch-term
+        Form<User> dc = userForm.bindFromRequest();
+        String keyword = dc.field("srch-term").value();
+        keyword = keyword.replaceAll(" ", "_");
+        List<Post> searchedResult = Post.search(keyword);
+        return ok(searchPost.render(user, userForm, users, viewerId, searchedResult, follow));
+    }
+
+    public static Result searchUser(String id) {
         User user = User.get(id);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
@@ -44,6 +63,6 @@ public class SearchController extends Controller {
         Form<User> dc = userForm.bindFromRequest();
         String keyword = dc.field("srch-term").value();
         List<User> searchedResult = User.search(keyword);
-        return ok(search.render(user, userForm, users, viewerId, searchedResult, follow));
+        return ok(searchUser.render(user, userForm, users, viewerId, searchedResult, follow));
     }
 }

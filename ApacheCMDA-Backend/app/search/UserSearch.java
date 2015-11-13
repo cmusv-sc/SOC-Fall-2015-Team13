@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * Created by bluebyte60 on 10/6/15.
  */
-public class LuceneSearch {
+public class UserSearch {
     MySQL client;
     SimpleLucene lucene;
     final String selectSQL = "select * from climate.User";
-    public LuceneSearch()  {
+    public UserSearch()  {
         client = new MySQL("climate", "climate");
         try {
             lucene = new SimpleLucene();
@@ -41,7 +41,7 @@ public class LuceneSearch {
     }
 
     public static void main(String[] args) throws Exception {
-        LuceneSearch LuceneSearch = new LuceneSearch();
+        UserSearch LuceneSearch = new UserSearch();
         //demo basic search with title contains keyword "semantic || dependency"
         for (String id: LuceneSearch.basicSearch("chen", SearchMode.EXACTLY_MATCH, "lastName")) {
             System.out.println(id);

@@ -46,8 +46,8 @@ PUT           /parameter/updateParameter/name/:oldName                          
 DELETE        /parameter/deleteParameter/service/:id/name/:name                             @controllers.ParameterController.deleteParameterByName(id:Long, name: String)
 
 # Users
-GET           /users/follow                                                           		@controllers.UserController.follow()
-GET	          /users/unfollow                                                            	@controllers.UserController.unfollow()
+GET           /users/follow                                                                 @controllers.UserController.follow()
+GET           /users/unfollow                                                               @controllers.UserController.unfollow()
 GET           /users/:id                                                                    @controllers.UserController.getUser(id: Long, format: String="json")
 GET           /users/name/:username                                                         @controllers.UserController.getUserByName(username: String, format: String="json")
 POST          /users/add                                                                    @controllers.UserController.addUser
@@ -70,8 +70,11 @@ GET           /post/:id                                                         
 GET           /post/personal/:id                                                            @controllers.PostController.getPersonalPostWall(id: Long)
 POST          /post                                                                         @controllers.PostController.publishPost
 
-# Search full text search
-GET           /search/:keyword                                                              @controllers.SearchController.defaultSearch(keyword: String)
+# Search full text search for User
+GET           /search/user/:keyword                                                              @controllers.SearchController.defaultSearch(keyword: String)
 # field are, "lastName", "firstName", "researchField"
-GET           /searchFuzzy/:field/:keyword                                                  @controllers.SearchController.fuzzySearch(keyword: String, field: String)
-GET           /searchExactly/:field/:keyword                                                @controllers.SearchController.exactlySearch(keyword: String, field: String)
+GET           /searchFuzzy/user/:field/:keyword                                                  @controllers.SearchController.fuzzySearch(keyword: String, field: String)
+GET           /searchExactly/user/:field/:keyword                                                @controllers.SearchController.exactlySearch(keyword: String, field: String)
+
+# Search for Post
+GET           /search/post/:keyword                                                         @controllers.SearchController.searchPost(keyword: String)
