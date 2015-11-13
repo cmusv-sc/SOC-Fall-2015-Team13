@@ -33,28 +33,44 @@ public class APICall {
 
 	public static JsonNode callAPI(String apiString) {
 		Logger.info(apiString);
-		Promise<WS.Response> responsePromise = WS
-				.url(apiString).get();
-		final Promise<JsonNode> bodyPromise = responsePromise
-				.map(new Function<WS.Response, JsonNode>() {
-					@Override
-					public JsonNode apply(WS.Response response)
-							throws Throwable {
-						if (response.getStatus() == 200
-								|| response.getStatus() == 201) {
-							return response.asJson();
-						} else {
-							Logger.info(""+response.getStatus());
-							return createResponse(ResponseType.GETERROR);
-						}
-					}
-				});
+		int numOfTry = 20;
 
-		try {
-			return bodyPromise.get(10000L);
-		} catch (Exception e) {
-			return createResponse(ResponseType.TIMEOUT);
+		while (numOfTry > 0) {
+			Promise<WS.Response> responsePromise = WS
+					.url(apiString).get();
+			final Promise<JsonNode> bodyPromise = responsePromise
+					.map(new Function<WS.Response, JsonNode>() {
+						@Override
+						public JsonNode apply(WS.Response response)
+								throws Throwable {
+							if (response.getStatus() == 200
+									|| response.getStatus() == 201) {
+								return response.asJson();
+							} else {
+								Logger.info(""+response.getStatus());
+								return createResponse(ResponseType.GETERROR);
+							}
+						}
+					});
+			try {
+				return bodyPromise.get(10000L);
+			}
+			catch (Exception e) {
+				if (e instanceof java.net.ConnectException) {
+					try {
+						Thread.sleep(6000);
+						numOfTry--;
+					}
+					catch (InterruptedException ex){
+
+					}
+				}
+				else {
+					break;
+				}
+			}
 		}
+		return createResponse(ResponseType.TIMEOUT);
 
 	}
 	
@@ -79,7 +95,8 @@ public class APICall {
 
 		try {
 			return bodyPromise.get(10000L);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return createResponse(ResponseType.TIMEOUT);
 		}
 
@@ -113,35 +130,48 @@ public class APICall {
 	}
 
 	public static JsonNode postAPI(String apiString, JsonNode jsonData) {
-		Promise<WS.Response> responsePromise = WS.url(apiString).post(jsonData);
-		final Promise<JsonNode> bodyPromise = responsePromise
-				.map(new Function<WS.Response, JsonNode>() {
-					@Override
-					public JsonNode apply(WS.Response response)
-							throws Throwable {
-						if ((response.getStatus() == 201 || response
-								.getStatus() == 200)) {
-							try {
-								return response.asJson();
+		int numOfTry = 20;
+		while (numOfTry > 0) {
+			Promise<WS.Response> responsePromise = WS.url(apiString).post(jsonData);
+			final Promise<JsonNode> bodyPromise = responsePromise
+					.map(new Function<WS.Response, JsonNode>() {
+						@Override
+						public JsonNode apply(WS.Response response)
+								throws Throwable {
+							if ((response.getStatus() == 201 || response
+									.getStatus() == 200)) {
+								try {
+									return response.asJson();
+								} catch (Exception e) {
+									return createResponse(ResponseType.SUCCESS);
+								}
+							} else if (response.getStatus() == 400) {
+								ObjectNode jsonData = Json.newObject();
+								jsonData.put("error", response.getBody());
+								return jsonData;
+							} else {
+								return createResponse(ResponseType.SAVEERROR);
 							}
-							catch (Exception e){
-								return createResponse(ResponseType.SUCCESS);
-							}
-						} else if (response.getStatus() == 400) {
-							ObjectNode jsonData = Json.newObject();
-							jsonData.put("error", response.getBody());
-							return jsonData;
 						}
-						else {
-							return createResponse(ResponseType.SAVEERROR);
-						}
+					});
+			try {
+				return bodyPromise.get(10000L);
+			} catch (Exception e) {
+				if (e instanceof java.net.ConnectException) {
+					try {
+						Thread.sleep(6000);
 					}
-				});
-		try {
-			return bodyPromise.get(10000L);
-		} catch (Exception e) {
-			return createResponse(ResponseType.TIMEOUT);
+					catch (InterruptedException ex){
+
+					}
+					numOfTry--;
+				}
+				else {
+					break;
+				}
+			}
 		}
+		return createResponse(ResponseType.TIMEOUT);
 	}
 
 	public static JsonNode putAPI(String apiString, JsonNode jsonData) {
