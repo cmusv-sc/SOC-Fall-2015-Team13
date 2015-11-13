@@ -58,3 +58,7 @@ POST        /network/search/user/:id                         controllers.SearchC
 
 #Post Search
 POST        /network/search/post/:id                         controllers.SearchController.searchPost(id: String)
+
+#Criteria
+GET         /network/criteria/:id                            controllers.CriteriaController.home(id: String)
+GET         /network/criteria/search/:id                     controllers.CriteriaController.search(id: String)

@@ -71,10 +71,10 @@ GET           /post/personal/:id                                                
 POST          /post                                                                         @controllers.PostController.publishPost
 
 # Search full text search for User
-GET           /search/user/:keyword                                                              @controllers.SearchController.defaultSearch(keyword: String)
+GET           /search/user/:keyword                                                         @controllers.SearchController.defaultSearch(keyword: String)
 # field are, "lastName", "firstName", "researchField"
-GET           /searchFuzzy/user/:field/:keyword                                                  @controllers.SearchController.fuzzySearch(keyword: String, field: String)
-GET           /searchExactly/user/:field/:keyword                                                @controllers.SearchController.exactlySearch(keyword: String, field: String)
+GET           /searchFuzzy/user/:field/:keyword                                             @controllers.SearchController.fuzzySearch(keyword: String, field: String)
+GET           /searchExactly/user/:field/:keyword                                           @controllers.SearchController.exactlySearch(keyword: String, field: String)
 
 # Search for Post
 GET           /search/post/:keyword                                                         @controllers.SearchController.searchPost(keyword: String)
