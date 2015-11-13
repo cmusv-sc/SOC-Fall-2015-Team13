@@ -136,21 +136,6 @@ limitations under the License. *
 						<!-- /top nav -->
 					<div class="full col-sm-12">
 						<div id="post" class="row">
-							<form class="form-horizontal panel panel-default"
-							action="@routes.PostController.newPost()" method="POST"
-							id="postForm">
-								<div class="panel-body">
-									<input type="text" class="form-control clearfix"
-									placeholder="What's on your mind?" id="postContent"
-									name="postContent">
-									<hr>
-									<div class="col-sm-offset-11 col-sm-1">
-										<button type="submit" class="btn btn-primary"
-										style="float: right">Post</button>
-									</div>
-									<input type="hidden" name="authorId" value="@user.getId">
-								</div>
-							</form>
 							@for(post <- posts) {
 								<div class="panel panel-default">
 									<div class="panel-body">
