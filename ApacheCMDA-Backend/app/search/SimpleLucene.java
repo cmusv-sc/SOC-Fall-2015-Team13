@@ -45,6 +45,14 @@ public class SimpleLucene {
         }
     }
 
+    public void appendPost(ResultSet rs) {
+        try {
+            addPostDoc(w, rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void endOfAppend() {
         try {
             w.close();
@@ -53,20 +61,12 @@ public class SimpleLucene {
         }
     }
 
-
-//    private String userName;
-//    private String password;
-//    private String firstName;
-//    private String lastName;
-//    private String middleInitial;
-//    private String affiliation;
-//    private String title;
-//    private String email;
-//    private String mailingAddress;
-//    private String phoneNumber;
-//    private String faxNumber;
-//    private String researchFields;
-//    private String highestDegree;
+    private void addPostDoc(IndexWriter w, ResultSet rs) throws Exception {
+        Document doc = new Document();
+        doc.add(new TextField("content", val(rs.getString("content")), Field.Store.YES));
+        doc.add(new TextField("id", val(rs.getString("id")), Field.Store.YES));
+        w.addDocument(doc);
+    }
 
     private void addDoc(IndexWriter w, ResultSet rs) throws Exception {
         Document doc = new Document();
@@ -115,17 +115,17 @@ public class SimpleLucene {
     private String getQuery(SearchMode mode, String query) {
         String[] tokon = query.split(" ");
         String r = "";
-        for (int i=0;i<tokon.length;i++) {
+        for (int i = 0; i < tokon.length; i++) {
             if (mode == SearchMode.EXACTLY_MATCH) {
-                if(i!=tokon.length-1)
+                if (i != tokon.length - 1)
                     r += tokon[i] + " ||";
                 else
-                    r+= tokon[i];
+                    r += tokon[i];
             } else {
-                if(i!=tokon.length-1)
+                if (i != tokon.length - 1)
                     r += tokon[i] + "~ ||";
                 else
-                    r+= tokon[i]+"~";
+                    r += tokon[i] + "~";
             }
         }
         return r;

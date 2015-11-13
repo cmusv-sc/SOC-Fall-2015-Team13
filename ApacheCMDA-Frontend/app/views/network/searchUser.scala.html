@@ -137,7 +137,7 @@ searchedUser: List[User], follow:Int)
                         @for(user <- searchedUser) {
                             <div class="row">
                                 <div class="col-md-4">
-                                     <img class="img-responsive"  src="@user.getUrl">
+                                     <img class="img-responsive"  alt = "no pic" src="@user.getUrl">
                                 </div>
                                 <div class="col-md-8">
                                     <h4 class="media-heading">@user.getFirstName @user.getLastName</h4>

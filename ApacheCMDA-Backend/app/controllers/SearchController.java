@@ -17,13 +17,14 @@
 package controllers;
 
 import com.google.gson.Gson;
-import models.Following;
-import models.FollowingRepository;
+import models.Post;
+import models.PostRepository;
 import models.User;
 import models.UserRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
-import search.LuceneSearch;
+import search.PostSearch;
+import search.UserSearch;
 import search.SearchMode;
 
 import javax.inject.Inject;
@@ -39,21 +40,37 @@ import java.util.List;
 @Singleton
 public class SearchController extends Controller {
 
-    private LuceneSearch luceneSearch = new LuceneSearch();
+    private UserSearch searchUser = new UserSearch();
+    private PostSearch searchPost = new PostSearch();
     private UserRepository userRepository;
+    private PostRepository postRepository;
 
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
     @Inject
-    public SearchController(final UserRepository userRepository) {
+    public SearchController(final UserRepository userRepository, final PostRepository postRepository) {
         this.userRepository = userRepository;
+        this.postRepository=postRepository;
+    }
+
+    public Result searchPost(String keyword){
+        List<Post> result = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+        try {
+            ids = searchPost.basicSearch(parse(keyword), SearchMode.FUZZY, "content");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (String id : ids) result.addAll(postRepository.findPostByPostID(Long.valueOf(id)));
+        return ok(new Gson().toJson(result));
+
     }
 
     public Result defaultSearch(String keyword) {
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
-            ids = luceneSearch.basicSearch(keyword, SearchMode.FUZZY, "default");
+            ids = searchUser.basicSearch(parse(keyword), SearchMode.FUZZY, "default");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +82,7 @@ public class SearchController extends Controller {
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
-            ids = luceneSearch.basicSearch(keyword, SearchMode.FUZZY, field);
+            ids = searchUser.basicSearch(parse(keyword), SearchMode.FUZZY, field);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,7 +95,7 @@ public class SearchController extends Controller {
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
-            ids = luceneSearch.basicSearch(keyword, SearchMode.FUZZY, field);
+            ids = searchUser.basicSearch(parse(keyword), SearchMode.FUZZY, field);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,6 +103,8 @@ public class SearchController extends Controller {
         return ok(new Gson().toJson(result));
     }
 
-
+    private String parse(String keyword){
+        return keyword.replace("_", " ");
+    }
 
 }
