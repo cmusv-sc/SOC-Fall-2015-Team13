@@ -366,6 +366,7 @@ public class User {
     public static List<User> search(String keyword, String field, boolean isFuzzy) {
         List<User> searchedUsers = new ArrayList<>();
         if (keyword.trim().equals("")) return searchedUsers;
+        keyword = keyword.replace(" ", "_");
         JsonNode json = APICall.callAPI((isFuzzy ? FUZZY_SEARCH_CALL : EXACTLY_SEARCH_CALL) + field + "/" + keyword);
         System.out.println(isFuzzy ? FUZZY_SEARCH_CALL : EXACTLY_SEARCH_CALL + field + "/" + keyword);
         for (JsonNode node : json) {

@@ -86,6 +86,7 @@ public class SearchController extends Controller {
     }
 
     public Result fuzzySearch(String keyword, String field) {
+        keyword = keyword.replace("_"," ");
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
@@ -99,6 +100,7 @@ public class SearchController extends Controller {
 
 
     public Result exactlySearch(String keyword, String field) {
+        keyword = keyword.replace("_"," ");
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
