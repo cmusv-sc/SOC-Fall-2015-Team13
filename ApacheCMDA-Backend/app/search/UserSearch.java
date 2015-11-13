@@ -39,13 +39,13 @@ public class UserSearch {
         }
         lucene.endOfAppend();
     }
-
-    public static void main(String[] args) throws Exception {
-        UserSearch LuceneSearch = new UserSearch();
-        //demo basic search with title contains keyword "semantic || dependency"
-        for (String id: LuceneSearch.basicSearch("chen", SearchMode.EXACTLY_MATCH, "lastName")) {
-            System.out.println(id);
-        }
-    }
+//
+//    public static void main(String[] args) throws Exception {
+//        UserSearch LuceneSearch = new UserSearch();
+//        //demo basic search with title contains keyword "semantic || dependency"
+//        for (String id: LuceneSearch.basicSearch("chen", SearchMode.EXACTLY_MATCH, "lastName")) {
+//            System.out.println(id);
+//        }
+//    }
 
 }

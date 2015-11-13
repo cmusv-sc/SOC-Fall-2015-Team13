@@ -63,7 +63,7 @@ public class SimpleLucene {
 
     private void addPostDoc(IndexWriter w, ResultSet rs) throws Exception {
         Document doc = new Document();
-        doc.add(new TextField("content", val(rs.getString("content")), Field.Store.YES));
+        doc.add(new TextField("content", rs.getString("content"), Field.Store.YES));
         doc.add(new TextField("id", val(rs.getString("id")), Field.Store.YES));
         w.addDocument(doc);
     }

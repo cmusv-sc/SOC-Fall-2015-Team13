@@ -102,7 +102,7 @@ public class SearchController extends Controller {
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
-            ids = searchUser.basicSearch(parse(keyword), SearchMode.FUZZY, field);
+            ids = searchUser.basicSearch(parse(keyword), SearchMode.EXACTLY_MATCH, field);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -71,7 +71,8 @@ public class User {
     private static final String FOLLOW_CALL = Constants.NEW_BACKEND + "users/follow";
     private static final String UNFOLLOW_CALL = Constants.NEW_BACKEND + "users/unfollow";
     private static final String DEFAULT_SEARCH_CALL = Constants.NEW_BACKEND + "search/user/";
-
+    private static final String EXACTLY_SEARCH_CALL = Constants.NEW_BACKEND + "searchExactly/user/";
+    private static final String FUZZY_SEARCH_CALL = Constants.NEW_BACKEND + "searchFuzzy/user/";
 
 
     // @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
@@ -270,16 +271,16 @@ public class User {
         user.setUrl(json.path("url").asText());
         return user;
     }
-    
+
     public static void follow(String source, String target) {
-    	         APICall.callAPIParameters(FOLLOW_CALL,"source",source,"target",target);
-    	         System.out.println(FOLLOW_CALL + "?source="+ source + "&target=" + target);
-    	    
+        APICall.callAPIParameters(FOLLOW_CALL, "source", source, "target", target);
+        System.out.println(FOLLOW_CALL + "?source=" + source + "&target=" + target);
+
     }
-    
+
     public static void unfollow(String source, String target) {
-    	APICall.callAPIParameters(UNFOLLOW_CALL, "source", source, "target", target);
-}
+        APICall.callAPIParameters(UNFOLLOW_CALL, "source", source, "target", target);
+    }
 
 
     public static List<User> getFollowers(String id) {
@@ -337,7 +338,7 @@ public class User {
             user.setResearchFields(json.path("researchFields").asText());
             user.setTitle(json.path("title").asText());
             user.setPhoneNumber(json.path("phoneNumber").asText());
-			user.setUrl(json.path("url").asText());
+            user.setUrl(json.path("url").asText());
         } catch (NumberFormatException e) {
             throw new NumberFormatException(json.path("error").asText());
         }
@@ -347,8 +348,26 @@ public class User {
 
     public static List<User> search(String keyword) {
         List<User> searchedUsers = new ArrayList<>();
-        if(keyword.trim().equals("")) return searchedUsers;
+        if (keyword.trim().equals("")) return searchedUsers;
         JsonNode json = APICall.callAPI(DEFAULT_SEARCH_CALL + keyword);
+        for (JsonNode node : json) {
+            User user = new User();
+            user.setId(node.path("id").asLong());
+            user.setEmail(node.path("email").asText());
+            user.setFirstName(node.path("firstName").asText());
+            user.setLastName(node.path("lastName").asText());
+            user.setUrl(node.path("url").asText());
+            user.setResearchFields(node.path("researchFields").asText());
+            searchedUsers.add(user);
+        }
+        return searchedUsers;
+    }
+
+    public static List<User> search(String keyword, String field, boolean isFuzzy) {
+        List<User> searchedUsers = new ArrayList<>();
+        if (keyword.trim().equals("")) return searchedUsers;
+        JsonNode json = APICall.callAPI((isFuzzy ? FUZZY_SEARCH_CALL : EXACTLY_SEARCH_CALL) + field + "/" + keyword);
+        System.out.println(isFuzzy ? FUZZY_SEARCH_CALL : EXACTLY_SEARCH_CALL + field + "/" + keyword);
         for (JsonNode node : json) {
             User user = new User();
             user.setId(node.path("id").asLong());
@@ -374,6 +393,11 @@ public class User {
                 + ", researchFields=" + researchFields + ", highestDegree="
                 + highestDegree + "]";
     }
+
+    public int hashCode() {
+        return (int) this.id;
+    }
+
 
 }
 
