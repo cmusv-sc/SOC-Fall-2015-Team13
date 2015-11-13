@@ -50,10 +50,10 @@ public class SearchController extends Controller {
     @Inject
     public SearchController(final UserRepository userRepository, final PostRepository postRepository) {
         this.userRepository = userRepository;
-        this.postRepository=postRepository;
+        this.postRepository = postRepository;
     }
 
-    public Result searchPost(String keyword){
+    public Result searchPost(String keyword) {
         List<Post> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
@@ -61,7 +61,14 @@ public class SearchController extends Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (String id : ids) result.addAll(postRepository.findPostByPostID(Long.valueOf(id)));
+        for (String id : ids) {
+            List<Post> posts= postRepository.findPostByPostID(Long.valueOf(id));
+            for(Post p:posts) {
+                User user = userRepository.findByID(p.getAuthorID());
+                p.setAuthorName(user.getUserName());
+            }
+            result.addAll(posts);
+        }
         return ok(new Gson().toJson(result));
 
     }
@@ -103,7 +110,7 @@ public class SearchController extends Controller {
         return ok(new Gson().toJson(result));
     }
 
-    private String parse(String keyword){
+    private String parse(String keyword) {
         return keyword.replace("_", " ");
     }
 
