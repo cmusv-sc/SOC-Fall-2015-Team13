@@ -41,7 +41,7 @@ public class MainController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        List<Post> posts = Post.get(id);
+        List<Post> posts = Post.getWall(id);
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
