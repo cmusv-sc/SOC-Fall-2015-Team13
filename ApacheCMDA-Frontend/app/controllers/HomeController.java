@@ -45,6 +45,9 @@ public class HomeController extends Controller {
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
+        if (viewerId == null || viewerId.isEmpty()) {
+            return redirect("/login");
+        }
         int follow=1;
         for(User u : users){
         	if(viewerId.equals(String.valueOf(u.getId()))){

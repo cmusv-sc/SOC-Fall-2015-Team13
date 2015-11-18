@@ -124,6 +124,7 @@ public class UserController extends Controller {
 	}
 
 	public Result updateUser(long id) {
+		request().headers().get("key");
 		JsonNode json = request().body().asJson();
 		if (json == null) {
 			System.out.println("User not saved, expecting Json data");
