@@ -16,14 +16,11 @@
  */
 package controllers;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Post;
 import models.User;
 import play.data.Form;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import util.APICall;
 
 import java.util.*;
 
@@ -34,7 +31,7 @@ public class CriteriaController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        List<Post> posts = Post.get(id);
+        List<Post> posts = Post.getWall(id);
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
@@ -50,7 +47,7 @@ public class CriteriaController extends Controller {
 
     public static Result search(String id) {
         User user = User.get(id);
-        List<Post> posts = Post.get(id);
+        List<Post> posts = Post.getWall(id);
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");

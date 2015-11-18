@@ -54,7 +54,10 @@ public class PostController extends Controller {
     public Result getPost(long id) {
 
         List<Post> result = postRepository.findPost(id);
-
+        for (Post p : result) {
+            User user = userRepository.findByID(p.getAuthorID());
+            p.setAuthorName(user.getUserName());
+        }
         return ok(new Gson().toJson(result));
     }
 

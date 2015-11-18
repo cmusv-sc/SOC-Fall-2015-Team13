@@ -22,8 +22,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import play.data.validation.Constraints;
-import play.mvc.Result;
 import util.APICall;
 import util.Constants;
 
@@ -49,7 +47,8 @@ public class Post {
     private String authorName;
 
     private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post";
-    private static final String GET_POST_CALL = Constants.NEW_BACKEND + "post/personal/";
+    private static final String GET_POST_WALL_CALL = Constants.NEW_BACKEND + "post/wall/";
+    private static final String GET_POST_CALL = Constants.NEW_BACKEND + "post/";
     private static final String SEARCH_POST_CALL = Constants.NEW_BACKEND + "search/post/";
 
     public Post() {
@@ -129,6 +128,23 @@ public class Post {
     //{"id":5,"authorID":1,"authorName":"bluebyte60","content":"ff","likes":0,"timeStamp":1446785065268}
     public static List<Post> get(String id) {
         JsonNode json = APICall.callAPI(GET_POST_CALL + id);
+        List<Post> posts = new ArrayList<>();
+        for (JsonNode node : json) {
+            Post p = new Post();
+            p.setContent(node.path("content").asText());
+            p.setAuthorName(node.path("authorName").asText());
+            p.setTimestamp(node.path("timeStamp").asLong());
+            p.setAuthorId(node.path("authorID").asText());
+            p.setNumOfLikes(node.path("likes").asInt());
+            posts.add(p);
+            System.out.println(posts);
+        }
+        return posts;
+    }
+
+    //{"id":5,"authorID":1,"authorName":"bluebyte60","content":"ff","likes":0,"timeStamp":1446785065268}
+    public static List<Post> getWall(String id) {
+        JsonNode json = APICall.callAPI(GET_POST_WALL_CALL + id);
         List<Post> posts = new ArrayList<>();
         for (JsonNode node : json) {
             Post p = new Post();
