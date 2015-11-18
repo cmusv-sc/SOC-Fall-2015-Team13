@@ -305,7 +305,7 @@ public class User {
 
 
     /**
-     * Verify the password and getWall the user
+     * Verify the password and get the user
      * <p>
      * id,
      * affiliation,
