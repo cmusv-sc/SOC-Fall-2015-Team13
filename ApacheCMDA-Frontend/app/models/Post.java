@@ -49,6 +49,7 @@ public class Post {
     private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post";
     private static final String GET_POST_WALL_CALL = Constants.NEW_BACKEND + "post/wall/";
     private static final String GET_POST_CALL = Constants.NEW_BACKEND + "post/";
+    private static final String DELETE_POST_CALL = Constants.NEW_BACKEND + "post/delete";
     private static final String SEARCH_POST_CALL = Constants.NEW_BACKEND + "search/post/";
 
     public Post() {
@@ -67,6 +68,10 @@ public class Post {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setId(String id) {
+        this.id = Long.parseLong(id);
     }
 
     public void setAuthorId(String authorId) {
@@ -120,6 +125,16 @@ public class Post {
     }
 
     /**
+     * Create a new post
+     *
+     * @param jsonData
+     * @return the response from the API server
+     */
+    public static JsonNode delete(JsonNode jsonData) {
+        return APICall.postAPI(DELETE_POST_CALL, jsonData);
+    }
+
+    /**
      * Get a user based on its username
      *
      * @return
@@ -131,6 +146,7 @@ public class Post {
         List<Post> posts = new ArrayList<>();
         for (JsonNode node : json) {
             Post p = new Post();
+            p.setId(node.path("id").asText());
             p.setContent(node.path("content").asText());
             p.setAuthorName(node.path("authorName").asText());
             p.setTimestamp(node.path("timeStamp").asLong());

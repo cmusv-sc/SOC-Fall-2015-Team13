@@ -69,6 +69,7 @@ GET           /following/:source                                                
 GET           /post/:id                                                                     @controllers.PostController.getPost(id: Long)
 GET           /post/wall/:id                                                                @controllers.PostController.getPersonalPostWall(id: Long)
 POST          /post                                                                         @controllers.PostController.publishPost
+POST          /post/delete                                                                  @controllers.PostController.deletePost
 
 # Search full text search for User
 GET           /search/user/:keyword                                                         @controllers.SearchController.defaultSearch(keyword: String)

@@ -67,7 +67,7 @@ limitations under the License. *
     <script type='text/javascript'
     src='@routes.Assets.at("javascripts/keyword_tree.js")'></script>
     <script type='text/javascript'
-    src='@routes.Assets.at("javascripts/home.js")'></script>
+    src='@routes.Assets.at("javascripts/main.js")'></script>
 
     <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
   </head>
@@ -119,17 +119,23 @@ limitations under the License. *
                   <input type="hidden" name="authorId" value="@user.getId">
                 </div>
               </form>
+              <div id="postList">
               @for(post <- posts) {
-                <div class="panel panel-default">
+                <div id="post_@post.getId" class="panel panel-default">
                   <div class="panel-body">
                     <div class="clearfix"></div>
                     @post.getAuthorName : @post.getContent
                     <hr>
                     @TimeConvert.format(post.getTimestamp) Likes:
                     @post.getNumOfLikes
+                    <div class="col-sm-offset-11 col-sm-1">
+                      <button data-value="@post.getId" class="btn btn-primary"
+                      style="float: right">Delete</button>
+                    </div>
                   </div>
                 </div>
               }
+                </div>
 
             </div>
             <div id="followers" class="panel"

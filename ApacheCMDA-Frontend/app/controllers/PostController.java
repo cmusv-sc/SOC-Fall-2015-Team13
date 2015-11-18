@@ -55,4 +55,22 @@ public class PostController extends Controller {
         }
         return redirect("/network/home/" + id);
     }
+
+    public static Result deletePost() {
+        Form<Post> dc = postForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        try {
+            jsonData.put("postId", dc.field("postId").value());
+            JsonNode response = Post.delete(jsonData);
+            Application.flashMsg(response);
+        }catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
+        }
+        return ok("deleted");
+    }
 }

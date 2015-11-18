@@ -105,4 +105,24 @@ public class PostController extends Controller {
         }
     }
 
+    public Result deletePost() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("Post not identified, expecting Json data");
+            return badRequest("Post not identified, expecting Json data");
+        }
+
+        // Parse JSON file
+        String postId = json.path("postId").asText();
+        long postIdLong = new Long(postId);
+        Post post = postRepository.findOne(postIdLong);
+        if (post == null) {
+            System.out.println("post not found with id: " + postId);
+            return notFound("post not found with id: " + postId);
+        }
+
+        postRepository.delete(post);
+        return ok("post: " + postId + " is deleted");
+    }
+
 }
