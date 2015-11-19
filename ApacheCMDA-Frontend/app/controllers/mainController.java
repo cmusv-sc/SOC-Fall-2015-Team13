@@ -56,6 +56,6 @@ public class MainController extends Controller {
         }
 
 
-        return ok(main.render(user, userForm, users, viewerId, posts,follow));
+        return ok(main.render(user, userForm, users, viewerId, posts, Post.getPopular(), follow));
     }
 }

@@ -114,12 +114,12 @@ public class SimpleLucene {
         for (int i = 0; i < tokon.length; i++) {
             if (mode == SearchMode.EXACTLY_MATCH) {
                 if (i != tokon.length - 1)
-                    r += tokon[i] + " ||";
+                    r += tokon[i] + " || ";
                 else
                     r += tokon[i];
             } else {
                 if (i != tokon.length - 1)
-                    r += tokon[i] + "~ ||";
+                    r += tokon[i] + "~ || ";
                 else
                     r += tokon[i] + "~";
             }

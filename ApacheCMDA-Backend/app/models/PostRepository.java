@@ -19,4 +19,10 @@ public interface PostRepository extends CrudRepository<Post, Long> {
     @Query(value = "select p.* from Post p where p.id=? order by p.timeStamp desc", nativeQuery = true)
     List<Post> findPostByPostID(long id);
 
+
+    @Query(value = "select p.* from Post p  order by p.timeStamp  desc limit 10", nativeQuery = true)
+    List<Post> findPopularPost();
+
+
+
 }

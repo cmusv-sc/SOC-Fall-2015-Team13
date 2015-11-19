@@ -28,6 +28,7 @@ import javax.inject.Singleton;
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -78,6 +79,12 @@ public class PostController extends Controller {
             p.setAuthorName(user.getUserName());
         }
         return ok(new Gson().toJson(posts));
+    }
+
+    public Result getPopularPost() {
+        List<Post> popular = postRepository.findPopularPost();
+        Collections.sort(popular, new likesComparator());
+        return ok(new Gson().toJson(popular));
     }
 
     public Result publishPost() {
@@ -153,6 +160,15 @@ public class PostController extends Controller {
 
         postRepository.delete(post);
         return ok("post: " + postId + " is deleted");
+    }
+
+    private class likesComparator implements Comparator<Post> {
+        @Override
+        public int compare(Post o1, Post o2) {
+            if (o1.getLikes() > o2.getLikes()) return -1;
+            else if (o1.getLikes() == o2.getLikes()) return 0;
+            else return 1;
+        }
     }
 
 }
