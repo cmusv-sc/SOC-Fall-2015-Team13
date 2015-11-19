@@ -16,6 +16,7 @@ $(function(){
         $.post("/network/post/update", {"postId": postId, "numOfLikes": newLikes}, function(data) {
         });
         $("#"+idForLikes).html("Likes: " + newLikes);
+        $(this).attr("data-value", newLikes);
     })
 
 });
