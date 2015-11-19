@@ -105,6 +105,36 @@ public class PostController extends Controller {
         }
     }
 
+    public Result updatePost() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("Post not identified, expecting Json data");
+            return badRequest("Post not identified, expecting Json data");
+        }
+
+        // Parse JSON file
+        String postId = json.path("postId").asText();
+        long postIdLong = new Long(postId);
+        Post post = postRepository.findOne(postIdLong);
+        if (post == null) {
+            System.out.println("post not found with id: " + postId);
+            return notFound("post not found with id: " + postId);
+        }
+
+        if (json.path("content") != null && !json.path("content").asText().isEmpty()) {
+            post.setContent(json.path("content").asText());
+        }
+
+        post.setTimeStamp(System.currentTimeMillis());
+        if (json.path("numOfLikes") != null && !json.path("numOfLikes").asText().isEmpty()) {
+            int likes = post.getLikes();
+            post.setLikes(likes + 1);
+        }
+
+        postRepository.save(post);
+        return ok("post: " + postId + " is updated");
+    }
+
     public Result deletePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {

@@ -56,6 +56,32 @@ public class PostController extends Controller {
         return redirect("/network/home/" + id);
     }
 
+    public static Result updatePost() {
+        Form<Post> dc = postForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        try {
+            jsonData.put("postId", dc.field("postId").value());
+            if (dc.field("content").value() != null && !dc.field("content").value().isEmpty()) {
+                jsonData.put("content", dc.field("content").value());
+            }
+            if (dc.field("numOfLikes").value() != null && !dc.field("numOfLikes").value().isEmpty()) {
+                jsonData.put("numOfLikes", dc.field("numOfLikes").value());
+            }
+
+            JsonNode response = Post.update(jsonData);
+            Application.flashMsg(response);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
+        }
+
+        return ok("updated");
+    }
+
     public static Result deletePost() {
         Form<Post> dc = postForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
