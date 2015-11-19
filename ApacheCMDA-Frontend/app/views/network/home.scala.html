@@ -68,6 +68,8 @@ posts: List[Post], follow:Int)
 	src='@routes.Assets.at("javascripts/keyword_tree.js")'></script>
 <script type='text/javascript'
 	src='@routes.Assets.at("javascripts/home.js")'></script>
+<script type='text/javascript'
+	src='@routes.Assets.at("javascripts/main.js")'></script>
 
 <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
 </head>
@@ -151,17 +153,45 @@ posts: List[Post], follow:Int)
 								<input type="hidden" name="authorId" value="@user.getId">
 							</div>
 						</form>
+						<div id="postList">
 						@for(post <- posts) {
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<div class="clearfix"></div>
-								@post.getAuthorName : @post.getContent
-								<hr>
-								@TimeConvert.format(post.getTimestamp) Likes:
-								@post.getNumOfLikes
+							<div id="post_@post.getId" class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-sm-2 col-md-2 col-lg-2">
+											@post.getAuthorName :
+										</div>
+										<div class="col-sm-10 col-md-10 col-lg-10">
+										@post.getContent
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12 col-md-12 col-lg-12">
+											<hr>
+										</div>
+									</div>
+									<div class="row">
+										<div id="post_likes_@post.getId" class="col-sm-2 col-md-2 col-lg-2">
+											Likes: @post.getNumOfLikes
+										</div>
+										<div class="col-sm-offset-7 col-md-offset-7 col-lg-offset-7 col-sm-3 col-lg-3 col-md-3 text-right">
+										@TimeConvert.format(post.getTimestamp)
+										</div>
+										<div class="col-sm-7 col-md-7 col-lg-7"></div>
+									</div>
+									<div class="row">
+										<div class="col-sm-1 col-lg-1 col-md-1">
+											<div data-value="@post.getNumOfLikes" title="@post.getId"
+											class="fa fa-thumbs-o-up fa-lg" style="margin-top:15px;cursor:pointer"></div>
+										</div>
+										<div class="col-sm-offset-10 col-sm-1">
+											<button data-value="@post.getId" class="btn btn-primary" style="float:right; margin-top:10px">Delete</button>
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
 						}
+						</div>
 
 					</div>
 					<div id="followers" class="panel"
