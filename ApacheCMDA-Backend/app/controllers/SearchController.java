@@ -57,7 +57,7 @@ public class SearchController extends Controller {
         List<Post> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
-            ids = searchPost.basicSearch(parse(keyword), SearchMode.FUZZY, "content");
+            ids = searchPost.basicSearch(parse(keyword), SearchMode.EXACTLY_MATCH, "content");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,7 +100,6 @@ public class SearchController extends Controller {
 
 
     public Result exactlySearch(String keyword, String field) {
-        keyword = keyword.replace("_"," ");
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
@@ -113,7 +112,7 @@ public class SearchController extends Controller {
     }
 
     private String parse(String keyword) {
-        return keyword.replace("_", " ");
+        return keyword.replace("_", " ").replace("!","");
     }
 
 }
