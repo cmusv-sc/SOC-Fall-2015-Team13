@@ -45,7 +45,7 @@ $(function(){
         $.post("/network/comment", {"postId": postId, "content": content}, function(data) {
             $("#comment_" + postId).append("<div class=\"row\"><div class=\"col-sm-2 col-md-2 col-lg-2\">" +
                 "<div class='thumbnail'>" +
-                "<img class=\"img-responsive user-photo\" src=\"https://ssl.gstatic.com/accounts/ui/avatar_2x.png\"></div></div>" +
+                "<img class=\"img-responsive user-photo\" src=\"http://www.wpclipart.com/signs_symbol/speech_bubbles/speech_gradients/comment_bubble_gradient_blue_right_T.png\"></div></div>" +
                 "<div class=\"col-sm-10 col-lg-10 col-md-10\">" +
                 "<div class=\"panel panel-default\">" +
                 "<div class=\"panel-heading\">" +
