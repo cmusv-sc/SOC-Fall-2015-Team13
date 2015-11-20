@@ -19,6 +19,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Post;
+import models.PostAndComments;
 import models.User;
 import models.metadata.ClimateService;
 import play.libs.Json;
@@ -41,7 +42,11 @@ public class MainController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        List<Post> posts = Post.getWall(id);
+        List<PostAndComments> postAndComments = Post.getWall(id);
+        List<Post> posts = new ArrayList<Post>();
+        for (PostAndComments pc : postAndComments) {
+            posts.add(pc.getPost());
+        }
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
@@ -56,6 +61,6 @@ public class MainController extends Controller {
         }
 
 
-        return ok(main.render(user, userForm, users, viewerId, posts, Post.getPopular(), follow));
+        return ok(main.render(user, userForm, users, viewerId, postAndComments, Post.getPopular(), follow));
     }
 }

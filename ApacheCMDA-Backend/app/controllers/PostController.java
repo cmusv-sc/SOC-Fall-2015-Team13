@@ -41,14 +41,17 @@ public class PostController extends Controller {
     private PostRepository postRepository;
     private FollowingRepository followingRepository;
     private UserRepository userRepository;
+    private CommentRepository commentRepository;
 
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
     @Inject
-    public PostController(PostRepository postRepository, FollowingRepository followingRepository, UserRepository userRepository) {
+    public PostController(PostRepository postRepository, FollowingRepository followingRepository,
+                          UserRepository userRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
         this.followingRepository = followingRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
 
@@ -62,6 +65,25 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(result));
     }
 
+//    /**
+//     * Return the post of the id and its followers(for personal wall)
+//     *
+//     * @param id
+//     * @return
+//     */
+//    public Result getPersonalPostWall(long id) {
+//        //add both the post of id itself and its following users
+//        List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
+//        List<Post> posts = new ArrayList<>(postRepository.findPost(id));
+//        for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
+//        Collections.sort(posts);
+//        for (Post p : posts) {
+//            User user = userRepository.findByID(p.getAuthorID());
+//            p.setAuthorName(user.getUserName());
+//        }
+//        return ok(new Gson().toJson(posts));
+//    }
+
     /**
      * Return the post of the id and its followers(for personal wall)
      *
@@ -72,13 +94,16 @@ public class PostController extends Controller {
         //add both the post of id itself and its following users
         List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
+        List<PostAndComment> postAndComments = new ArrayList<PostAndComment>();
         for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
         Collections.sort(posts);
         for (Post p : posts) {
             User user = userRepository.findByID(p.getAuthorID());
             p.setAuthorName(user.getUserName());
+            List<Comment> comments = postRepository.findComment(p.getId());
+            postAndComments.add(new PostAndComment(p, comments));
         }
-        return ok(new Gson().toJson(posts));
+        return ok(new Gson().toJson(postAndComments));
     }
 
     public Result getPopularPost() {
@@ -140,6 +165,27 @@ public class PostController extends Controller {
 
         postRepository.save(post);
         return ok("post: " + postId + " is updated");
+    }
+
+    public Result addComment() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("Comment is missing");
+            return badRequest("Comment is missing");
+        }
+
+        //Parse JSON file
+        Long postId = Long.parseLong(json.path("postId").asText());
+        Long commenterId = Long.parseLong(json.path("commenterId").asText());
+        Post post = postRepository.findOne(postId);
+        User commenter = userRepository.findOne(commenterId);
+        String authorName = commenter.getFirstName();
+        String content = json.path("content").asText();
+        Comment comment = new Comment(post, commenter, content, authorName, System.currentTimeMillis());
+        commentRepository.save(comment);
+        System.out.println("Comment successfully saved: " + comment.getId());
+        return created(new Gson().toJson(comment.getId()));
+
     }
 
     public Result deletePost() {

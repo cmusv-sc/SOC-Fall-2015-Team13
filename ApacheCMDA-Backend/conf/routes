@@ -73,6 +73,8 @@ POST          /post                                                             
 POST          /post/delete                                                                  @controllers.PostController.deletePost
 POST          /post/update                                                                  @controllers.PostController.updatePost
 
+# Comment
+POST          /comment                                                                      @controllers.PostController.addComment
 # Search full text search for User
 GET           /search/user/:keyword                                                         @controllers.SearchController.defaultSearch(keyword: String)
 # field are, "lastName", "firstName", "researchField"

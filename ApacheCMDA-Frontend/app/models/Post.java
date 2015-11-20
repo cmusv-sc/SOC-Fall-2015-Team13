@@ -170,23 +170,52 @@ public class Post {
         return posts;
     }
 
-    //{"id":5,"authorID":1,"authorName":"bluebyte60","content":"ff","likes":0,"timeStamp":1446785065268}
-    public static List<Post> getWall(String id) {
+    public static List<PostAndComments> getWall(String id) {
         JsonNode json = APICall.callAPI(GET_POST_WALL_CALL + id);
-        List<Post> posts = new ArrayList<>();
+        List<PostAndComments> postAndComments = new ArrayList<PostAndComments>();
         for (JsonNode node : json) {
             Post p = new Post();
-            p.setId(node.path("id").asText());
-            p.setContent(node.path("content").asText());
-            p.setAuthorName(node.path("authorName").asText());
-            p.setTimestamp(node.path("timeStamp").asLong());
-            p.setAuthorId(node.path("authorID").asText());
-            p.setNumOfLikes(node.path("likes").asInt());
-            posts.add(p);
-            System.out.println(posts);
+            JsonNode postNode = node.path("post");
+            p.setId(postNode.path("id").asText());
+            p.setContent(postNode.path("content").asText());
+            p.setAuthorName(postNode.path("authorName").asText());
+            p.setTimestamp(postNode.path("timeStamp").asLong());
+            p.setAuthorId(postNode.path("authorID").asText());
+            p.setNumOfLikes(postNode.path("likes").asInt());
+            JsonNode commentNodes = node.path("comments");
+            List<Comment> comments = new ArrayList<Comment>();
+            for (JsonNode commentNode : commentNodes) {
+                Comment comment = new Comment();
+                comment.setId(commentNode.path(0).asText());
+                comment.setContent(commentNode.path(1).asText());
+                comment.setCommenterId(commentNode.path(2).asLong());
+                comment.setPostId(commentNode.path(3).asText());
+                comment.setTimeStamp(commentNode.path(4).asLong());
+                comment.setAuthorName(commentNode.path(5).asText());
+                comments.add(comment);
+            }
+
+            postAndComments.add(new PostAndComments(p, comments));
         }
-        return posts;
+        return postAndComments;
     }
+
+//    public static List<Post> getWall(String id) {
+//        JsonNode json = APICall.callAPI(GET_POST_WALL_CALL + id);
+//        List<Post> posts = new ArrayList<>();
+//        for (JsonNode node : json) {
+//            Post p = new Post();
+//            p.setId(node.path("id").asText());
+//            p.setContent(node.path("content").asText());
+//            p.setAuthorName(node.path("authorName").asText());
+//            p.setTimestamp(node.path("timeStamp").asLong());
+//            p.setAuthorId(node.path("authorID").asText());
+//            p.setNumOfLikes(node.path("likes").asInt());
+//            posts.add(p);
+//            System.out.println(posts);
+//        }
+//        return posts;
+//    }
 
     public static List<Post> search(String keyword){
         JsonNode json = APICall.callAPI(SEARCH_POST_CALL + keyword);

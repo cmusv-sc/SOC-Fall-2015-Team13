@@ -19,6 +19,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Comment;
 import models.User;
 import models.Post;
 import play.data.Form;
@@ -33,6 +34,7 @@ import java.util.List;
 
 public class PostController extends Controller {
     final static Form<Post> postForm = Form.form(Post.class);
+    final static Form<Comment> commentForm = Form.form(Comment.class);
 
     public static Result newPost() {
         Form<Post> dc = postForm.bindFromRequest();
@@ -98,5 +100,24 @@ public class PostController extends Controller {
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
         return ok("deleted");
+    }
+
+    public static Result addComment() {
+        Form<Comment> dc = commentForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        try {
+            jsonData.put("postId", dc.field("postId").value());
+            jsonData.put("content", dc.field("content").value());
+            jsonData.put("commenterId", session("current_user"));
+            JsonNode reponse = Comment.create(jsonData);
+        }catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
+        }
+        return ok("comment added");
     }
 }

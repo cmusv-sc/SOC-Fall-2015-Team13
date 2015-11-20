@@ -17,6 +17,7 @@
 package controllers;
 
 import models.Post;
+import models.PostAndComments;
 import models.User;
 import play.data.Form;
 import play.mvc.Controller;
@@ -31,8 +32,12 @@ public class CriteriaController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        List<Post> posts = Post.getWall(id);
-        for (Post p : posts) System.out.println(p);
+        List<PostAndComments> postAndComments = Post.getWall(id);
+//        for (Post p : posts) System.out.println(p);
+        List<Post> posts = new ArrayList<Post>();
+        for (PostAndComments pc : postAndComments) {
+            posts.add(pc.getPost());
+        }
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
         int follow = 1;
@@ -47,7 +52,11 @@ public class CriteriaController extends Controller {
 
     public static Result search(String id) {
         User user = User.get(id);
-        List<Post> posts = Post.getWall(id);
+        List<PostAndComments> postsAndComments = Post.getWall(id);
+        List<Post> posts = new ArrayList<Post>();
+        for (PostAndComments pc : postsAndComments) {
+            posts.add(pc.getPost());
+        }
         for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
