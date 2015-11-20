@@ -10,3 +10,13 @@ border: 1px solid black;
 {
     cursor:pointer;
 }
+.delete_button
+{
+    float:right;
+    margin-top:10px
+}
+.update_button
+{
+    float:right;
+    margin-top:10px
+}

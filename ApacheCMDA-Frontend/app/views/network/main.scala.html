@@ -150,14 +150,25 @@ limitations under the License. *
               @for(post <- posts) {
                 <div id="post_@post.getId" class="panel panel-default">
                   <div class="panel-body">
-                    <div class="row">
+                    <div id="post_content_@post.getId" class="row">
+                      <div class="col-sm-2 col-md-2 col-lg-2">
+                        @post.getAuthorName :
+                      </div>
+                      <div id="post_original_content_@post.getId" class="col-sm-9 col-md-9 col-lg-9">
+                        @post.getContent
+                      </div>
+                      <div data-value="@post.getId" class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
+                    </div>
+                    <div id="post_edit_@post.getId" class="row" style="display:none">
                       <div class="col-sm-2 col-md-2 col-lg-2">
                         @post.getAuthorName :
                       </div>
                       <div class="col-sm-9 col-md-9 col-lg-9">
-                        @post.getContent
+                        <input id="post_edit_content_@post.getId" type="text" class="form-control" name="content" value="@post.getContent" aria-describedby="sizing-addon1">
                       </div>
-                      <div class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
+                      <div data-value="@post.getId" class="col-sm-1 col-md-1 col-lg-1">
+                        <div data-value="@post.getId" class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-12 col-md-12 col-lg-12">
@@ -179,8 +190,11 @@ limitations under the License. *
                         <div data-value="@post.getNumOfLikes" title="@post.getId"
                         class="fa fa-thumbs-o-up fa-lg cursor" style="margin-top:15px"></div>
                       </div>
-                      <div class="col-sm-offset-10 col-sm-1">
-                        <button data-value="@post.getId" class="btn btn-primary" style="float:right; margin-top:10px">Delete</button>
+                      <div id="post_delete_@post.getId" class="col-sm-offset-10 col-sm-1">
+                        <button data-value="@post.getId" class="btn btn-primary delete_button">Delete</button>
+                      </div>
+                      <div id="post_update_@post.getId" class="col-sm-offset-10 col-sm-1" style="display: none">
+                        <button data-value="@post.getId" class="btn btn-primary update_button">Update</button>
                       </div>
                     </div>
                   </div>
