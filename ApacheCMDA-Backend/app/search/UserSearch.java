@@ -37,7 +37,7 @@ public class UserSearch {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        lucene.endOfAppend();
+        lucene.commit();
     }
 //
 //    public static void main(String[] args) throws Exception {

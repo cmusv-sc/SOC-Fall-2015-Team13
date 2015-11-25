@@ -42,16 +42,20 @@ public class PostController extends Controller {
     private FollowingRepository followingRepository;
     private UserRepository userRepository;
     private CommentRepository commentRepository;
-
+    private SearchController searchController;
+    private long latestID = 0;
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
     @Inject
     public PostController(PostRepository postRepository, FollowingRepository followingRepository,
-                          UserRepository userRepository, CommentRepository commentRepository) {
+                          UserRepository userRepository, CommentRepository commentRepository,
+                          SearchController searchController) {
         this.postRepository = postRepository;
         this.followingRepository = followingRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
+        this.searchController=searchController;
+        latestID=this.postRepository.latestID();
     }
 
 
@@ -65,24 +69,6 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(result));
     }
 
-//    /**
-//     * Return the post of the id and its followers(for personal wall)
-//     *
-//     * @param id
-//     * @return
-//     */
-//    public Result getPersonalPostWall(long id) {
-//        //add both the post of id itself and its following users
-//        List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
-//        List<Post> posts = new ArrayList<>(postRepository.findPost(id));
-//        for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
-//        Collections.sort(posts);
-//        for (Post p : posts) {
-//            User user = userRepository.findByID(p.getAuthorID());
-//            p.setAuthorName(user.getUserName());
-//        }
-//        return ok(new Gson().toJson(posts));
-//    }
 
     /**
      * Return the post of the id and its followers(for personal wall)
@@ -129,6 +115,8 @@ public class PostController extends Controller {
             Post post = new Post(authorId, content, 0, time);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
+            latestID++;
+            searchController.appendPost(latestID, content);
             return created(new Gson().toJson(post.getId()));
         } catch (PersistenceException pe) {
             pe.printStackTrace();
@@ -164,6 +152,7 @@ public class PostController extends Controller {
         }
 
         postRepository.save(post);
+        searchController.updatePost(postIdLong, post.getContent());
         return ok("post: " + postId + " is updated");
     }
 
@@ -205,6 +194,7 @@ public class PostController extends Controller {
         }
 
         postRepository.delete(post);
+        searchController.deletePost(postIdLong);
         return ok("post: " + postId + " is deleted");
     }
 

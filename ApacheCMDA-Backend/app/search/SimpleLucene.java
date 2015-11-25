@@ -33,8 +33,29 @@ public class SimpleLucene {
 
     public void append(ResultSet rs) {
         try {
-            addDoc(w, rs);
+            addUser(w, rs);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void appendPost(long id, String content) {
+        try {
+            Document doc = new Document();
+            doc.add(new TextField("content", content, Field.Store.YES));
+            doc.add(new TextField("id", String.valueOf(id), Field.Store.YES));
+            w.addDocument(doc);
+            w.commit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePost(long id){
+        try {
+            w.deleteDocuments(new Term("id", String.valueOf(id)));
+            w.commit();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -47,9 +68,9 @@ public class SimpleLucene {
         }
     }
 
-    public void endOfAppend() {
+    public void commit() {
         try {
-            w.close();
+            w.commit();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +83,7 @@ public class SimpleLucene {
         w.addDocument(doc);
     }
 
-    private void addDoc(IndexWriter w, ResultSet rs) throws Exception {
+    private void addUser(IndexWriter w, ResultSet rs) throws Exception {
         Document doc = new Document();
         doc.add(new TextField("id", val(rs.getString("id")), Field.Store.YES));
         doc.add(new TextField("firstName", val(rs.getString("firstName")), Field.Store.YES));
@@ -84,8 +105,8 @@ public class SimpleLucene {
         // 1. get query string according to mode
         String querystr = getQuery(mode, keyword);
         // 2. Set field to query
-        Query q ;
-        if(mode==SearchMode.EXACTLY_MATCH) q = new QueryParser(field, analyzer).parse(querystr);
+        Query q;
+        if (mode == SearchMode.EXACTLY_MATCH) q = new QueryParser(field, analyzer).parse(querystr);
         else q = new FuzzyQuery(new Term(field, keyword), (int) FuzzyQuery.defaultMinSimilarity, 0);
         // 3. search
         int hitsPerPage = 100000;
