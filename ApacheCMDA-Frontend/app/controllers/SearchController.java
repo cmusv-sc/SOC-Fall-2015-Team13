@@ -18,6 +18,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Post;
+import models.PostAndComments;
 import models.User;
 import play.data.Form;
 import play.libs.Json;
@@ -45,7 +46,7 @@ public class SearchController extends Controller {
         Form<User> dc = userForm.bindFromRequest();
         String keyword = dc.field("srch-term").value();
         keyword = keyword.replaceAll(" ", "_");
-        List<Post> searchedResult = Post.search(keyword);
+        List<PostAndComments> searchedResult = Post.search(keyword);
         return ok(searchPost.render(user, userForm, users, viewerId, searchedResult, follow));
     }
 
