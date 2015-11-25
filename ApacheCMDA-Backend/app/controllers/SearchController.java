@@ -17,10 +17,7 @@
 package controllers;
 
 import com.google.gson.Gson;
-import models.Post;
-import models.PostRepository;
-import models.User;
-import models.UserRepository;
+import models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
 import search.PostSearch;
@@ -75,7 +72,7 @@ public class SearchController extends Controller {
     }
 
     public Result searchPost(String keyword) {
-        List<Post> result = new ArrayList<>();
+        List<PostAndComment> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
             ids = searchPost.basicSearch(parse(keyword), SearchMode.EXACTLY_MATCH, "content");
@@ -84,14 +81,16 @@ public class SearchController extends Controller {
         }
         for (String id : ids) {
             List<Post> posts = postRepository.findPostByPostID(Long.valueOf(id));
+            List<PostAndComment> postAndComments = new ArrayList<>();
             for (Post p : posts) {
                 User user = userRepository.findByID(p.getAuthorID());
                 p.setAuthorName(user.getUserName());
+                List<Comment> comments = postRepository.findComment(p.getId());
+                postAndComments.add(new PostAndComment(p, comments));
             }
-            result.addAll(posts);
+            result.addAll(postAndComments);
         }
         return ok(new Gson().toJson(result));
-
     }
 
     public Result defaultSearch(String keyword) {

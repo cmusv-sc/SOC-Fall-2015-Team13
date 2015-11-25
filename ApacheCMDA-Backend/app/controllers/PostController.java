@@ -44,6 +44,7 @@ public class PostController extends Controller {
     private CommentRepository commentRepository;
     private SearchController searchController;
     private long latestID = 0;
+
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
     @Inject
@@ -54,8 +55,8 @@ public class PostController extends Controller {
         this.followingRepository = followingRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
-        this.searchController=searchController;
-        latestID=this.postRepository.latestID();
+        this.searchController = searchController;
+        latestID = this.postRepository.latestID();
     }
 
 
