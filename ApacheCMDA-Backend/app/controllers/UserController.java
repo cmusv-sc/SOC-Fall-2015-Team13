@@ -44,13 +44,16 @@ public class UserController extends Controller {
 
 	private final UserRepository userRepository;
 	private final FollowingRepository followingRepository;
-
+	private SearchController searchController;
+	private long latestID = 0;
 	// We are using constructor injection to receive a repository to support our
 	// desire for immutability.
 	@Inject
-	public UserController(final UserRepository userRepository, final FollowingRepository followingRepository) {
+	public UserController(final UserRepository userRepository, final FollowingRepository followingRepository, SearchController searchController) {
 		this.userRepository = userRepository;
 		this.followingRepository = followingRepository;
+		this.searchController=searchController;
+		this.latestID=userRepository.latestID();
 	}
 
 	public Result addUser() {
@@ -75,6 +78,8 @@ public class UserController extends Controller {
 			User user = new User(userName, password, firstName, lastName, affiliation);
 			userRepository.save(user);
 			System.out.println("User saved: " + user.getId());
+			latestID++;
+			searchController.appendUser(latestID, user);
 			return created(new Gson().toJson(user.getId()));
 		} catch (PersistenceException pe) {
 			pe.printStackTrace();
@@ -161,6 +166,7 @@ public class UserController extends Controller {
 			updateUser.setUrl(url);
 
 			User savedUser = userRepository.save(updateUser);
+			searchController.updateUser(id, updateUser);
 			System.out.println("User updated: " + savedUser.getFirstName() + " " + savedUser.getLastName());
 			return created("User updated: " + savedUser.getFirstName() + " " + savedUser.getLastName());
 		} catch (PersistenceException pe) {

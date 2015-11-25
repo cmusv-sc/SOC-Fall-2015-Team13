@@ -42,4 +42,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "select User.* from User, Following where ((Following.target = ?1) and (User.id = Following.source))", nativeQuery = true)
     List<User> findFollowers(long user_ID);
+
+    @Query(value = "select u.id from User u  order by u.id desc limit 1", nativeQuery = true)
+    long latestID();
 }

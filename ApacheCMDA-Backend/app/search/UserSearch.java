@@ -1,6 +1,8 @@
 package search;
 
 
+import models.User;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +15,8 @@ public class UserSearch {
     MySQL client;
     SimpleLucene lucene;
     final String selectSQL = "select * from climate.User";
-    public UserSearch()  {
+
+    public UserSearch() {
         client = new MySQL("climate", "climate");
         try {
             lucene = new SimpleLucene();
@@ -21,6 +24,15 @@ public class UserSearch {
             e.printStackTrace();
         }
         prepareData();
+    }
+
+    public void appendUser(long id, User user) {
+        lucene.appendUser(id, user);
+    }
+
+    public void updateUser(long id, User user) {
+        lucene.deleteUser(id);
+        lucene.appendUser(id, user);
     }
 
 

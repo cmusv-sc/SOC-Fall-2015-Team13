@@ -1,5 +1,6 @@
 package search;
 
+import models.User;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -81,6 +82,32 @@ public class SimpleLucene {
         doc.add(new TextField("content", rs.getString("content"), Field.Store.YES));
         doc.add(new TextField("id", val(rs.getString("id")), Field.Store.YES));
         w.addDocument(doc);
+    }
+
+    public void appendUser(long id, User user) {
+        try {
+            Document doc = new Document();
+            doc.add(new TextField("id", val(String.valueOf(id)), Field.Store.YES));
+            doc.add(new TextField("firstName", val(user.getFirstName()), Field.Store.YES));
+            doc.add(new TextField("lastName", val(user.getLastName()), Field.Store.YES));
+            doc.add(new TextField("researchFields", val(user.getResearchFields()), Field.Store.YES));
+            doc.add(new TextField("default", val(user.getResearchFields()) + " "
+                    + val(user.getResearchFields()) + " "
+                    + val(user.getLastName()), Field.Store.YES));
+            w.addDocument(doc);
+            w.commit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(long id){
+        try {
+            w.deleteDocuments(new Term("id", String.valueOf(id)));
+            w.commit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addUser(IndexWriter w, ResultSet rs) throws Exception {
