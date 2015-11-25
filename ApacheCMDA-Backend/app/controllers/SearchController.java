@@ -66,6 +66,14 @@ public class SearchController extends Controller {
         appendPost(id, content);
     }
 
+    public void appendUser(long id, User user){
+        searchUser.appendUser(id, user);
+    }
+
+    public void updateUser(long id, User user){
+        searchUser.updateUser(id, user);
+    }
+
     public Result searchPost(String keyword) {
         List<Post> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
