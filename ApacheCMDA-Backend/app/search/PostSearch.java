@@ -28,6 +28,14 @@ public class PostSearch {
         return lucene.search(query, mode, field);
     }
 
+    public void appendPost(long id, String content){
+        lucene.appendPost(id, content);
+    }
+
+    public void deletePost(long id){
+        lucene.deletePost(id);
+    }
+
     private void prepareData() {
         ResultSet rs = client.select(selectSQL);
         try {
@@ -37,7 +45,7 @@ public class PostSearch {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        lucene.endOfAppend();
+        lucene.commit();
     }
 
     public static void main(String[] args) throws Exception {

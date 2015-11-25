@@ -48,9 +48,22 @@ public class SearchController extends Controller {
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
     @Inject
-    public SearchController(final UserRepository userRepository, final PostRepository postRepository) {
+    public SearchController(UserRepository userRepository, PostRepository postRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+    }
+
+    public void appendPost(long id, String content) {
+        searchPost.appendPost(id, content);
+    }
+
+    public void deletePost(long id) {
+        searchPost.deletePost(id);
+    }
+
+    public void updatePost(long id, String content) {
+        deletePost(id);
+        appendPost(id, content);
     }
 
     public Result searchPost(String keyword) {
@@ -62,8 +75,8 @@ public class SearchController extends Controller {
             e.printStackTrace();
         }
         for (String id : ids) {
-            List<Post> posts= postRepository.findPostByPostID(Long.valueOf(id));
-            for(Post p:posts) {
+            List<Post> posts = postRepository.findPostByPostID(Long.valueOf(id));
+            for (Post p : posts) {
                 User user = userRepository.findByID(p.getAuthorID());
                 p.setAuthorName(user.getUserName());
             }
@@ -86,7 +99,7 @@ public class SearchController extends Controller {
     }
 
     public Result fuzzySearch(String keyword, String field) {
-        keyword = keyword.replace("_"," ");
+        keyword = keyword.replace("_", " ");
         List<User> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
@@ -112,7 +125,7 @@ public class SearchController extends Controller {
     }
 
     private String parse(String keyword) {
-        return keyword.replace("_", " ").replace("!","");
+        return keyword.replace("_", " ").replace("!", "");
     }
 
 }
