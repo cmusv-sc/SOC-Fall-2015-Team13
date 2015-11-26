@@ -66,4 +66,18 @@ public class SearchController extends Controller {
         List<User> searchedResult = User.search(keyword);
         return ok(searchUser.render(user, userForm, users, viewerId, searchedResult, follow));
     }
+
+    public static Result goTo(String source, String target){
+        User user = User.get(target);
+        List<Post> posts = Post.get(target);
+        List<User> users = User.getFollowers(target);
+        int follow=1;
+        for(User u : users){
+            if(target.equals(String.valueOf(u.getId()))){
+                follow=0;
+            }
+        }
+
+        return ok(home.render(user, userForm, users, source, posts,follow));
+    }
 }

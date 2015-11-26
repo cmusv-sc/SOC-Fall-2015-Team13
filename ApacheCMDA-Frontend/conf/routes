@@ -10,6 +10,7 @@ GET         /                                                controllers.Climate
 GET         /signup                                          controllers.SignupController.signup()
 GET         /login                                           controllers.LoginController.login(username ?= null, error ?=null)
 POST        /signup/newUser                                  controllers.SignupController.newUser()
+GET         /network/home/myhome                             controllers.HomeController.myHome()
 GET         /network/home/:id                                controllers.HomeController.home(id: String)
 GET         /network/main/:id                                controllers.MainController.home(id: String)
 POST        /network/home                                    controllers.HomeController.login()
@@ -59,6 +60,7 @@ GET         /assets/*file                                    controllers.Assets.
 
 #User Search
 POST        /network/search/user/:id                         controllers.SearchController.searchUser(id: String)
+GET         /network/search/go/:source/:target               controllers.SearchController.goTo(source: String, target: String)
 
 #Post Search
 POST        /network/search/post/:id                         controllers.SearchController.searchPost(id: String)
