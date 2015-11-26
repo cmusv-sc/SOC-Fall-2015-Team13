@@ -31,24 +31,48 @@ import java.util.List;
 public class HomeController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
-    public static Result home(String id) {
-        User user = User.get(id);
-        List<Post> posts = Post.get(id);
-        //for (Post p : posts) System.out.println(p);
-        List<User> users = User.getFollowers(id);
-        String viewerId = session("current_user");
+    public static Result myHome() {
+        String viewerId = null;
+        try {
+             viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        int follow=1;
-        for(User u : users){
-        	if(viewerId.equals(String.valueOf(u.getId()))){
-        		follow=0;
-        	}
-        }
-        
+        User user = User.get(viewerId);
+        List<Post> posts = Post.get(viewerId);
+        List<User> users = User.getFollowers(viewerId);
 
-        return ok(home.render(user, userForm, users, viewerId, posts,follow));
+        int follow = 1;
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
+            }
+        }
+
+        return ok(home.render(user, userForm, users, viewerId, posts, follow));
+    }
+
+    public static Result home(String id) {
+        User user = User.get(id);
+        List<Post> posts = Post.get(id);
+        List<User> users = User.getFollowers(id);
+        String viewerId = session("current_user");
+        System.out.println("viewerIdviewerIdviewerIdviewerIdviewerIdviewerId:" + viewerId);
+        if (viewerId == null || viewerId.isEmpty()) {
+            return redirect("/login");
+        }
+        int follow = 1;
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
+            }
+        }
+
+        return ok(home.render(user, userForm, users, viewerId, posts, follow));
     }
 
     public static Result login() {
@@ -74,26 +98,26 @@ public class HomeController extends Controller {
         session("current_user", String.valueOf(user.getId()));
         List<User> users = User.getFollowers(String.valueOf(user.getId()));
         String viewerId = String.valueOf(user.getId());
-        int follow =1;
-        for(User u : users){
-            if(viewerId.equals(String.valueOf(u.getId()))){
-                follow=0;
+        int follow = 1;
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
             }
         }
-       
-        return ok(home.render(user, userForm, users, viewerId, Post.get(String.valueOf(user.getId())),follow));
+
+        return ok(home.render(user, userForm, users, viewerId, Post.get(String.valueOf(user.getId())), follow));
     }
 
     public static Result follow(String source, String target) {
-    	User.follow(source, target);
-    	return redirect("/network/home/" + target);
+        User.follow(source, target);
+        return redirect("/network/home/" + target);
     }
-    
+
     public static Result unfollow(String source, String target) {
-    	User.unfollow(source, target);
-    	return redirect("/network/home/" + target);
+        User.unfollow(source, target);
+        return redirect("/network/home/" + target);
     }
-    
+
     public static Result followers(String id) {
         List<User> users = User.getFollowers(id);
         return ok(followers.render(users));
