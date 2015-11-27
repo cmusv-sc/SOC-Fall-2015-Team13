@@ -93,6 +93,20 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(postAndComments));
     }
 
+    public Result getHomeWall(long id) {
+        //add both the post of id itself and its following users
+        List<Post> posts = new ArrayList<>(postRepository.findPost(id));
+        List<PostAndComment> postAndComments = new ArrayList<PostAndComment>();
+        Collections.sort(posts);
+        for (Post p : posts) {
+            User user = userRepository.findByID(p.getAuthorID());
+            p.setAuthorName(user.getUserName());
+            List<Comment> comments = postRepository.findComment(p.getId());
+            postAndComments.add(new PostAndComment(p, comments));
+        }
+        return ok(new Gson().toJson(postAndComments));
+    }
+
     public Result getPopularPost() {
         List<Post> popular = postRepository.findPopularPost();
         Collections.sort(popular, new likesComparator());

@@ -18,6 +18,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Post;
+import models.PostAndComments;
 import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -26,6 +27,7 @@ import play.data.Form;
 import util.APICall;
 import views.html.network.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeController extends Controller {
@@ -42,36 +44,37 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        User user = User.get(viewerId);
-        List<Post> posts = Post.get(viewerId);
+        List<PostAndComments> postAndComments = Post.getWall(viewerId);
         List<User> users = User.getFollowers(viewerId);
-
-        int follow = 1;
-        for (User u : users) {
+        int follow=1;
+        for(User u : users) {
             if (viewerId.equals(String.valueOf(u.getId()))) {
                 follow = 0;
             }
         }
-
-        return ok(home.render(user, userForm, users, viewerId, posts, follow));
+        return ok(home.render(User.get(viewerId), userForm, users, viewerId, postAndComments, follow));
     }
 
     public static Result home(String id) {
-        User user = User.get(id);
-        List<Post> posts = Post.get(id);
-        List<User> users = User.getFollowers(id);
-        String viewerId = session("current_user");
+        String viewerId = null;
+        try {
+            viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        int follow = 1;
-        for (User u : users) {
+        List<PostAndComments> postAndComments = Post.getWall(id);
+        List<User> users = User.getFollowers(id);
+        int follow=1;
+        for(User u : users) {
             if (viewerId.equals(String.valueOf(u.getId()))) {
                 follow = 0;
             }
         }
-
-        return ok(home.render(user, userForm, users, viewerId, posts, follow));
+        return ok(home.render(User.get(id), userForm, users, viewerId, postAndComments, follow));
     }
 
     public static Result login() {

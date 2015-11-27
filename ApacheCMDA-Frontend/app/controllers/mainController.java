@@ -47,7 +47,6 @@ public class MainController extends Controller {
         for (PostAndComments pc : postAndComments) {
             posts.add(pc.getPost());
         }
-        for (Post p : posts) System.out.println(p);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
         if (viewerId == null || viewerId.isEmpty()) {
