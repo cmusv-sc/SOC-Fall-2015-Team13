@@ -61,7 +61,6 @@ public class HomeController extends Controller {
         List<Post> posts = Post.get(id);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
-        System.out.println("viewerIdviewerIdviewerIdviewerIdviewerIdviewerId:" + viewerId);
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }

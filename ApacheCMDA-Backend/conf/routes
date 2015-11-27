@@ -72,6 +72,7 @@ GET           /post/wall/:id                                                    
 POST          /post                                                                         @controllers.PostController.publishPost
 POST          /post/delete                                                                  @controllers.PostController.deletePost
 POST          /post/update                                                                  @controllers.PostController.updatePost
+GET           /post/changeSecurity/:id/:level                                               @controllers.PostController.changeSecurity(id: String, level: String)
 
 # Comment
 POST          /comment                                                                      @controllers.PostController.addComment

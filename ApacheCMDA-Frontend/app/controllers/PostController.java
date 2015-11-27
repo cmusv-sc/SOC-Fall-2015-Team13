@@ -44,13 +44,12 @@ public class PostController extends Controller {
             jsonData.put("authorId", dc.field("authorId").value());
             id = dc.field("authorId").value();
             jsonData.put("content", dc.field("postContent").value());
+            jsonData.put("security", dc.field("security").value());
             JsonNode response = Post.create(jsonData);
             System.out.println("post created with response: " + response);
             Application.flashMsg(response);
         } catch (IllegalStateException e) {
-            e.printStackTrace();
-            Application.flashMsg(APICall
-                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+            e.printStackTrace();Application.flashMsg(APICall.createResponse(APICall.ResponseType.CONVERSIONERROR));
         } catch (Exception e) {
             e.printStackTrace();
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));

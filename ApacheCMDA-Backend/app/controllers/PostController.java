@@ -109,11 +109,12 @@ public class PostController extends Controller {
         // Parse JSON file
         String author = json.path("authorId").asText();
         String content = json.path("content").asText();
-
+        String security = json.path("security").asText();
         try {
             long authorId = Long.parseLong(author);
             long time = System.currentTimeMillis();
             Post post = new Post(authorId, content, 0, time);
+            post.setSecurtiry(security);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
             latestID++;
@@ -197,6 +198,14 @@ public class PostController extends Controller {
         postRepository.delete(post);
         searchController.deletePost(postIdLong);
         return ok("post: " + postId + " is deleted");
+    }
+
+    public Result changeSecurity(String postID, String security) {
+        List<Post> posts = postRepository.findPostByPostID(Long.valueOf(postID));
+        Post p = posts.get(0);
+        p.setSecurtiry(security);
+        postRepository.save(p);
+        return ok("security: change to " + p.getSecurtiry());
     }
 
     private class likesComparator implements Comparator<Post> {

@@ -139,9 +139,20 @@ limitations under the License. *
                   placeholder="What's on your mind?" id="postContent"
                   name="postContent">
                   <hr>
-                  <div class="col-sm-offset-11 col-sm-1">
-                    <button type="submit" class="btn btn-primary"
-                    style="float: right">Post</button>
+                  <div class="row">
+                    <div class="col col-sm-8" id="column-2">
+                      <select class="selectpicker" data-style="btn-success" name="security" >
+                        <option value="public" selected="selected">Public</option>
+                        <option value="friendly">Friendly</option>
+                        <option value="private">Private</option>
+                      </select>
+                    </div>
+                    <div class="col col-sm-4" id="column-3">
+                      <div class="col-sm-offset-11 col-sm-1">
+                        <button type="submit" class="btn btn-primary"
+                        style="float: right">Post</button>
+                      </div>
+                    </div>
                   </div>
                   <input type="hidden" name="authorId" value="@user.getId">
                 </div>
