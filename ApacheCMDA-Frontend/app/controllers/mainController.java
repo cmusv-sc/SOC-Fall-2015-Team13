@@ -16,37 +16,22 @@
  */
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Post;
 import models.PostAndComments;
 import models.User;
-import models.metadata.ClimateService;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.data.Form;
-import util.APICall;
 import views.html.network.*;
 
-import java.util.ArrayList;
 import java.util.List;
-
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
     public static Result home(String id) {
         User user = User.get(id);
-        List<PostAndComments> postAndComments = Post.getWall(id);
-        List<Post> posts = new ArrayList<Post>();
-        for (PostAndComments pc : postAndComments) {
-            posts.add(pc.getPost());
-        }
+        List<PostAndComments> postAndComments = Post.getMainWall(id);
         List<User> users = User.getFollowers(id);
         String viewerId = session("current_user");
         if (viewerId == null || viewerId.isEmpty()) {

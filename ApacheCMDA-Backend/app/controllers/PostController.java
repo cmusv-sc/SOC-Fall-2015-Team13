@@ -77,7 +77,7 @@ public class PostController extends Controller {
      * @param id
      * @return
      */
-    public Result getPersonalPostWall(long id) {
+    public Result getPersonalMainWall(long id) {
         //add both the post of id itself and its following users
         List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
@@ -85,6 +85,8 @@ public class PostController extends Controller {
         for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
         Collections.sort(posts);
         for (Post p : posts) {
+            String security = p.getSecurity();
+            if (security != null && (p.getAuthorID() != id && p.getSecurity().equals("private"))) continue;
             User user = userRepository.findByID(p.getAuthorID());
             p.setAuthorName(user.getUserName());
             List<Comment> comments = postRepository.findComment(p.getId());
@@ -128,7 +130,7 @@ public class PostController extends Controller {
             long authorId = Long.parseLong(author);
             long time = System.currentTimeMillis();
             Post post = new Post(authorId, content, 0, time);
-            post.setSecurtiry(security);
+            post.setSecurity(security);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
             latestID++;
@@ -217,9 +219,9 @@ public class PostController extends Controller {
     public Result changeSecurity(String postID, String security) {
         List<Post> posts = postRepository.findPostByPostID(Long.valueOf(postID));
         Post p = posts.get(0);
-        p.setSecurtiry(security);
+        p.setSecurity(security);
         postRepository.save(p);
-        return ok("security: change to " + p.getSecurtiry());
+        return ok("security: change to " + p.getSecurity());
     }
 
     private class likesComparator implements Comparator<Post> {

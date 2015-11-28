@@ -32,7 +32,7 @@ public class CriteriaController extends Controller {
 
     public static Result home(String id) {
         User user = User.get(id);
-        List<PostAndComments> postAndComments = Post.getWall(id);
+        List<PostAndComments> postAndComments = Post.getMainWall(id);
 //        for (Post p : posts) System.out.println(p);
         List<Post> posts = new ArrayList<Post>();
         for (PostAndComments pc : postAndComments) {
@@ -52,7 +52,7 @@ public class CriteriaController extends Controller {
 
     public static Result search(String id) {
         User user = User.get(id);
-        List<PostAndComments> postsAndComments = Post.getWall(id);
+        List<PostAndComments> postsAndComments = Post.getMainWall(id);
         List<Post> posts = new ArrayList<Post>();
         for (PostAndComments pc : postsAndComments) {
             posts.add(pc.getPost());

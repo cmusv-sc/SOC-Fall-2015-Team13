@@ -148,9 +148,8 @@ limitations under the License. *
 								<div class="row">
 									<div class="col col-sm-8" id="column-2">
 										<select class="selectpicker" data-style="btn-success" name="security" >
-											<option value="public" selected="selected">Public</option>
-											<option value="friendly">Friendly</option>
-											<option value="private">Private</option>
+											<option value="public" selected="selected">public</option>
+											<option value="private">private</option>
 										</select>
 									</div>
 									<div class="col col-sm-4" id="column-3">
@@ -195,13 +194,13 @@ limitations under the License. *
 									</div>
 									<div class="row">
 										<div id="post_likes_@postAndComments.getPost.getId" class="col-sm-2 col-md-2 col-lg-2">
-                        Likes: @postAndComments.getPost.getNumOfLikes
-                      </div>
+                      					  Likes: @postAndComments.getPost.getNumOfLikes
+                      					</div>
 										<div class="col-sm-offset-7 col-md-offset-7 col-lg-offset-7 col-sm-3 col-lg-3 col-md-3 text-right">
 										@TimeConvert.format(postAndComments.getPost.getTimestamp)
 										</div>
 										<div class="col-sm-7 col-md-7 col-lg-7">
-                      </div>
+                      					</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-1 col-lg-1 col-md-1">
@@ -215,33 +214,43 @@ limitations under the License. *
 											<button data-value="@postAndComments.getPost.getId" class="btn btn-primary update_button">Update</button>
 										</div>
 									</div>
-								</div>
-
+									<select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
+										@if(postAndComments.getPost.getSecurtiry.equals("public")) {
+											<option value="public" selected="selected">Public</option>
+										}else{
+											<option value="public">public</option>
+										}
+										@if(postAndComments.getPost.getSecurtiry.equals("private")) {
+											<option value="private" selected="selected">private</option>
+										}else{
+											<option value="private">private</option>
+										}
+									</select>
 								<hr>
 								<div id="comment_@postAndComments.getPost.getId">
-								@for(comment <- postAndComments.getComments) {
-									<div class="row">
-										<div class="col-sm-2 col-md-2 col-lg-2">
-											<div class="thumbnail">
-												<img class="img-responsive user-photo"
-												src="/assets/images/comment.png">
+									@for(comment <- postAndComments.getComments) {
+										<div class="row">
+											<div class="col-sm-2 col-md-2 col-lg-2">
+												<div class="thumbnail">
+													<img class="img-responsive user-photo"
+													src="/assets/images/comment.png">
+												</div>
 											</div>
-										</div>
 
-										<div class="col-sm-10 col-lg-10 col-md-10">
-											<div class="panel panel-default">
-												<div class="panel-heading">
-													<strong>@comment.getAuthorName</strong> <span class="text-muted">
-                            commented at @TimeConvert.format(comment.getTimeStamp)</span>
-												</div>
-												<div class="panel-body">
-												@comment.getContent
+											<div class="col-sm-10 col-lg-10 col-md-10">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<strong>@comment.getAuthorName</strong> <span class="text-muted">
+														commented at @TimeConvert.format(comment.getTimeStamp)</span>
+													</div>
+													<div class="panel-body">
+													@comment.getContent
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<hr>
-									}
+										<hr>
+										}
 								</div>
 								<div class="row">
 									<div class="panel-body">

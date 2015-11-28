@@ -119,4 +119,9 @@ public class PostController extends Controller {
         }
         return ok("comment added");
     }
+
+    public static Result changeSecurity(String postID, String security){
+        Post.changeSecurity(postID,security);
+        return ok("security changed");
+    }
 }

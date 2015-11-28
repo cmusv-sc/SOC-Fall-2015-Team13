@@ -27,7 +27,6 @@ import play.data.Form;
 import util.APICall;
 import views.html.network.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeController extends Controller {
@@ -44,7 +43,7 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        List<PostAndComments> postAndComments = Post.getWall(viewerId);
+        List<PostAndComments> postAndComments = Post.getSelfWall(viewerId);
         List<User> users = User.getFollowers(viewerId);
         int follow=1;
         for(User u : users) {
@@ -66,7 +65,7 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        List<PostAndComments> postAndComments = Post.getWall(id);
+        List<PostAndComments> postAndComments = Post.getSelfWall(id);
         List<User> users = User.getFollowers(id);
         int follow=1;
         for(User u : users) {
