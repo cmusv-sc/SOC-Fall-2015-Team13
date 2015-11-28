@@ -21,6 +21,7 @@ POST        /network/home/newPost                            controllers.PostCon
 POST        /network/post/delete                             controllers.PostController.deletePost()
 POST        /network/post/update                             controllers.PostController.updatePost()
 POST        /network/comment                                 controllers.PostController.addComment()
+GET         /network/post/changeSecurity/:postID/:security        controllers.PostController.changeSecurity(postID: String, security: String)
 
 # Follow/Unfollow a user
 GET         /network/follow/:source/:target                  controllers.HomeController.follow(source: String, target: String)

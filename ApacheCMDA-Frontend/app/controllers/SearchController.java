@@ -69,7 +69,7 @@ public class SearchController extends Controller {
 
     public static Result goTo(String source, String target){
         User user = User.get(target);
-        List<Post> posts = Post.get(target);
+        List<PostAndComments> postsandComments = Post.get(target);
         List<User> users = User.getFollowers(target);
         int follow=1;
         for(User u : users){
@@ -78,6 +78,6 @@ public class SearchController extends Controller {
             }
         }
 
-        return ok(home.render(user, userForm, users, source, posts,follow));
+        return ok(home.render(user, userForm, users, source, postsandComments,follow));
     }
 }

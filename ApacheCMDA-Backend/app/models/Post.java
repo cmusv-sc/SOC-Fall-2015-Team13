@@ -20,6 +20,8 @@ public class Post implements Comparable<Post> {
     private int likes;
 
     private long timeStamp;
+    //public/private
+    private String security = "public";
 
     public Post(long author, String content, int likes, long timeStamp) {
         this.authorID = author;
@@ -78,6 +80,15 @@ public class Post implements Comparable<Post> {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+
+    public String getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(String security) {
+        this.security = security;
     }
 
     @Override

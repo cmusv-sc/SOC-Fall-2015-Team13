@@ -39,6 +39,7 @@ public class Post {
     private String content;
     private int numOfLikes;
     private long timestamp;
+    private String securtiry;
 
     public static String getADD_POST_CALL() {
         return ADD_POST_CALL;
@@ -48,11 +49,12 @@ public class Post {
 
     private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post";
     private static final String GET_POST_WALL_CALL = Constants.NEW_BACKEND + "post/wall/";
-    private static final String GET_POST_CALL = Constants.NEW_BACKEND + "post/";
+    private static final String GET_POSTANDCOMMENT_CALL = Constants.NEW_BACKEND + "post/home/";
     private static final String DELETE_POST_CALL = Constants.NEW_BACKEND + "post/delete";
     private static final String UPDATE_POST_CALL = Constants.NEW_BACKEND + "post/update";
     private static final String SEARCH_POST_CALL = Constants.NEW_BACKEND + "search/post/";
     private static final String POPULAR_POST_CALL = Constants.NEW_BACKEND + "post/popular";
+    private static final String CHANGE_SECURITY = Constants.NEW_BACKEND + "post/changeSecurity/";
 
     public Post() {
     }
@@ -116,6 +118,14 @@ public class Post {
         this.authorName = authorName;
     }
 
+    public String getSecurtiry() {
+        return securtiry;
+    }
+
+    public void setSecurtiry(String securtiry) {
+        this.securtiry = securtiry;
+    }
+
     /**
      * Create a new post
      *
@@ -152,58 +162,37 @@ public class Post {
      * @return
      */
 
-    //{"id":5,"authorID":1,"authorName":"bluebyte60","content":"ff","likes":0,"timeStamp":1446785065268}
-    public static List<Post> get(String id) {
-        JsonNode json = APICall.callAPI(GET_POST_CALL + id);
-        List<Post> posts = new ArrayList<>();
-        for (JsonNode node : json) {
-            Post p = new Post();
-            p.setId(node.path("id").asText());
-            p.setContent(node.path("content").asText());
-            p.setAuthorName(node.path("authorName").asText());
-            p.setTimestamp(node.path("timeStamp").asLong());
-            p.setAuthorId(node.path("authorID").asText());
-            p.setNumOfLikes(node.path("likes").asInt());
-            posts.add(p);
-            System.out.println(posts);
-        }
-        return posts;
+    public static List<PostAndComments> get(String id) {
+        JsonNode json = APICall.callAPI(GET_POSTANDCOMMENT_CALL + id);
+        return parseToPostAndComment(json);
     }
 
-    public static List<PostAndComments> getWall(String id) {
+    public static List<PostAndComments> getSelfWall(String id) {
         JsonNode json = APICall.callAPI(GET_POST_WALL_CALL + id);
-        List<PostAndComments> postAndComments = new ArrayList<PostAndComments>();
-            for (JsonNode node : json) {
-                Post p = new Post();
-                JsonNode postNode = node.path("post");
-                p.setId(postNode.path("id").asText());
-                p.setContent(postNode.path("content").asText());
-                p.setAuthorName(postNode.path("authorName").asText());
-                p.setTimestamp(postNode.path("timeStamp").asLong());
-                p.setAuthorId(postNode.path("authorID").asText());
-                p.setNumOfLikes(postNode.path("likes").asInt());
-                JsonNode commentNodes = node.path("comments");
-                List<Comment> comments = new ArrayList<Comment>();
-                for (JsonNode commentNode : commentNodes) {
-                    Comment comment = new Comment();
-                    comment.setId(commentNode.path(0).asText());
-                    comment.setAuthorName(commentNode.path(1).asText());
-                    comment.setContent(commentNode.path(2).asText());
-                    comment.setPostId(commentNode.path(3).asText());
-                    comment.setCommenterId(commentNode.path(4).asLong());
-                    comment.setTimeStamp(commentNode.path(5).asLong());
-                    comments.add(comment);
-                }
-
-                postAndComments.add(new PostAndComments(p, comments));
-            }
+        List<PostAndComments> postAndComments = new ArrayList<>();
+        for(PostAndComments p : parseToPostAndComment(json)){
+            if(p.getPost().getAuthorId().equals(id)) postAndComments.add(p);
+        }
         return postAndComments;
     }
 
+    public static List<PostAndComments> getMainWall(String id) {
+        JsonNode json = APICall.callAPI(GET_POST_WALL_CALL + id);
+        return parseToPostAndComment(json);
+    }
 
-    public static List<PostAndComments> search(String keyword){
+
+    public static List<PostAndComments> search(String keyword) {
         JsonNode json = APICall.callAPI(SEARCH_POST_CALL + keyword);
-        List<PostAndComments> postAndComments = new ArrayList<>();
+        return parseToPostAndComment(json);
+    }
+
+    public static void changeSecurity(String postID, String security){
+        APICall.callAPI(CHANGE_SECURITY + postID+"/"+security);
+    }
+
+    private static List<PostAndComments> parseToPostAndComment(JsonNode json){
+        List<PostAndComments> postAndComments = new ArrayList<PostAndComments>();
         for (JsonNode node : json) {
             Post p = new Post();
             JsonNode postNode = node.path("post");
@@ -213,7 +202,8 @@ public class Post {
             p.setTimestamp(postNode.path("timeStamp").asLong());
             p.setAuthorId(postNode.path("authorID").asText());
             p.setNumOfLikes(postNode.path("likes").asInt());
-            JsonNode commentNodes = node.get("comments");
+            p.setSecurtiry(postNode.path("security").asText());
+            JsonNode commentNodes = node.path("comments");
             List<Comment> comments = new ArrayList<Comment>();
             for (JsonNode commentNode : commentNodes) {
                 Comment comment = new Comment();
@@ -231,7 +221,7 @@ public class Post {
         return postAndComments;
     }
 
-    public static List<Post> getPopular(){
+    public static List<Post> getPopular() {
         JsonNode json = APICall.callAPI(POPULAR_POST_CALL);
         List<Post> posts = new ArrayList<>();
         for (JsonNode node : json) {
@@ -241,12 +231,12 @@ public class Post {
             p.setTimestamp(node.path("timeStamp").asLong());
             p.setAuthorId(node.path("authorID").asText());
             p.setNumOfLikes(node.path("likes").asInt());
+            p.setSecurtiry(node.path("security").asText());
             posts.add(p);
             System.out.println(posts);
         }
         return posts;
     }
-
 
 
     @Override

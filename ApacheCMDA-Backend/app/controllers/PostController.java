@@ -77,12 +77,28 @@ public class PostController extends Controller {
      * @param id
      * @return
      */
-    public Result getPersonalPostWall(long id) {
+    public Result getPersonalMainWall(long id) {
         //add both the post of id itself and its following users
         List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
         List<PostAndComment> postAndComments = new ArrayList<PostAndComment>();
         for (Following f : followingList) posts.addAll(postRepository.findPost(f.getTarget()));
+        Collections.sort(posts);
+        for (Post p : posts) {
+            String security = p.getSecurity();
+            if (security != null && (p.getAuthorID() != id && p.getSecurity().equals("private"))) continue;
+            User user = userRepository.findByID(p.getAuthorID());
+            p.setAuthorName(user.getUserName());
+            List<Comment> comments = postRepository.findComment(p.getId());
+            postAndComments.add(new PostAndComment(p, comments));
+        }
+        return ok(new Gson().toJson(postAndComments));
+    }
+
+    public Result getHomeWall(long id) {
+        //add both the post of id itself and its following users
+        List<Post> posts = new ArrayList<>(postRepository.findPost(id));
+        List<PostAndComment> postAndComments = new ArrayList<PostAndComment>();
         Collections.sort(posts);
         for (Post p : posts) {
             User user = userRepository.findByID(p.getAuthorID());
@@ -109,11 +125,12 @@ public class PostController extends Controller {
         // Parse JSON file
         String author = json.path("authorId").asText();
         String content = json.path("content").asText();
-
+        String security = json.path("security").asText();
         try {
             long authorId = Long.parseLong(author);
             long time = System.currentTimeMillis();
             Post post = new Post(authorId, content, 0, time);
+            post.setSecurity(security);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
             latestID++;
@@ -197,6 +214,14 @@ public class PostController extends Controller {
         postRepository.delete(post);
         searchController.deletePost(postIdLong);
         return ok("post: " + postId + " is deleted");
+    }
+
+    public Result changeSecurity(String postID, String security) {
+        List<Post> posts = postRepository.findPostByPostID(Long.valueOf(postID));
+        Post p = posts.get(0);
+        p.setSecurity(security);
+        postRepository.save(p);
+        return ok("security: change to " + p.getSecurity());
     }
 
     private class likesComparator implements Comparator<Post> {

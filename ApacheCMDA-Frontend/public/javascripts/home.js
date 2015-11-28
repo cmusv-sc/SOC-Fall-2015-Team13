@@ -15,3 +15,8 @@ $(document).ready(function() {
 		$( "#followers" ).css( "display", "none" );
 	};
 });
+
+function changeSecurity(postID, sel) {
+	$.get("/network/post/changeSecurity/"+postID+"/"+sel.value, function(data, status) {
+	});
+}
