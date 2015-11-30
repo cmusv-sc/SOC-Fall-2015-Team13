@@ -213,66 +213,71 @@ limitations under the License. *
                           <button data-value="@postAndComments.getPost.getId" class="btn btn-primary delete_button">
                             Delete</button>
                         </div>
-                        <div id="post_update_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1" style="display: none">
-                          <button data-value="@postAndComments.getPost.getId" class="btn btn-primary update_button">Update</button>
+                        <div id="post_update_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1" style="display : none">
+                          <button data-value="@postAndComments.getPost.getId" class="btn btn-primary update_button">
+                            Update</button>
                         </div>
-                        </div>
-                        <select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
-                          @if(postAndComments.getPost.getSecurtiry.equals("public")) {
-                            <option value="public" selected="selected">Public</option>
-                          }else{
-                            <option value="public">public</option>
-                          }
-                          @if(postAndComments.getPost.getSecurtiry.equals("private")) {
-                            <option value="private" selected="selected">private</option>
-                          }else{
-                            <option value="private">private</option>
-                        </select>
                       }
-
+                    </div>
+                    @if(postAndComments.getPost.getAuthorId.equals(viewerId)) {
+                      <div class="row">
+                        <div class="col-sm-1 col-lg-2 col-md-2">
+                          <select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
+                            @if(postAndComments.getPost.getSecurtiry.equals("public")) {
+                              <option value="public" selected="selected">Public</option>
+                            }else{
+                              <option value="public">public</option>
+                            }
+                            @if(postAndComments.getPost.getSecurtiry.equals("private")) {
+                              <option value="private" selected="selected">private</option>
+                            }else {
+                              <option value="private">private</option>
+                            }
+                          </select>
+                        </div>
+                      </div>
                     }
-                  </div>
 
                   <hr>
-                  <div id="comment_@postAndComments.getPost.getId">
-                  @for(comment <- postAndComments.getComments) {
-                    <div class="row">
-                      <div class="col-sm-2 col-md-2 col-lg-2">
-                        <div class="thumbnail">
-                          <img class="img-responsive user-photo"
-                          src="/assets/images/comment.png">
-                        </div>
-                      </div>
-
-                      <div class="col-sm-10 col-lg-10 col-md-10">
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
-                            <strong>@comment.getAuthorName</strong> <span class="text-muted">
-                            commented at @TimeConvert.format(comment.getTimeStamp)</span>
+                      <div id="comment_@postAndComments.getPost.getId">
+                      @for(comment <- postAndComments.getComments) {
+                        <div class="row">
+                          <div class="col-sm-2 col-md-2 col-lg-2">
+                            <div class="thumbnail">
+                              <img class="img-responsive user-photo"
+                              src="/assets/images/comment.png">
+                            </div>
                           </div>
+
+                          <div class="col-sm-10 col-lg-10 col-md-10">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <strong>@comment.getAuthorName</strong> <span class="text-muted">
+                                commented at @TimeConvert.format(comment.getTimeStamp)</span>
+                              </div>
+                              <div class="panel-body">
+                                @comment.getContent
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr>
+                      }
+                        <div class="row">
                           <div class="panel-body">
-                            @comment.getContent
+                            <input type="text" id="userComment_@postAndComments.getPost.getId" class="form-control input-sm chat-input"
+                            placeholder="Write your comment here..." />
+
+                            <hr>
+                            <div class="input-group-btn col-sm-offset-10 col-md-offset-10 col-lg-offset-10 col-md-2 col-lg-2 col-sm-2">
+                              <button data-value="@postAndComments.getPost.getId" class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-comment"></span>Add Comment</button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <hr>
-                  }
-                  </div>
-                  <div class="row">
-                    <div class="panel-body">
-                      <input type="text" id="userComment_@postAndComments.getPost.getId" class="form-control input-sm chat-input"
-                      placeholder="Write your comment here..." />
-
-                      <hr>
-                      <div class="input-group-btn col-sm-offset-10 col-md-offset-10 col-lg-offset-10 col-md-2 col-lg-2 col-sm-2">
-                        <button data-value="@postAndComments.getPost.getId" class="btn btn-primary btn-sm">
-                          <span class="glyphicon glyphicon-comment"></span>Add Comment</button>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
+              </div>
               }
               </div>
 
