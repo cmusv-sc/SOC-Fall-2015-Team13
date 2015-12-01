@@ -126,10 +126,11 @@ public class PostController extends Controller {
         String author = json.path("authorId").asText();
         String content = json.path("content").asText();
         String security = json.path("security").asText();
+        String location = json.path("location").asText();
         try {
             long authorId = Long.parseLong(author);
             long time = System.currentTimeMillis();
-            Post post = new Post(authorId, content, 0, time);
+            Post post = new Post(authorId, content, 0, time, location);
             post.setSecurity(security);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
