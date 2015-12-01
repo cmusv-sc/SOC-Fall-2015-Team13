@@ -192,6 +192,7 @@ public class Post {
 
 
     public static List<PostAndComments> search(String viewerID, String keyword) {
+        if(keyword.trim().equals("")) return  new ArrayList<PostAndComments>();
         JsonNode json = APICall.callAPI(SEARCH_POST_CALL +viewerID+"/"+keyword);
         return parseToPostAndComment(json);
     }

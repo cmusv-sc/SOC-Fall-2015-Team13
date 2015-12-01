@@ -36,15 +36,29 @@ public class ProfileController extends Controller {
             e.printStackTrace();
         }
         User user = User.get(viewerId);
-        return ok(profile.render(user, userForm));
+        return ok(profile.render(user, userForm, viewerId));
     }
 
     public static Result get(String id) {
         User user = User.get(id);
-        return ok(profile.render(user, userForm));
+        String viewerId = null;
+        try {
+            viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
+        return ok(profile.render(user, userForm, viewerId));
     }
 
     public static Result update(String id) {
+        String viewerId = null;
+        try {
+            viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
         Form<User> dc = userForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
         jsonData.put("firstName", dc.field("firstname").value());
@@ -57,7 +71,7 @@ public class ProfileController extends Controller {
         jsonData.put("url", dc.field("url").value());
         User.update(id, jsonData);
         User user = User.get(id);
-        return ok(profile.render(user, userForm));
+        return ok(profile.render(user, userForm, viewerId));
 
     }
 

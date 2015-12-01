@@ -25,6 +25,6 @@ public interface PostRepository extends CrudRepository<Post, Long> {
     @Query(value = "select c.id, c.authorName, c.content, c.postId, c.commenterId, c.timeStamp from Comment c where c.postId=? order by c.timeStamp asc", nativeQuery = true)
     List<Comment> findComment(long id);
 
-    @Query(value = "select ifnull(min(p.id), 0) from Post p  order by p.id desc limit 1", nativeQuery = true)
+    @Query(value = "select ifnull(max(p.id), 0) from Post p  order by p.id desc limit 1", nativeQuery = true)
     long latestID();
 }

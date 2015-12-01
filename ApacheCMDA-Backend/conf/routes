@@ -84,4 +84,4 @@ GET           /searchFuzzy/user/:field/:keyword                                 
 GET           /searchExactly/user/:field/:keyword                                           @controllers.SearchController.exactlySearch(keyword: String, field: String)
 
 # Search for Post
-GET           /search/post/:viewerID/:keyword                                                @controllers.SearchController.searchPost(viewerID: String, keyword: String)
+GET           /search/post/:viewerID/:keyword                                               @controllers.SearchController.searchPost(viewerID: String, keyword: String)

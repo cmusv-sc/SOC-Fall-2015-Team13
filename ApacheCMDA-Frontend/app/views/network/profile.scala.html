@@ -14,8 +14,10 @@
 * See the License for the specific language governing permissions and *
 * limitations under the License. *
 *******************************************************************************@
-@(user: User, userForm: play.data.Form[User])
-
+@(user: User, userForm: play.data.Form[User], viewerId: String)
+@disable(user: User, viewerID: String) = @{
+    if(!String.valueOf(user.getId).equals(viewerID)){"disabled"}
+}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -82,49 +84,51 @@
             <form class="form-horizontal" action="/network/home/profile/update/@user.getId " method="POST" id="logForm">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Image URL</span>
-                    <input type="text" class="form-control" name="url" value="@user.getUrl" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="url" value="@user.getUrl" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">First Name</span>
-                    <input type="text" class="form-control" name="firstname" value="@user.getFirstName" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="firstname" value="@user.getFirstName" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Last Name</span>
-                    <input type="text" class="form-control" name="lastname" value="@user.getLastName" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="lastname" value="@user.getLastName" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Email</span>
-                    <input type="text" class="form-control" name="email" value="@user.getEmail" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="email" value="@user.getEmail" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Affiliation</span>
-                    <input type="text" class="form-control" name="affiliation" value="@user.getAffiliation" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="affiliation" value="@user.getAffiliation" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Title</span>
-                    <input type="text" class="form-control" name="title" value="@user.getTitle" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="title" value="@user.getTitle" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">PhoneNumber</span>
-                    <input type="text" class="form-control" name="phonenumber" value="@user.getPhoneNumber" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="phonenumber" value="@user.getPhoneNumber" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Research Fields</span>
-                    <input type="text" class="form-control" name="researchfields" value="@user.getResearchFields" aria-describedby="sizing-addon1">
+                    <input type="text" class="form-control" name="researchfields" value="@user.getResearchFields" aria-describedby="sizing-addon1" @disable(user, viewerId)>
                 </div>
                 <br>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                @if(String.valueOf(user.getId).equals(viewerId)) {
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
                     </div>
-                </div>
+                }
             </form>
     </body>
 </html>
