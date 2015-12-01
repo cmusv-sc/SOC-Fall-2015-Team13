@@ -74,6 +74,7 @@ public class SearchController extends Controller {
     public Result searchPost(String viewerID, String keyword) {
         List<PostAndComment> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
+        if(keyword.trim().equals("")) return ok(new Gson().toJson(result));
         try {
             ids = searchPost.basicSearch(parse(keyword), SearchMode.EXACTLY_MATCH, "content");
         } catch (Exception e) {
