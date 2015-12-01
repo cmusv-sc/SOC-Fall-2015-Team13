@@ -76,6 +76,11 @@ public class HomeController extends Controller {
         return ok(home.render(User.get(id), userForm, users, viewerId, postAndComments, follow));
     }
 
+    public static Result logout() {
+        session().remove("current_user");
+        return redirect("/login");
+    }
+
     public static Result login() {
         Form<User> dc = userForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
