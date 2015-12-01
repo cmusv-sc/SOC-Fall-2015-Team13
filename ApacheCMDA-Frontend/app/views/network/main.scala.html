@@ -211,6 +211,27 @@ limitations under the License. *
                           <button data-value="@postAndComments.getPost.getId" class="btn btn-primary update_button">
                             Update</button>
                         </div>
+                      }else {
+                        <div id="post_share_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1">
+                            <button data-value="@postAndComments.getPost.getId" data-toggle="modal" data-target="#newShare" class="btn btn-primary share_button">
+                            Share</button>
+                            <div class="modal fade" id="newShare" tabindex="-1" role="dialog" aria-labelledby="newAnnouncementLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="newAnnouncementLabel">You are about to share this post</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" data-value="@postAndComments.getPost.getId" data-dismiss="modal" class="btn btn-primary">Share</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                       }
                     </div>
                     @if(postAndComments.getPost.getAuthorId.equals(viewerId)) {

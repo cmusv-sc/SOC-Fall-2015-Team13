@@ -22,6 +22,7 @@ POST        /network/home/profile/update/:id                 controllers.Profile
 POST        /network/home/newPost                            controllers.PostController.newPost()
 POST        /network/post/delete                             controllers.PostController.deletePost()
 POST        /network/post/update                             controllers.PostController.updatePost()
+POST        /network/post/share                              controllers.PostController.sharePost()
 POST        /network/comment                                 controllers.PostController.addComment()
 GET         /network/post/changeSecurity/:postID/:security        controllers.PostController.changeSecurity(postID: String, security: String)
 

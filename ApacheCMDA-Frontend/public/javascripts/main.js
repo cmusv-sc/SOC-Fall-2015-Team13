@@ -8,6 +8,14 @@ $(function(){
         });
     });
 
+    $(".modal-footer .btn-primary").click(function(){
+        var postId = $(this).attr("data-value");
+        $.post("/network/post/share", {"postId": postId}, function(data) {
+
+        });
+
+    });
+
     $("#postList .panel-default .panel-body .row div .fa-thumbs-o-up").click(function() {
         var likes = $(this).attr("data-value");
         var postId = $(this).attr("title");

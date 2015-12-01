@@ -52,6 +52,7 @@ public class Post {
     private static final String GET_POSTANDCOMMENT_CALL = Constants.NEW_BACKEND + "post/home/";
     private static final String DELETE_POST_CALL = Constants.NEW_BACKEND + "post/delete";
     private static final String UPDATE_POST_CALL = Constants.NEW_BACKEND + "post/update";
+    private static final String SHARE_POST_CALL = Constants.NEW_BACKEND + "post/share";
     private static final String SEARCH_POST_CALL = Constants.NEW_BACKEND + "search/post/";
     private static final String POPULAR_POST_CALL = Constants.NEW_BACKEND + "post/popular/";
     private static final String CHANGE_SECURITY = Constants.NEW_BACKEND + "post/changeSecurity/";
@@ -153,6 +154,16 @@ public class Post {
      */
     public static JsonNode delete(JsonNode jsonData) {
         return APICall.postAPI(DELETE_POST_CALL, jsonData);
+    }
+
+    /**
+     * Share a post
+     *
+     * @param jsonData
+     * @return the response from the API server
+     */
+    public static JsonNode share(JsonNode jsonData) {
+        return APICall.postAPI(SHARE_POST_CALL, jsonData);
     }
 
     /**

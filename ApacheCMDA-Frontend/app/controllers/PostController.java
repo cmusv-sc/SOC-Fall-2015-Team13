@@ -104,6 +104,25 @@ public class PostController extends Controller {
         return ok("deleted");
     }
 
+    public static Result sharePost() {
+        Form<Post> dc = postForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        try {
+            jsonData.put("postId", dc.field("postId").value());
+            jsonData.put("sharerId", session("current_user"));
+            JsonNode response = Post.share(jsonData);
+            Application.flashMsg(response);
+        }catch(IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
+        }
+        return ok("post shared");
+    }
+
     public static Result addComment() {
         Form<Comment> dc = commentForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();

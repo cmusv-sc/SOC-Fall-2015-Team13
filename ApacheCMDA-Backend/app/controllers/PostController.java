@@ -42,6 +42,7 @@ public class PostController extends Controller {
     private FollowingRepository followingRepository;
     private UserRepository userRepository;
     private CommentRepository commentRepository;
+    private ShareRepository shareRepository;
     private SearchController searchController;
     private long latestID = 0;
     private int topK = 10;
@@ -51,11 +52,12 @@ public class PostController extends Controller {
     @Inject
     public PostController(PostRepository postRepository, FollowingRepository followingRepository,
                           UserRepository userRepository, CommentRepository commentRepository,
-                          SearchController searchController) {
+                          SearchController searchController, ShareRepository shareRepository) {
         this.postRepository = postRepository;
         this.followingRepository = followingRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
+        this.shareRepository = shareRepository;
         this.searchController = searchController;
         latestID = this.postRepository.latestID();
     }
@@ -153,6 +155,29 @@ public class PostController extends Controller {
         }
     }
 
+    public Result sharePost() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("Post not identified, expecting Json data");
+            return badRequest("Post not identified, expecting Json data");
+        }
+
+        String postId = json.path("postId").asText();
+        long postIdLong = new Long(postId);
+        Post post = postRepository.findOne(postIdLong);
+        if (post == null) {
+            System.out.println("post not found with id: " + postId);
+            return notFound("post not found with id: " + postId);
+        }
+
+        long sharerId = Long.parseLong(json.path("sharerId").asText());
+        User sharer = userRepository.findOne(sharerId);
+        Share newShare = new Share(post, sharer);
+        shareRepository.save(newShare);
+        System.out.println("Share successfully saved: " + newShare.getId());
+        return created(new Gson().toJson(newShare.getId()));
+
+    }
     public Result updatePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
