@@ -118,7 +118,7 @@ public class Post {
         this.authorName = authorName;
     }
 
-    public String getSecurtiry() {
+    public String getSecurity() {
         return securtiry;
     }
 

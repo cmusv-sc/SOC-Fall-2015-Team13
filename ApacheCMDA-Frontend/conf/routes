@@ -12,7 +12,7 @@ GET         /login                                           controllers.LoginCo
 POST        /signup/newUser                                  controllers.SignupController.newUser()
 GET         /network/home/myhome                             controllers.HomeController.myHome()
 GET         /network/home/:id                                controllers.HomeController.home(id: String)
-GET         /network/main/:id                                controllers.MainController.home(id: String)
+GET         /network/main                                    controllers.MainController.myHome()
 POST        /network/home                                    controllers.HomeController.login()
 GET         /network/logout                                  controllers.HomeController.logout()
 GET         /network/followers/:id                           controllers.HomeController.followers(id: String)
@@ -69,5 +69,5 @@ GET         /network/search/go/:source/:target               controllers.SearchC
 POST        /network/search/post/:id                         controllers.SearchController.searchPost(id: String)
 
 #Criteria
-GET         /network/criteria/:id                            controllers.CriteriaController.home(id: String)
+GET         /network/criteria                                controllers.CriteriaController.myHome()
 GET         /network/criteria/search/:id                     controllers.CriteriaController.search(id: String)

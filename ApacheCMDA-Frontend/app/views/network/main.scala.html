@@ -219,12 +219,12 @@ limitations under the License. *
                       <div class="row">
                         <div class="col-sm-2 col-lg-2 col-md-2">
                           <select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
-                            @if(postAndComments.getPost.getSecurtiry.equals("public")) {
+                            @if(postAndComments.getPost.getSecurity.equals("public")) {
                               <option value="public" selected="selected">Public</option>
                             }else{
                               <option value="public">public</option>
                             }
-                            @if(postAndComments.getPost.getSecurtiry.equals("private")) {
+                            @if(postAndComments.getPost.getSecurity.equals("private")) {
                               <option value="private" selected="selected">private</option>
                             }else {
                               <option value="private">private</option>
