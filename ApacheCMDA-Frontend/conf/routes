@@ -16,6 +16,7 @@ GET         /network/main/:id                                controllers.MainCon
 POST        /network/home                                    controllers.HomeController.login()
 GET         /network/logout                                  controllers.HomeController.logout()
 GET         /network/followers/:id                           controllers.HomeController.followers(id: String)
+GET         /network/home/profile/myProfile                  controllers.ProfileController.myProfile()
 GET         /network/home/profile/:id                        controllers.ProfileController.get(id: String)
 POST        /network/home/profile/update/:id                 controllers.ProfileController.update(id: String)
 POST        /network/home/newPost                            controllers.PostController.newPost()
