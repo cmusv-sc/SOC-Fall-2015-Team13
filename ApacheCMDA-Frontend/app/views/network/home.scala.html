@@ -140,6 +140,7 @@ limitations under the License. *
 				<!-- /top nav -->
 				<div class="full col-sm-12">
 					<div id="post" class="row">
+						@if(viewerId.equals(String.valueOf(user.getId))){
 						<form class="form-horizontal panel panel-default"
 							action="@routes.PostController.newPost()" method="POST"
 							id="postForm">
@@ -172,6 +173,7 @@ limitations under the License. *
 								<input type="hidden" name="authorId" value="@user.getId">
 							</div>
 						</form>
+						}
 						<div id="postList">
 						@for(postAndComments <- postsAndComments) {
 							<div id="post_@postAndComments.getPost.getId" class="panel panel-default">
@@ -183,7 +185,9 @@ limitations under the License. *
 										<div id="post_original_content_@postAndComments.getPost.getId" class="col-sm-9 col-md-9 col-lg-9">
 										@postAndComments.getPost.getContent
 										</div>
-										<div data-value="@postAndComments.getPost.getId" class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
+										@if(postAndComments.getPost.getAuthorId.equals(viewerId)) {
+											<div data-value="@postAndComments.getPost.getId" class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
+										}
 									</div>
 									<div id="post_edit_@postAndComments.getPost.getId" class="row" style="display:none">
 										<div class="col-sm-2 col-md-2 col-lg-2">
@@ -217,29 +221,36 @@ limitations under the License. *
 											<div data-value="@postAndComments.getPost.getNumOfLikes" title="@postAndComments.getPost.getId"
 											class="fa fa-thumbs-o-up fa-lg cursor" style="margin-top:15px"></div>
 										</div>
-										<div id="post_delete_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1">
-											<button data-value="@postAndComments.getPost.getId" class="btn btn-primary delete_button">Delete</button>
-										</div>
-										<div id="post_update_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1" style="display: none">
-											<button data-value="@postAndComments.getPost.getId" class="btn btn-primary update_button">Update</button>
-										</div>
+										@if(postAndComments.getPost.getAuthorId.equals(viewerId)) {
+											<div id="post_delete_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1">
+												<button data-value="@postAndComments.getPost.getId" class="btn btn-primary delete_button">
+													Delete</button>
+											</div>
+											<div id="post_update_@postAndComments.getPost.getId" class="col-sm-offset-10 col-sm-1" style="display : none">
+												<button data-value="@postAndComments.getPost.getId" class="btn btn-primary update_button">
+													Update</button>
+											</div>
+										}
 									</div>
-									<div class="row">
-										<div class="col-lg-2 col-md-2 col-sm-2">
-											<select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
-												@if(postAndComments.getPost.getSecurtiry.equals("public")) {
-													<option value="public" selected="selected">Public</option>
-												}else{
-													<option value="public">public</option>
-												}
-												@if(postAndComments.getPost.getSecurtiry.equals("private")) {
-													<option value="private" selected="selected">private</option>
-												}else{
-													<option value="private">private</option>
-												}
-											</select>
+									@if(postAndComments.getPost.getAuthorId.equals(viewerId)) {
+										<div class="row">
+											<div class="col-sm-2 col-lg-2 col-md-2">
+												<select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
+													@if(postAndComments.getPost.getSecurtiry.equals("public")) {
+														<option value="public" selected="selected">Public</option>
+													}else{
+														<option value="public">public</option>
+													}
+													@if(postAndComments.getPost.getSecurtiry.equals("private")) {
+														<option value="private" selected="selected">private</option>
+													}else {
+														<option value="private">private</option>
+													}
+												</select>
+											</div>
+											<div class="col-sm-10 col-lg-10 col-md-10"></div>
 										</div>
-									</div>
+									}
 									<hr>
 									<div id="comment_@postAndComments.getPost.getId">
 										@for(comment <- postAndComments.getComments) {
