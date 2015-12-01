@@ -71,7 +71,7 @@ public class SearchController extends Controller {
         searchUser.updateUser(id, user);
     }
 
-    public Result searchPost(String keyword) {
+    public Result searchPost(String viewerID, String keyword) {
         List<PostAndComment> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();
         try {
@@ -83,6 +83,8 @@ public class SearchController extends Controller {
             List<Post> posts = postRepository.findPostByPostID(Long.valueOf(id));
             List<PostAndComment> postAndComments = new ArrayList<>();
             for (Post p : posts) {
+                String security = p.getSecurity();
+                if (security != null && (p.getAuthorID()!=Long.parseLong(viewerID)&& p.getSecurity().equals("private"))) continue;
                 User user = userRepository.findByID(p.getAuthorID());
                 p.setAuthorName(user.getUserName());
                 List<Comment> comments = postRepository.findComment(p.getId());

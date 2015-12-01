@@ -46,7 +46,7 @@ public class SearchController extends Controller {
         Form<User> dc = userForm.bindFromRequest();
         String keyword = dc.field("srch-term").value();
         keyword = keyword.replaceAll(" ", "_");
-        List<PostAndComments> searchedResult = Post.search(keyword);
+        List<PostAndComments> searchedResult = Post.search(viewerId, keyword);
         return ok(searchPost.render(user, userForm, users, viewerId, searchedResult, follow));
     }
 
