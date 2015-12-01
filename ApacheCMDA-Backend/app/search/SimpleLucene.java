@@ -28,6 +28,7 @@ public class SimpleLucene {
     IndexWriter w;
 
     public SimpleLucene() throws IOException {
+        config.setMaxBufferedDocs(2);
         w = new IndexWriter(index, config);
     }
 
@@ -43,6 +44,7 @@ public class SimpleLucene {
     public void appendPost(long id, String content) {
         try {
             Document doc = new Document();
+            System.out.println("Post Append "+content + " "+ String.valueOf(id));
             doc.add(new TextField("content", content, Field.Store.YES));
             doc.add(new TextField("id", String.valueOf(id), Field.Store.YES));
             w.addDocument(doc);
