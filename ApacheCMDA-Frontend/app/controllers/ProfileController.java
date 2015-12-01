@@ -27,6 +27,18 @@ import views.html.network.*;
 public class ProfileController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
+    public static Result myProfile() {
+        String viewerId = null;
+        try {
+            viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
+        User user = User.get(viewerId);
+        return ok(profile.render(user, userForm));
+    }
+
     public static Result get(String id) {
         User user = User.get(id);
         return ok(profile.render(user, userForm));

@@ -29,11 +29,20 @@ import java.util.List;
 public class MainController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
-    public static Result home(String id) {
-        User user = User.get(id);
-        List<PostAndComments> postAndComments = Post.getMainWall(id);
-        List<User> users = User.getFollowers(id);
-        String viewerId = session("current_user");
+    public static Result myHome() {
+        String viewerId = null;
+        try {
+            viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
+        if (viewerId == null || viewerId.isEmpty()) {
+            return redirect("/login");
+        }
+        User user = User.get(viewerId);
+        List<PostAndComments> postAndComments = Post.getMainWall(viewerId);
+        List<User> users = User.getFollowers(viewerId);
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
@@ -43,8 +52,6 @@ public class MainController extends Controller {
                 follow=0;
             }
         }
-
-
         return ok(main.render(user, userForm, users, viewerId, postAndComments, Post.getPopular(), follow));
     }
 }

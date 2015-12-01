@@ -118,7 +118,7 @@ public class Post {
         this.authorName = authorName;
     }
 
-    public String getSecurtiry() {
+    public String getSecurity() {
         return securtiry;
     }
 
@@ -182,8 +182,8 @@ public class Post {
     }
 
 
-    public static List<PostAndComments> search(String keyword) {
-        JsonNode json = APICall.callAPI(SEARCH_POST_CALL + keyword);
+    public static List<PostAndComments> search(String viewerID, String keyword) {
+        JsonNode json = APICall.callAPI(SEARCH_POST_CALL +viewerID+"/"+keyword);
         return parseToPostAndComment(json);
     }
 

@@ -30,16 +30,24 @@ import views.html.network.*;
 public class CriteriaController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
-    public static Result home(String id) {
-        User user = User.get(id);
-        List<PostAndComments> postAndComments = Post.getMainWall(id);
-//        for (Post p : posts) System.out.println(p);
+    public static Result myHome() {
+        String viewerId = null;
+        try {
+            viewerId = session("current_user");
+        } catch (Exception e) {
+            System.out.println("session error");
+            e.printStackTrace();
+        }
+        if (viewerId == null || viewerId.isEmpty()) {
+            return redirect("/login");
+        }
+        User user = User.get(viewerId);
+        List<PostAndComments> postAndComments = Post.getMainWall(viewerId);
         List<Post> posts = new ArrayList<Post>();
         for (PostAndComments pc : postAndComments) {
             posts.add(pc.getPost());
         }
-        List<User> users = User.getFollowers(id);
-        String viewerId = session("current_user");
+        List<User> users = User.getFollowers(viewerId);
         int follow = 1;
         for (User u : users) {
             if (viewerId.equals(String.valueOf(u.getId()))) {

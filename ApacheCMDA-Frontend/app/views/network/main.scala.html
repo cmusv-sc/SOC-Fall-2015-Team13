@@ -74,7 +74,7 @@ limitations under the License. *
     <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
   </head>
   <body>
-    @header(user.getUserName(), user.getId().toString)
+    @header(User.get(viewerId).getUserName, User.get(viewerId).getId.toString)
     <br />
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="row panel wall-paper">
@@ -170,8 +170,6 @@ limitations under the License. *
                       </div>
                       @if(postAndComments.getPost.getAuthorId.equals(viewerId)) {
                         <div data-value="@postAndComments.getPost.getId" class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
-                      }else{
-
                       }
                     </div>
                     <div id="post_edit_@postAndComments.getPost.getId" class="row" style="display:none">
@@ -221,12 +219,12 @@ limitations under the License. *
                       <div class="row">
                         <div class="col-sm-2 col-lg-2 col-md-2">
                           <select class="selectpicker" onchange="changeSecurity(@postAndComments.getPost.getId, this);" data-style="btn-success" name="security" >
-                            @if(postAndComments.getPost.getSecurtiry.equals("public")) {
+                            @if(postAndComments.getPost.getSecurity.equals("public")) {
                               <option value="public" selected="selected">Public</option>
                             }else{
                               <option value="public">public</option>
                             }
-                            @if(postAndComments.getPost.getSecurtiry.equals("private")) {
+                            @if(postAndComments.getPost.getSecurity.equals("private")) {
                               <option value="private" selected="selected">private</option>
                             }else {
                               <option value="private">private</option>
