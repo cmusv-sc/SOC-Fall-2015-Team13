@@ -72,7 +72,7 @@ posts: List[Post], follow:Int)
 <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
 </head>
 <body>
-	@header(user.getUserName(), user.getId().toString)
+	@header(User.get(viewerId).getUserName, User.get(viewerId).getId.toString)
 	<br />
 	<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
 		<div class="row panel wall-paper">
