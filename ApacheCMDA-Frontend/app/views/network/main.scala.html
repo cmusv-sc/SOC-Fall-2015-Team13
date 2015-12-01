@@ -79,14 +79,12 @@ limitations under the License. *
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="row panel wall-paper">
         <div class="col-md-4 bg_blur ">
-
           @if(follow==1){
             <a href="/network/follow/@viewerId/@user.getId" class="follow_btn hidden-xs">
               Follow  </a>}
           @if(follow==0){
             <a href="/network/unfollow/@viewerId/@user.getId" class="follow_btn hidden-xs">
               Unfollow</a>}
-
         </div>
         <div class="col-md-8  col-xs-12">
           <img src="@user.getUrl" class="img-thumbnail picture hidden-xs" />

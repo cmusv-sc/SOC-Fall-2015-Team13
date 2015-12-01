@@ -68,16 +68,16 @@ public class SearchController extends Controller {
     }
 
     public static Result goTo(String source, String target){
+        String viewerId = session("current_user");
         User user = User.get(target);
         List<PostAndComments> postsandComments = Post.get(target);
         List<User> users = User.getFollowers(target);
         int follow=1;
         for(User u : users){
-            if(target.equals(String.valueOf(u.getId()))){
+            if(viewerId.equals(String.valueOf(u.getId()))){
                 follow=0;
             }
         }
-
         return ok(home.render(user, userForm, users, source, postsandComments,follow));
     }
 }
