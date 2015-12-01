@@ -138,7 +138,8 @@ public class PostController extends Controller {
         try {
             long authorId = Long.parseLong(author);
             long time = System.currentTimeMillis();
-            Post post = new Post(authorId, content, 0, time, location);
+            String authorName = userRepository.findOne(authorId).getUserName();
+            Post post = new Post(authorId, content, 0, time, authorName, location);
             post.setSecurity(security);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
