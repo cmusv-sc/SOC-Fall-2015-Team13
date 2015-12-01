@@ -44,6 +44,7 @@ public class PostController extends Controller {
     private CommentRepository commentRepository;
     private SearchController searchController;
     private long latestID = 0;
+    private int topK = 10;
 
     // We are using constructor injection to receive a repository to support our
     // desire for immutability.
@@ -109,10 +110,17 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(postAndComments));
     }
 
-    public Result getPopularPost() {
+    public Result getPopularPost(String viewerID) {
         List<Post> popular = postRepository.findPopularPost();
         Collections.sort(popular, new likesComparator());
-        return ok(new Gson().toJson(popular));
+        List<Post> result = new ArrayList<>();
+        for(Post p : popular){
+            if(result.size()==topK) break;
+            String security = p.getSecurity();
+            if (security != null && (p.getAuthorID()!=Long.parseLong(viewerID)&& p.getSecurity().equals("private"))) continue;
+            result.add(p);
+        }
+        return ok(new Gson().toJson(result));
     }
 
     public Result publishPost() {
