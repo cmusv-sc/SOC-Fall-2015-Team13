@@ -66,7 +66,7 @@ GET           /assets/*file                                                     
 GET           /following/:source                                                            @controllers.FollowingController.getFollowing(source: Long)
 
 # Post
-GET           /post/popular                                                                 @controllers.PostController.getPopularPost
+GET           /post/popular/:id                                                             @controllers.PostController.getPopularPost(id: String)
 GET           /post/:id                                                                     @controllers.PostController.getPost(id: Long)
 GET           /post/home/:id                                                                @controllers.PostController.getHomeWall(id: Long)
 GET           /post/wall/:id                                                                @controllers.PostController.getPersonalMainWall(id: Long)

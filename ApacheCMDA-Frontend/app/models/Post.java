@@ -53,7 +53,7 @@ public class Post {
     private static final String DELETE_POST_CALL = Constants.NEW_BACKEND + "post/delete";
     private static final String UPDATE_POST_CALL = Constants.NEW_BACKEND + "post/update";
     private static final String SEARCH_POST_CALL = Constants.NEW_BACKEND + "search/post/";
-    private static final String POPULAR_POST_CALL = Constants.NEW_BACKEND + "post/popular";
+    private static final String POPULAR_POST_CALL = Constants.NEW_BACKEND + "post/popular/";
     private static final String CHANGE_SECURITY = Constants.NEW_BACKEND + "post/changeSecurity/";
 
     public Post() {
@@ -221,8 +221,8 @@ public class Post {
         return postAndComments;
     }
 
-    public static List<Post> getPopular() {
-        JsonNode json = APICall.callAPI(POPULAR_POST_CALL);
+    public static List<Post> getPopular(String viewerID) {
+        JsonNode json = APICall.callAPI(POPULAR_POST_CALL+viewerID);
         List<Post> posts = new ArrayList<>();
         for (JsonNode node : json) {
             Post p = new Post();
