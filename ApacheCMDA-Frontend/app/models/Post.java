@@ -40,12 +40,12 @@ public class Post {
     private int numOfLikes;
     private long timestamp;
     private String securtiry;
+    private String location;
+    private String authorName;
 
     public static String getADD_POST_CALL() {
         return ADD_POST_CALL;
-    }
-
-    private String authorName;
+    }  
 
     private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post";
     private static final String GET_POST_WALL_CALL = Constants.NEW_BACKEND + "post/wall/";
@@ -64,6 +64,7 @@ public class Post {
         this.content = content;
         this.numOfLikes = 0;
         this.timestamp = System.currentTimeMillis();
+        
     }
 
     public long getId() {
@@ -124,6 +125,14 @@ public class Post {
 
     public void setSecurtiry(String securtiry) {
         this.securtiry = securtiry;
+    }
+    
+    public String getLocation() {
+    	return location;
+    }
+    
+    public void setLocation(String location) {
+    	this.location = location;
     }
 
     /**
@@ -199,6 +208,7 @@ public class Post {
             p.setId(postNode.path("id").asText());
             p.setContent(postNode.path("content").asText());
             p.setAuthorName(postNode.path("authorName").asText());
+            p.setLocation(postNode.path("location").asText());
             p.setTimestamp(postNode.path("timeStamp").asLong());
             p.setAuthorId(postNode.path("authorID").asText());
             p.setNumOfLikes(postNode.path("likes").asInt());
@@ -232,6 +242,7 @@ public class Post {
             p.setAuthorId(node.path("authorID").asText());
             p.setNumOfLikes(node.path("likes").asInt());
             p.setSecurtiry(node.path("security").asText());
+            p.setLocation(node.path("location").asText());
             posts.add(p);
             System.out.println(posts);
         }

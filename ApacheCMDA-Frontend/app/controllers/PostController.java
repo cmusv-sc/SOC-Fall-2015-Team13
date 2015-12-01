@@ -45,6 +45,9 @@ public class PostController extends Controller {
             id = dc.field("authorId").value();
             jsonData.put("content", dc.field("postContent").value());
             jsonData.put("security", dc.field("security").value());
+            if ("yes".equals(dc.field("includeL").value())) {
+            jsonData.put("location", dc.field("location").value());
+            }
             JsonNode response = Post.create(jsonData);
             System.out.println("post created with response: " + response);
             Application.flashMsg(response);
