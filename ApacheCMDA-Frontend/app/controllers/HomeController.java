@@ -78,6 +78,7 @@ public class HomeController extends Controller {
 
     public static Result logout() {
         session().remove("current_user");
+        session().remove("current_token");
         return redirect("/login");
     }
 
@@ -102,6 +103,7 @@ public class HomeController extends Controller {
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
         session("current_user", String.valueOf(user.getId()));
+        session("current_token", user.getToken());
         List<User> users = User.getFollowers(String.valueOf(user.getId()));
         String viewerId = String.valueOf(user.getId());
         int follow = 1;

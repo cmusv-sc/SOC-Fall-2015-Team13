@@ -54,6 +54,7 @@ public class User {
     }
 
     private String url;
+    private String token;
 
     // @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
     // private Set<ClimateService> climateServices = new
@@ -84,13 +85,14 @@ public class User {
     }
 
     public User(String userName, String password, String firstName,
-                String lastName, String affiliation) {
+                String lastName, String affiliation, String token) {
         super();
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.affiliation = affiliation;
+        this.token = token;
     }
 
     public long getId() {
@@ -199,6 +201,14 @@ public class User {
 
     public void setHighestDegree(String highestDegree) {
         this.highestDegree = highestDegree;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

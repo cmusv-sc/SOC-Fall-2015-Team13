@@ -16,11 +16,14 @@
  */
 package controllers;
 
+import authentication.ActionAuthenticator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
+import play.mvc.Security.AuthenticatedAction;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -80,6 +83,7 @@ public class PostController extends Controller {
      * @param id
      * @return
      */
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result getPersonalMainWall(long id) {
         //add both the post of id itself and its following users
         List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
@@ -98,6 +102,7 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(postAndComments));
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result getHomeWall(long id) {
         //add both the post of id itself and its following users
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
@@ -116,6 +121,7 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(postAndComments));
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result getPopularPost(String viewerID) {
         List<Post> popular = postRepository.findPopularPost();
         Collections.sort(popular, new likesComparator());
@@ -129,6 +135,7 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(result));
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result publishPost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -159,6 +166,7 @@ public class PostController extends Controller {
         }
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result sharePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -189,6 +197,8 @@ public class PostController extends Controller {
         return created(new Gson().toJson(newShare.getId()));
 
     }
+
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result updatePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -220,6 +230,7 @@ public class PostController extends Controller {
         return ok("post: " + postId + " is updated");
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result addComment() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -241,6 +252,7 @@ public class PostController extends Controller {
 
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result deletePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -262,6 +274,7 @@ public class PostController extends Controller {
         return ok("post: " + postId + " is deleted");
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result changeSecurity(String postID, String security) {
         List<Post> posts = postRepository.findPostByPostID(Long.valueOf(postID));
         Post p = posts.get(0);

@@ -62,6 +62,8 @@ public class User {
 
     private String url;
 
+    private String token;
+
     private static final String ADD_USER_CALL = Constants.NEW_BACKEND + "users/add";
     private static final String LOGIN_USER_CALL = Constants.NEW_BACKEND + "users/login";
     private static final String UPDATE_USER_CALL = Constants.NEW_BACKEND + "users/update/";
@@ -228,6 +230,14 @@ public class User {
         this.url = url;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 
     /**
      * Create a new user
@@ -339,6 +349,7 @@ public class User {
             user.setTitle(json.path("title").asText());
             user.setPhoneNumber(json.path("phoneNumber").asText());
             user.setUrl(json.path("url").asText());
+            user.setToken(json.path("token").asText());
         } catch (NumberFormatException e) {
             throw new NumberFormatException(json.path("error").asText());
         }

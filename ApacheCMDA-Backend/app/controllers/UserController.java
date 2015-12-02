@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import authentication.ActionAuthenticator;
 import models.Following;
 import models.FollowingRepository;
 import models.User;
@@ -69,13 +70,14 @@ public class UserController extends Controller {
 		String firstName = json.path("firstName").asText();
 		String lastName = json.path("lastName").asText();
 		String affiliation = json.path("affiliation").asText();
+		String token = json.path("token").asText();
 
 		try {
 			if (userRepository.findByUserName(userName).size() > 0) {
 				System.out.println("UserName has been used: " + userName);
 				return badRequest("UserName has been used");
 			}
-			User user = new User(userName, password, firstName, lastName, affiliation);
+			User user = new User(userName, password, firstName, lastName, affiliation, token);
 			userRepository.save(user);
 			System.out.println("User saved: " + user.getId());
 			latestID++;
@@ -88,6 +90,7 @@ public class UserController extends Controller {
 		}
 	}
 
+	// No need to do authentication for this method since we are logging in
 	public Result loginUser() {
 		JsonNode json = request().body().asJson();
 		if (json == null) {
@@ -128,6 +131,7 @@ public class UserController extends Controller {
 		return ok("User is deleted: " + id);
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result updateUser(long id) {
 		request().headers().get("key");
 		JsonNode json = request().body().asJson();
@@ -176,6 +180,7 @@ public class UserController extends Controller {
 		}
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result getUser(Long id, String format) {
 		if (id == null) {
 			System.out.println("User id is null or empty!");

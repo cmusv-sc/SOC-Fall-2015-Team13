@@ -25,9 +25,7 @@ import play.data.Form;
 import util.APICall;
 import views.html.network.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.UUID;
 
 public class SignupController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
@@ -46,9 +44,13 @@ public class SignupController extends Controller {
             jsonData.put("firstName", dc.field("firstName").value());
             jsonData.put("lastName", dc.field("lastName").value());
             jsonData.put("affiliation", dc.field("affiliation").value());
+            String token = UUID.randomUUID().toString();
+            jsonData.put("token", token);
             JsonNode response = User.create(jsonData);
             System.out.println("user created with response: " + response);
             id = response.toString();
+            session("current_user", id);
+            session("current_token", token);
             Application.flashMsg(response);
         } catch (IllegalStateException e) {
             e.printStackTrace();
