@@ -27,4 +27,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
     @Query(value = "select ifnull(max(p.id), 0) from Post p  order by p.id desc limit 1", nativeQuery = true)
     long latestID();
+
+    @Query(value = "select distinct p.* from Post p JOIN (select s.postId as pid from Share s where s.sharerId=?) s on s.pid = p.id", nativeQuery = true)
+    List<Post> findSharedPost(long id);
 }

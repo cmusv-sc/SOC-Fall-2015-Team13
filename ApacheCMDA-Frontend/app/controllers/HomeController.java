@@ -43,7 +43,7 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        List<PostAndComments> postAndComments = Post.getSelfWall(viewerId);
+        List<PostAndComments> postAndComments = Post.get(viewerId);
         List<User> users = User.getFollowers(viewerId);
         int follow=1;
         for(User u : users) {
@@ -65,7 +65,7 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        List<PostAndComments> postAndComments = Post.getSelfWall(id);
+        List<PostAndComments> postAndComments = Post.get(id);
         List<User> users = User.getFollowers(id);
         int follow=1;
         for(User u : users) {

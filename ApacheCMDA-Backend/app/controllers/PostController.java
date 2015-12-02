@@ -101,6 +101,10 @@ public class PostController extends Controller {
     public Result getHomeWall(long id) {
         //add both the post of id itself and its following users
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
+        List<Share> shares = shareRepository.findBySharerId(id);
+        for (Share share :  shares) {
+            posts.add(share.getPost());
+        }
         List<PostAndComment> postAndComments = new ArrayList<PostAndComment>();
         Collections.sort(posts);
         for (Post p : posts) {

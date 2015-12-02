@@ -24,4 +24,5 @@ import javax.inject.Singleton;
 import java.util.List;
 
 public interface ShareRepository extends CrudRepository<Share, Long>{
+    List<Share> findBySharerId(Long sharerId);
 }
