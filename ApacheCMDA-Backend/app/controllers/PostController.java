@@ -175,6 +175,13 @@ public class PostController extends Controller {
         }
 
         long sharerId = Long.parseLong(json.path("sharerId").asText());
+        List<Share> sharedPosts = shareRepository.findBySharerId(sharerId);
+        for (Share share: sharedPosts) {
+            if (share.getPost().getId() == postIdLong) {
+                System.out.println("post " + postIdLong + " has already been shared by the user");
+                return ok("post " + postIdLong + " has already been shared by the user");
+            }
+        }
         User sharer = userRepository.findOne(sharerId);
         Share newShare = new Share(post, sharer);
         shareRepository.save(newShare);
