@@ -185,7 +185,7 @@ limitations under the License. *
 											@postAndComments.getPost.getAuthorName :
 										</div>
 										<div id="post_original_content_@postAndComments.getPost.getId" class="col-sm-9 col-md-9 col-lg-9">
-										@postAndComments.getPost.getContent near @postAndComments.getPost.getLocation
+										@postAndComments.getPost.getContent
 										</div>
 										@if(postAndComments.getPost.getAuthorId.equals(viewerId)) {
 											<div data-value="@postAndComments.getPost.getId" class="col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-pencil cursor"></div>
@@ -250,7 +250,7 @@ limitations under the License. *
 													}
 												</select>
 											</div>
-											<div class="col-sm-10 col-lg-10 col-md-10"></div>
+											<div class="col-sm-10 col-lg-10 col-md-10"> @postAndComments.getPost.getLocation</div>
 										</div>
 									}
 									<hr>
