@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and *
 * limitations under the License. *
 *******************************************************************************@
-@(user: User, userForm: play.data.Form[User], viewerId: String)
+@(user: User, userForm: play.data.Form[User], viewerId: String, follow:Int)
 @disable(user: User, viewerID: String) = @{
     if(!String.valueOf(user.getId).equals(viewerID)){"disabled"}
 }
@@ -68,7 +68,16 @@
         <div class="container" style="margin-top : 20 px ; margin-bottom : 20 px ;">
             <div class="row panel wall-paper">
                 <div class="col-md-4 bg_blur ">
-                    <a href="#" class="follow_btn hidden-xs">Follow</a>
+                @if(!String.valueOf(user.getId).equals(viewerId)) {
+                    @if(follow == 1) {
+                        <a href="/network/follow/@viewerId/@user.getId" class="follow_btn hidden-xs">
+                            Follow  </a>
+                    }
+                    @if(follow == 0) {
+                        <a href="/network/unfollow/@viewerId/@user.getId" class="follow_btn hidden-xs">
+                            Unfollow</a>
+                    }
+                }
                 </div>
                     <div class="col-md-8  col-xs-12">
                         <img src="@user.getUrl" class="img-thumbnail picture hidden-xs" />

@@ -23,6 +23,8 @@ import play.mvc.*;
 import play.data.Form;
 import views.html.network.*;
 
+import java.util.List;
+
 
 public class ProfileController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
@@ -36,7 +38,14 @@ public class ProfileController extends Controller {
             e.printStackTrace();
         }
         User user = User.get(viewerId);
-        return ok(profile.render(user, userForm, viewerId));
+        List<User> users = User.getFollowers(viewerId);
+        int follow = 1;
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
+            }
+        }
+        return ok(profile.render(user, userForm, viewerId, follow));
     }
 
     public static Result get(String id) {
@@ -48,7 +57,14 @@ public class ProfileController extends Controller {
             System.out.println("session error");
             e.printStackTrace();
         }
-        return ok(profile.render(user, userForm, viewerId));
+        List<User> users = User.getFollowers(id);
+        int follow = 1;
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
+            }
+        }
+        return ok(profile.render(user, userForm, viewerId, follow));
     }
 
     public static Result update(String id) {
@@ -71,7 +87,14 @@ public class ProfileController extends Controller {
         jsonData.put("url", dc.field("url").value());
         User.update(id, jsonData);
         User user = User.get(id);
-        return ok(profile.render(user, userForm, viewerId));
+        int follow = 1;
+        List<User> users = User.getFollowers(id);
+        for (User u : users) {
+            if (viewerId.equals(String.valueOf(u.getId()))) {
+                follow = 0;
+            }
+        }
+        return ok(profile.render(user, userForm, viewerId, follow));
 
     }
 

@@ -51,7 +51,7 @@ public class PostSearch {
     public static void main(String[] args) throws Exception {
         PostSearch LuceneSearch = new PostSearch();
         //demo basic search with title contains keyword "semantic || dependency"
-        for (String id: LuceneSearch.basicSearch("apple", SearchMode.EXACTLY_MATCH, "content")) {
+        for (String id: LuceneSearch.basicSearch("good", SearchMode.EXACTLY_MATCH, "content")) {
             System.out.println(id);
         }
     }
