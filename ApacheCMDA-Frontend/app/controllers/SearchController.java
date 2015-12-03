@@ -17,6 +17,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Keyword;
 import models.Post;
 import models.PostAndComments;
 import models.User;
@@ -45,6 +46,7 @@ public class SearchController extends Controller {
         //srch-term
         Form<User> dc = userForm.bindFromRequest();
         String keyword = dc.field("srch-term").value();
+        Keyword.put(keyword);
         keyword = keyword.replaceAll(" ", "_");
         List<PostAndComments> searchedResult = Post.search(viewerId, keyword);
         return ok(searchPost.render(user, userForm, users, viewerId, searchedResult, follow));
@@ -63,6 +65,7 @@ public class SearchController extends Controller {
         //srch-term
         Form<User> dc = userForm.bindFromRequest();
         String keyword = dc.field("srch-term").value();
+        Keyword.put(keyword);
         List<User> searchedResult = User.search(keyword);
         return ok(searchUser.render(user, userForm, users, viewerId, searchedResult, follow));
     }

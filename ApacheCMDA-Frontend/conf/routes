@@ -72,3 +72,7 @@ POST        /network/search/post/:id                         controllers.SearchC
 #Criteria
 GET         /network/criteria                                controllers.CriteriaController.myHome()
 GET         /network/criteria/search/:id                     controllers.CriteriaController.search(id: String)
+
+# Keyword recommendation
+GET         /network/search/keyword/put/:keyword             controllers.KeywordController.put(keyword: String)
+GET         /network/search/keyword/get                      controllers.KeywordController.recommendation()

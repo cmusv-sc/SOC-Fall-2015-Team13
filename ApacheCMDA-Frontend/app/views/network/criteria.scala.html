@@ -54,6 +54,10 @@ posts: List[Post], follow:Int)
 	type="text/javascript"></script>
 <script src='@routes.Assets.at("javascripts/bootstrap.min.js")'
 	type="text/javascript"></script>
+<link rel="stylesheet"
+	href='@routes.Assets.at("stylesheets/awesomplete.css")'>
+<script type='text/javascript'
+	src='@routes.Assets.at("javascripts/awesomplete.js")' async></script>
 <script type='text/javascript'
 	src='@routes.Assets.at("javascripts/lastLoader.js")'></script>
 <script type='text/javascript'
@@ -66,10 +70,20 @@ posts: List[Post], follow:Int)
 	src='@routes.Assets.at("javascripts/jstree.js")'></script>
 <script type='text/javascript'
 	src='@routes.Assets.at("javascripts/keyword_tree.js")'></script>
+<script
+	src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
 <script type='text/javascript'
-	src='@routes.Assets.at("javascripts/home.js")'></script>
+	src='@routes.Assets.at("javascripts/criteria.js")'></script>
 
-<script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
+<link rel="stylesheet"
+	href='@routes.Assets.at("stylesheets/awesomplete.css")'>
+
+<script type='text/javascript'
+	src='@routes.Assets.at("javascripts/awesomplete.js")' async></script>
+
+<script type='text/javascript'
+	src='@routes.Assets.at("javascripts/header.js")'></script>
+
 </head>
 <body>
 	@header(User.get(viewerId).getUserName, User.get(viewerId).getId.toString)
@@ -146,7 +160,7 @@ posts: List[Post], follow:Int)
 											<label for="keyword">
 												Keyword
 											</label>
-											<input type="text" class="form-control"  name="srch-term"/>
+											<input type="text" class="awesomplete" id="srch-term1" name="srch-term"/>
 										</div>
 										<div class="checkbox">
 											<label>
