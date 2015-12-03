@@ -114,10 +114,12 @@ limitations under the License. *
 					<i class="fa fa-thumbs-o-up fa-lg"></i> @user.getTitle
 				</div>
 				<div class="row-md-3 row-xs-3 ">
+				@if(String.valueOf(user.getId).equals(viewerId)) {
 					<i class="fa fa-thumbs-o-up fa-lg"></i> @user.getResearchFields <a
-						class="glyphicon-pencil glyphicon" style="float: right"
-						href="@routes.ProfileController.get(user.getId().toString())">
+					class="glyphicon-pencil glyphicon" style="float : right"
+					href="@routes.ProfileController.get(user.getId().toString())">
 						Edit</a>
+				}
 				</div>
 			</div>
 			<div class="col-md-8 col-xs-12" style="margin: 0px; padding: 0px;">
