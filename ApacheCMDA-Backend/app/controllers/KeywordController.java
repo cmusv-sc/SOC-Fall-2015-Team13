@@ -51,7 +51,7 @@ public class KeywordController extends Controller {
     public Result put(String keyword) {
         keyword = keyword.trim();
         if (keyword.length() == 0) return badRequest("empty keyword");
-        keywordRepository.save(new Keyword(keyword));
+        keywordRepository.save(new Keyword(keyword.replace("_", " ")));
         return ok("keyword:" + keyword + " saved");
     }
 

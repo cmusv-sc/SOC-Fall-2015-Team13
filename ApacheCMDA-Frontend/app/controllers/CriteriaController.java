@@ -82,6 +82,7 @@ public class CriteriaController extends Controller {
         String reseachField = dc.field("researchFields").value();
         String enableFuzzy = dc.field("fuzzy").value();
         String keyword = dc.field("srch-term").value();
+        keyword= keyword.replace(" ","_");
         Keyword.put(keyword);
         if (keyword == null) return ok(searchUser.render(user, userForm, users, viewerId, searchResult, follow));
 
