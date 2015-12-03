@@ -70,7 +70,8 @@ limitations under the License. *
     src='@routes.Assets.at("javascripts/main.js")'></script>
     <script type='text/javascript'
     src='@routes.Assets.at("javascripts/home.js")'></script>
-
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgw45moJnSiqPr1vtXTbWlqBEjLN7YIqw&signed_in=true&callback=initMap"
+	async defer> </script>
     <script src='@routes.Assets.at("javascripts/bootstrap-editable.min.js")'></script>
   </head>
   <body>
@@ -141,7 +142,14 @@ limitations under the License. *
                   <input type="text" class="form-control clearfix"
                   placeholder="What's on your mind?" id="postContent"
                   name="postContent">
-                  <hr>
+                  <input id="location" name="location" type="hidden">
+									<input id="includeL" name="includeL" value="yes" type="hidden">
+								<hr>
+								<div>
+								<input type="checkbox" id="cbox1" checked="checked">
+								<label> Share Location</label>
+								</div>
+								 <div id="map" style="height:200px"></div>
                   <div class="row">
                     <div class="col-sm-2 col-md-2 col-lg-2" id="column-2">
                       <select class="selectpicker" data-style="btn-success" name="security" >
