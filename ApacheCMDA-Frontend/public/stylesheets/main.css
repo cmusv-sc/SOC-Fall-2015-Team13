@@ -20,6 +20,11 @@ border: 1px solid black;
     float:right;
     margin-top:10px
 }
+.share_button
+{
+    float:right;
+    margin-top:10px
+}
 .commenter_color
 {
     color:blue;

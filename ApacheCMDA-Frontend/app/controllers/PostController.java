@@ -45,6 +45,9 @@ public class PostController extends Controller {
             id = dc.field("authorId").value();
             jsonData.put("content", dc.field("postContent").value());
             jsonData.put("security", dc.field("security").value());
+            if ("yes".equals(dc.field("includeL").value())) {
+            jsonData.put("location", dc.field("location").value());
+            }
             JsonNode response = Post.create(jsonData);
             System.out.println("post created with response: " + response);
             Application.flashMsg(response);
@@ -99,6 +102,25 @@ public class PostController extends Controller {
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
         return ok("deleted");
+    }
+
+    public static Result sharePost() {
+        Form<Post> dc = postForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        try {
+            jsonData.put("postId", dc.field("postId").value());
+            jsonData.put("sharerId", session("current_user"));
+            JsonNode response = Post.share(jsonData);
+            Application.flashMsg(response);
+        }catch(IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(APICall.ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
+        }
+        return ok("post shared");
     }
 
     public static Result addComment() {

@@ -22,12 +22,16 @@ public class Post implements Comparable<Post> {
     private long timeStamp;
     //public/private
     private String security = "public";
+    
+    private String location;
 
-    public Post(long author, String content, int likes, long timeStamp) {
+    public Post(long author, String content, int likes, long timeStamp, String name, String location) {
         this.authorID = author;
         this.content = content;
         this.likes = likes;
         this.timeStamp = timeStamp;
+        this.authorName = name;
+        this.location = location;
     }
 
     public Post() {
@@ -89,6 +93,14 @@ public class Post implements Comparable<Post> {
 
     public void setSecurity(String security) {
         this.security = security;
+    }
+    
+    public String getLocation() {
+    	return location;
+    }
+    
+    public void setLocation(String location) {
+    	this.location = location;
     }
 
     @Override

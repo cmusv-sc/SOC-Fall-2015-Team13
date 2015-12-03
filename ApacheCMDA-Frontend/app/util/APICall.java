@@ -22,6 +22,7 @@ import play.libs.Json;
 import play.libs.WS;
 import play.libs.F.Function;
 import play.libs.F.Promise;
+import play.mvc.Http;
 import scala.Console;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -32,12 +33,13 @@ public class APICall {
 	}
 
 	public static JsonNode callAPI(String apiString) {
+		String token = Http.Context.current().session().get("current_token");
 		Logger.info(apiString);
 		int numOfTry = 20;
 
 		while (numOfTry > 0) {
 			Promise<WS.Response> responsePromise = WS
-					.url(apiString).get();
+					.url(apiString).setHeader("X-AUTH-TOKEN", token).get();
 			final Promise<JsonNode> bodyPromise = responsePromise
 					.map(new Function<WS.Response, JsonNode>() {
 						@Override
@@ -75,8 +77,9 @@ public class APICall {
 	}
 	
 	public static JsonNode callAPIParameter(String apiString, String paraName, String para) {
+		String token = Http.Context.current().session().get("current_token");
 		Promise<WS.Response> responsePromise = WS
-				.url(apiString).setQueryParameter(paraName, para).get();
+				.url(apiString).setQueryParameter(paraName, para).setHeader("X-AUTH-TOKEN", token).get();
 		Console.print(responsePromise.get());
 		final Promise<JsonNode> bodyPromise = responsePromise
 				.map(new Function<WS.Response, JsonNode>() {
@@ -103,8 +106,10 @@ public class APICall {
 	}
 	
 	public static JsonNode callAPIParameters(String apiString, String paraName1, String para1, String paraName2, String para2) {
+		String token = Http.Context.current().session().get("current_token");
 		Promise<WS.Response> responsePromise = WS
-				.url(apiString).setQueryParameter(paraName1, para1).setQueryParameter(paraName2, para2).get();
+				.url(apiString).setQueryParameter(paraName1, para1).setQueryParameter(paraName2, para2)
+				.setHeader("X-AUTH-TOKEN", token).get();
 		Console.print(responsePromise.get());
 		final Promise<JsonNode> bodyPromise = responsePromise
 				.map(new Function<WS.Response, JsonNode>() {
@@ -130,9 +135,10 @@ public class APICall {
 	}
 
 	public static JsonNode postAPI(String apiString, JsonNode jsonData) {
+		String token = Http.Context.current().session().get("current_token");
 		int numOfTry = 20;
 		while (numOfTry > 0) {
-			Promise<WS.Response> responsePromise = WS.url(apiString).post(jsonData);
+			Promise<WS.Response> responsePromise = WS.url(apiString).setHeader("X-AUTH-TOKEN", token).post(jsonData);
 			final Promise<JsonNode> bodyPromise = responsePromise
 					.map(new Function<WS.Response, JsonNode>() {
 						@Override
@@ -175,7 +181,8 @@ public class APICall {
 	}
 
 	public static JsonNode putAPI(String apiString, JsonNode jsonData) {
-		Promise<WS.Response> responsePromise = WS.url(apiString).put(jsonData);
+		String token = Http.Context.current().session().get("current_token");
+		Promise<WS.Response> responsePromise = WS.url(apiString).setHeader("X-AUTH-TOKEN", token).put(jsonData);
 		final Promise<JsonNode> bodyPromise = responsePromise
 				.map(new Function<WS.Response, JsonNode>() {
 					@Override

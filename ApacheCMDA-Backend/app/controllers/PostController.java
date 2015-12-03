@@ -16,11 +16,14 @@
  */
 package controllers;
 
+import authentication.ActionAuthenticator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
+import play.mvc.Security.AuthenticatedAction;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -42,6 +45,7 @@ public class PostController extends Controller {
     private FollowingRepository followingRepository;
     private UserRepository userRepository;
     private CommentRepository commentRepository;
+    private ShareRepository shareRepository;
     private SearchController searchController;
     private long latestID = 0;
     private int topK = 10;
@@ -51,11 +55,12 @@ public class PostController extends Controller {
     @Inject
     public PostController(PostRepository postRepository, FollowingRepository followingRepository,
                           UserRepository userRepository, CommentRepository commentRepository,
-                          SearchController searchController) {
+                          SearchController searchController, ShareRepository shareRepository) {
         this.postRepository = postRepository;
         this.followingRepository = followingRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
+        this.shareRepository = shareRepository;
         this.searchController = searchController;
         latestID = this.postRepository.latestID();
     }
@@ -78,6 +83,7 @@ public class PostController extends Controller {
      * @param id
      * @return
      */
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result getPersonalMainWall(long id) {
         //add both the post of id itself and its following users
         List<Following> followingList = followingRepository.findFollowedPeopleByID(id);
@@ -96,9 +102,14 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(postAndComments));
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result getHomeWall(long id) {
         //add both the post of id itself and its following users
         List<Post> posts = new ArrayList<>(postRepository.findPost(id));
+        List<Share> shares = shareRepository.findBySharerId(id);
+        for (Share share :  shares) {
+            posts.add(share.getPost());
+        }
         List<PostAndComment> postAndComments = new ArrayList<PostAndComment>();
         Collections.sort(posts);
         for (Post p : posts) {
@@ -110,6 +121,7 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(postAndComments));
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result getPopularPost(String viewerID) {
         List<Post> popular = postRepository.findPopularPost();
         Collections.sort(popular, new likesComparator());
@@ -123,6 +135,7 @@ public class PostController extends Controller {
         return ok(new Gson().toJson(result));
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result publishPost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -134,10 +147,12 @@ public class PostController extends Controller {
         String author = json.path("authorId").asText();
         String content = json.path("content").asText();
         String security = json.path("security").asText();
+        String location = json.path("location").asText();
         try {
             long authorId = Long.parseLong(author);
             long time = System.currentTimeMillis();
-            Post post = new Post(authorId, content, 0, time);
+            String authorName = userRepository.findOne(authorId).getUserName();
+            Post post = new Post(authorId, content, 0, time, authorName, location);
             post.setSecurity(security);
             postRepository.save(post);
             System.out.println("Post succesfully saved: " + post.getId());
@@ -151,6 +166,39 @@ public class PostController extends Controller {
         }
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result sharePost() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("Post not identified, expecting Json data");
+            return badRequest("Post not identified, expecting Json data");
+        }
+
+        String postId = json.path("postId").asText();
+        long postIdLong = new Long(postId);
+        Post post = postRepository.findOne(postIdLong);
+        if (post == null) {
+            System.out.println("post not found with id: " + postId);
+            return notFound("post not found with id: " + postId);
+        }
+
+        long sharerId = Long.parseLong(json.path("sharerId").asText());
+        List<Share> sharedPosts = shareRepository.findBySharerId(sharerId);
+        for (Share share: sharedPosts) {
+            if (share.getPost().getId() == postIdLong) {
+                System.out.println("post " + postIdLong + " has already been shared by the user");
+                return ok("post " + postIdLong + " has already been shared by the user");
+            }
+        }
+        User sharer = userRepository.findOne(sharerId);
+        Share newShare = new Share(post, sharer);
+        shareRepository.save(newShare);
+        System.out.println("Share successfully saved: " + newShare.getId());
+        return created(new Gson().toJson(newShare.getId()));
+
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result updatePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -182,6 +230,7 @@ public class PostController extends Controller {
         return ok("post: " + postId + " is updated");
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result addComment() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -203,6 +252,7 @@ public class PostController extends Controller {
 
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result deletePost() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -224,6 +274,7 @@ public class PostController extends Controller {
         return ok("post: " + postId + " is deleted");
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result changeSecurity(String postID, String security) {
         List<Post> posts = postRepository.findPostByPostID(Long.valueOf(postID));
         Post p = posts.get(0);

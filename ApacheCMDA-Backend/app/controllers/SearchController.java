@@ -16,10 +16,12 @@
  */
 package controllers;
 
+import authentication.ActionAuthenticator;
 import com.google.gson.Gson;
 import models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import search.PostSearch;
 import search.UserSearch;
 import search.SearchMode;
@@ -71,6 +73,7 @@ public class SearchController extends Controller {
         searchUser.updateUser(id, user);
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result searchPost(String viewerID, String keyword) {
         List<PostAndComment> result = new ArrayList<>();
         List<String> ids = new ArrayList<>();

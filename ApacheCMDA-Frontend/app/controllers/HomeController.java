@@ -43,7 +43,7 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        List<PostAndComments> postAndComments = Post.getSelfWall(viewerId);
+        List<PostAndComments> postAndComments = Post.get(viewerId);
         List<User> users = User.getFollowers(viewerId);
         int follow=1;
         for(User u : users) {
@@ -65,7 +65,7 @@ public class HomeController extends Controller {
         if (viewerId == null || viewerId.isEmpty()) {
             return redirect("/login");
         }
-        List<PostAndComments> postAndComments = Post.getSelfWall(id);
+        List<PostAndComments> postAndComments = Post.get(id);
         List<User> users = User.getFollowers(id);
         int follow=1;
         for(User u : users) {
@@ -78,6 +78,7 @@ public class HomeController extends Controller {
 
     public static Result logout() {
         session().remove("current_user");
+        session().remove("current_token");
         return redirect("/login");
     }
 
@@ -102,6 +103,7 @@ public class HomeController extends Controller {
             Application.flashMsg(APICall.createResponse(APICall.ResponseType.UNKNOWN));
         }
         session("current_user", String.valueOf(user.getId()));
+        session("current_token", user.getToken());
         List<User> users = User.getFollowers(String.valueOf(user.getId()));
         String viewerId = String.valueOf(user.getId());
         int follow = 1;

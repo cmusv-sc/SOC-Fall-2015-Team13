@@ -103,5 +103,11 @@ public class Global extends GlobalSettings {
         public JpaTransactionManager transactionManager() {
             return new JpaTransactionManager();
         }
+
+        @Bean
+        public play.mvc.Security.AuthenticatedAction security$AuthenticatedAction() {
+            return new play.mvc.Security.AuthenticatedAction();
+        }
+
     }
 }
