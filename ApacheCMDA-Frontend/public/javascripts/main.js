@@ -1,20 +1,20 @@
 $(function(){
 
-    $("#postList .panel-default .panel-body .row div .delete_button").click(function(){
-        var postId = $(this).attr("data-value");
-        var divId = "post_"+postId;
-        $.post("/network/post/delete", {"postId": postId}, function(data) {
-            $("#"+divId).hide();
-        });
-    });
-
-    $(".modal-footer .btn-primary").click(function(){
+    $(".modal-footer .share_button_popup").click(function(){
         var postId = $(this).attr("data-value");
         $.post("/network/post/share", {"postId": postId}, function(data) {
 
         });
 
     });
+
+    $(".modal-footer .delete_button_popup").click(function(){
+        var postId = $(this).attr("data-value");
+        var divId = "post_"+postId;
+        $.post("/network/post/delete", {"postId": postId}, function(data) {
+            $("#"+divId).hide();
+        });
+    })
 
     $("#postList .panel-default .panel-body .row div .fa-thumbs-o-up").click(function() {
         var likes = $(this).attr("data-value");
