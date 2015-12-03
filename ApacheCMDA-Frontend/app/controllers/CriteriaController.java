@@ -16,6 +16,7 @@
  */
 package controllers;
 
+import models.Keyword;
 import models.Post;
 import models.PostAndComments;
 import models.User;
@@ -81,6 +82,7 @@ public class CriteriaController extends Controller {
         String reseachField = dc.field("researchFields").value();
         String enableFuzzy = dc.field("fuzzy").value();
         String keyword = dc.field("srch-term").value();
+        Keyword.put(keyword);
         if (keyword == null) return ok(searchUser.render(user, userForm, users, viewerId, searchResult, follow));
 
         Map<User, Integer> map = new HashMap<>();

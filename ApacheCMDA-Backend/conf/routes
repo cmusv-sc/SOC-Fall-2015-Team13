@@ -86,3 +86,7 @@ GET           /searchExactly/user/:field/:keyword                               
 
 # Search for Post
 GET           /search/post/:viewerID/:keyword                                               @controllers.SearchController.searchPost(viewerID: String, keyword: String)
+
+# Keyword recommendation
+GET          /search/keyword/put/:keyword                                                   @controllers.KeywordController.put(keyword: String)
+GET          /search/keyword/get                                                            @controllers.KeywordController.recommendation()
