@@ -16,6 +16,7 @@ $(document).ready(function() {
 	};
 	
 	var ckb = document.getElementById('cbox1');
+	if(ckb!=null){
 	ckb.onclick = function() {
 		if ($( "#cbox1" ).is(":checked")){
 		$( "#map" ).css( "display", "block" );
@@ -26,7 +27,7 @@ $(document).ready(function() {
 			document.getElementById("includeL").value = "no";
 		}
 	};
-	
+	}
 });
 
 function changeSecurity(postID, sel) {
@@ -35,6 +36,8 @@ function changeSecurity(postID, sel) {
 }
 
 function initMap() {
+	var ctlMap = document.getElementById('map');
+	if(ctlMap!=null){
 	  var map = new google.maps.Map(document.getElementById('map'), {
 	    center: {lat: -34.397, lng: 150.644},
 	    zoom: 6
@@ -107,7 +110,7 @@ function initMap() {
 		    handleLocationError(false, infoWindow, map.getCenter());
 		  }
 		}
-
+}
 		function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 		  infoWindow.setPosition(pos);
 		  infoWindow.setContent(browserHasGeolocation ?
