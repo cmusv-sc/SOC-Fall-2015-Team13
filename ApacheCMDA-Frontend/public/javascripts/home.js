@@ -59,12 +59,12 @@ function initMap() {
 	      var latlng = new google.maps.LatLng(pos.lat, pos.lng);
 	      geocoder.geocode({'latLng': latlng}, function(results, status) {
 	        if (status == google.maps.GeocoderStatus.OK) {
-	        //console.log(results);
+	        console.log(results);
 	          if (results[1]) {
 	          var indice=0;
 	          for (var j=0; j<results.length; j++)
 	          {
-	              if (results[j].types[0]=='locality')
+	              if (results[j].types[0]=='locality'||results[j].types[0]=='route' )
 	                  {
 	                      indice=j;
 	                      break;
