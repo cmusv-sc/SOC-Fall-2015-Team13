@@ -23,7 +23,9 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-c3p0" % "4.3.7.Final",
   "org.apache.lucene" % "lucene-analyzers-common" % "5.3.1",
   "org.apache.lucene" % "lucene-core" % "5.3.1",
-  "org.apache.lucene" % "lucene-queryparser" % "5.3.1"
+  "org.apache.lucene" % "lucene-queryparser" % "5.3.1",
+  "org.apache.spark" % "spark-core_2.11" % "1.5.1",
+  "org.apache.spark" % "spark-mllib_2.11" % "1.5.1"
 )
 
 

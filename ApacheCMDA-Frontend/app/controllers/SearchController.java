@@ -30,6 +30,8 @@ import views.html.network.*;
 
 import java.util.List;
 
+import java.util.ArrayList;
+
 public class SearchController extends Controller {
     final static Form<User> userForm = Form.form(User.class);
 
@@ -82,6 +84,8 @@ public class SearchController extends Controller {
                 follow=0;
             }
         }
-        return ok(home.render(user, userForm, users, source, postsandComments,follow));
+
+        List<User> peopleYouMayFollow = new ArrayList<User>();
+        return ok(home.render(user, userForm, users, peopleYouMayFollow, source, postsandComments,follow));
     }
 }

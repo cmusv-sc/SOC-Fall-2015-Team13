@@ -37,11 +37,16 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByEmail(String email);
 
+    List<User> findByCluster(int cluster);
+
     @Query(value = "select u.* from User u where u.id=?", nativeQuery = true)
     User findByID(long id);
 
     @Query(value = "select User.* from User, Following where ((Following.target = ?1) and (User.id = Following.source))", nativeQuery = true)
     List<User> findFollowers(long user_ID);
+
+    @Query(value = "select User.* from User, Following where ((Following.source = ?1) and (User.id = Following.target))", nativeQuery = true)
+    List<User> findFolloweesByUser(long user_ID);
 
     @Query(value = "select ifnull(max(u.id), 0) from User u  order by u.id desc limit 1", nativeQuery = true)
     long latestID();

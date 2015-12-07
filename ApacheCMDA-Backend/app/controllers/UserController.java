@@ -16,10 +16,7 @@
  */
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import authentication.ActionAuthenticator;
 import models.Following;
@@ -46,14 +43,18 @@ public class UserController extends Controller {
 	private final UserRepository userRepository;
 	private final FollowingRepository followingRepository;
 	private SearchController searchController;
+	private MLController mlController;
 	private long latestID = 0;
 	// We are using constructor injection to receive a repository to support our
 	// desire for immutability.
 	@Inject
-	public UserController(final UserRepository userRepository, final FollowingRepository followingRepository, SearchController searchController) {
+	public UserController(final UserRepository userRepository, final FollowingRepository followingRepository, SearchController searchController,
+						  MLController mlController) {
 		this.userRepository = userRepository;
 		this.followingRepository = followingRepository;
 		this.searchController=searchController;
+		this.mlController = mlController;
+		this.mlController.start();
 		this.latestID=userRepository.latestID();
 	}
 
@@ -302,6 +303,31 @@ public class UserController extends Controller {
 		String result = null;
 		if (format.equals("json")) {
 			result = new Gson().toJson(users);
+		}
+		return ok(result);
+	}
+
+	public Result getPeopleYouMayFollow(long id, String format) {
+		User user = userRepository.findOne(id);
+		List<User> interestingResearchers = userRepository.findByCluster(user.getCluster());
+
+		List<User> followees = userRepository.findFolloweesByUser(id);
+		HashSet<Long> userIds = new HashSet<Long>();
+		for (User followee : followees) {
+			userIds.add(followee.getId());
+		}
+
+		List<User> peopleYouMayFollow = new ArrayList<User>();
+
+		for (User interestingResearcher : interestingResearchers) {
+			if (interestingResearcher.getId() != id
+					&& !userIds.contains(interestingResearcher.getId())) {
+				peopleYouMayFollow.add(interestingResearcher);
+			}
+		}
+		String result = null;
+		if (format.equals("json")) {
+			result = new Gson().toJson(peopleYouMayFollow);
 		}
 		return ok(result);
 	}

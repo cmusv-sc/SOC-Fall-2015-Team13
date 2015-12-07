@@ -70,6 +70,7 @@ public class User {
     private static final String GET_USER_CALL = Constants.NEW_BACKEND + "users/";
 
     private static final String GET_FOLLOWERS_CALL = Constants.NEW_BACKEND + "users/getfollowers/";
+    private static final String GET_PEOPLE_YOU_MAY_FOLLOW_CALL = Constants.NEW_BACKEND + "users/getPeopleYouMayFollow/";
     private static final String FOLLOW_CALL = Constants.NEW_BACKEND + "users/follow";
     private static final String UNFOLLOW_CALL = Constants.NEW_BACKEND + "users/unfollow";
     private static final String DEFAULT_SEARCH_CALL = Constants.NEW_BACKEND + "search/user/";
@@ -314,6 +315,24 @@ public class User {
     }
 
 
+    public static List<User> getPeopleYouMayFollow(String id) {
+        JsonNode json = APICall.callAPI(GET_PEOPLE_YOU_MAY_FOLLOW_CALL + id);
+        List<User> peopleYouMayFollow = new ArrayList<User>();
+
+        Iterator<JsonNode> iterator = json.elements();
+        while (iterator.hasNext()) {
+            User user = new User();
+            JsonNode token = iterator.next();
+            user.setId(token.path("id").asText());
+            user.setFirstName(token.path("firstName").asText());
+            user.setLastName(token.path("lastName").asText());
+            user.setResearchFields(token.path("researchFields").asText());
+            user.setTitle(token.path("title").asText());
+            peopleYouMayFollow.add(user);
+        }
+
+        return peopleYouMayFollow;
+    }
     /**
      * Verify the password and get the user
      * <p>

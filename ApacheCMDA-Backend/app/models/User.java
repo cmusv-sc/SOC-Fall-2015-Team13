@@ -55,6 +55,7 @@ public class User {
 
     private String url;
     private String token;
+    private int cluster;
 
     // @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
     // private Set<ClimateService> climateServices = new
@@ -210,6 +211,15 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public int getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(int cluster) {
+        this.cluster = cluster;
+    }
+
 
     @Override
     public String toString() {

@@ -27,6 +27,8 @@ import play.data.Form;
 import util.APICall;
 import views.html.network.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class HomeController extends Controller {
@@ -51,7 +53,9 @@ public class HomeController extends Controller {
                 follow = 0;
             }
         }
-        return ok(home.render(User.get(viewerId), userForm, users, viewerId, postAndComments, follow));
+        List<User> peopleYouMayFollow = User.getPeopleYouMayFollow(viewerId);
+
+        return ok(home.render(User.get(viewerId), userForm, users, peopleYouMayFollow, viewerId, postAndComments, follow));
     }
 
     public static Result home(String id) {
@@ -73,7 +77,9 @@ public class HomeController extends Controller {
                 follow = 0;
             }
         }
-        return ok(home.render(User.get(id), userForm, users, viewerId, postAndComments, follow));
+
+        List<User> peopleYouMayFollow = User.getPeopleYouMayFollow(viewerId);
+        return ok(home.render(User.get(id), userForm, users, peopleYouMayFollow, viewerId, postAndComments, follow));
     }
 
     public static Result logout() {
@@ -113,7 +119,9 @@ public class HomeController extends Controller {
             }
         }
 
-        return ok(home.render(user, userForm, users, viewerId, Post.get(String.valueOf(user.getId())), follow));
+        List<User> peopleYouMayFollow = User.getPeopleYouMayFollow(viewerId);
+
+        return ok(home.render(user, userForm, users, peopleYouMayFollow, viewerId, Post.get(String.valueOf(user.getId())), follow));
     }
 
     public static Result follow(String source, String target) {
