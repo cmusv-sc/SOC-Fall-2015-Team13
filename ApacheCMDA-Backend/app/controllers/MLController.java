@@ -85,13 +85,13 @@ public class MLController extends Controller {
                 for (User user : userList) {
                     String research  = user.getResearchFields();
                     String title = user.getTitle();
-                    double researchScore = 10.0;
+                    double researchScore = 50.0;
                     if (research != null && !research.isEmpty() &&
                             (research.toLowerCase().contains("web") || research.toLowerCase().contains("data")
                                     || research.toLowerCase().contains("machine"))) {
                         researchScore = 0.0;
                     }
-                    double titleScore = 10.0;
+                    double titleScore = 50.0;
                     if ( title != null && !title.isEmpty()) {
                         if (title.toLowerCase().contains("master") || title.toLowerCase().contains("dr")) {
                             titleScore = 0.0;

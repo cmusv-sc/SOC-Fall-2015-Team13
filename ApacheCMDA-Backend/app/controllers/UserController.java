@@ -202,6 +202,7 @@ public class UserController extends Controller {
 		return ok(result);
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result getUserByName(String username, String format) {
 		if (username == null) {
 			System.out.println("username is null or empty!");
@@ -278,6 +279,7 @@ public class UserController extends Controller {
 
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result follow() {
 		final Map<String, String[]> params = request().queryString();
 		String source = params.get("source")[0];
@@ -287,6 +289,7 @@ public class UserController extends Controller {
 		return ok();
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result unfollow() {
 		final Map<String, String[]> params = request().queryString();
 
@@ -297,6 +300,7 @@ public class UserController extends Controller {
 		return ok();
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result getFollowers(long id, String format) {
 		List<User> users = userRepository.findFollowers(id);
 		
@@ -307,6 +311,7 @@ public class UserController extends Controller {
 		return ok(result);
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result getPeopleYouMayFollow(long id, String format) {
 		User user = userRepository.findOne(id);
 		List<User> interestingResearchers = userRepository.findByCluster(user.getCluster());
