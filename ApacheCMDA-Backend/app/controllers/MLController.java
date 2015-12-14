@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import java.util.*;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.storage.StorageLevel;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
@@ -107,6 +108,7 @@ public class MLController extends Controller {
                 JavaRDD<String> lines = sc.parallelize(source);
 
                 JavaRDD<Vector> points = lines.map(new ParsePoint());
+                points.persist(StorageLevel.MEMORY_AND_DISK_SER());
 
                 KMeansModel model = KMeans.train(points.rdd(), 2, 10, 1, KMeans.K_MEANS_PARALLEL());
 
