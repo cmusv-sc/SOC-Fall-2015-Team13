@@ -224,6 +224,7 @@ public class UserController extends Controller {
 		return ok(result);
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
 	public Result getAllUsers(String format) {
 		Iterable<User> userIterable = userRepository.findAll();
 		List<User> userList = new ArrayList<User>();
