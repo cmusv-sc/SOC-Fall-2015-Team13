@@ -1,0 +1,39 @@
+# This file defines all application routes (Higher priority routes first)
+# Sign up/Log in page for Social Network
+GET         /signup                                          controllers.SignupController.signup()
+GET         /login                                           controllers.LoginController.login(username ?= null, error ?=null)
+POST        /signup/newUser                                  controllers.SignupController.newUser()
+GET         /network/home/myhome                             controllers.HomeController.myHome()
+GET         /network/home/:id                                controllers.HomeController.home(id: String)
+GET         /network/main                                    controllers.MainController.myHome()
+POST        /network/home                                    controllers.HomeController.login()
+GET         /network/logout                                  controllers.HomeController.logout()
+GET         /network/followers/:id                           controllers.HomeController.followers(id: String)
+GET         /network/home/profile/myProfile                  controllers.ProfileController.myProfile()
+GET         /network/home/profile/:id                        controllers.ProfileController.get(id: String)
+POST        /network/home/profile/update/:id                 controllers.ProfileController.update(id: String)
+POST        /network/home/newPost                            controllers.PostController.newPost()
+POST        /network/post/delete                             controllers.PostController.deletePost()
+POST        /network/post/update                             controllers.PostController.updatePost()
+POST        /network/post/share                              controllers.PostController.sharePost()
+POST        /network/comment                                 controllers.PostController.addComment()
+GET         /network/post/changeSecurity/:postID/:security        controllers.PostController.changeSecurity(postID: String, security: String)
+
+# Follow/Unfollow a user
+GET         /network/follow/:source/:target                  controllers.HomeController.follow(source: String, target: String)
+GET         /network/unfollow/:source/:target                controllers.HomeController.unfollow(source: String, target: String)
+
+#User Search
+POST        /network/search/user/:id                         controllers.SearchController.searchUser(id: String)
+GET         /network/search/go/:source/:target               controllers.SearchController.goTo(source: String, target: String)
+
+#Post Search
+POST        /network/search/post/:id                         controllers.SearchController.searchPost(id: String)
+
+#Criteria
+GET         /network/criteria                                controllers.CriteriaController.myHome()
+GET         /network/criteria/search/:id                     controllers.CriteriaController.search(id: String)
+
+# Keyword recommendation
+GET         /network/search/keyword/put/:keyword             controllers.KeywordController.put(keyword: String)
+GET         /network/search/keyword/get                      controllers.KeywordController.recommendation()
