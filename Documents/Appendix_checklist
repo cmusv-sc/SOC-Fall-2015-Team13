@@ -1,0 +1,22 @@
+Appendix:
+
+-Check in everything onto GitHub under the predefined directory including the following items
+	(done)-Readme file: Describe briefly the purpose of the project, how to download and install the software, how to use the software
+	(done)-API (sub-directory): instruct APIs as well as descriptions and examples
+	(done, no test suite)-Test Suite (sub-directory): a collection of test examples and descriptions
+	(done, inside both front-end backend directory )-src (sub-directory): include all source code categorized by packages
+	(done, automatically handle by maven)-lib (sub-directory): include all related library packages needed to support the project
+	(done, inside both front-end backend directory)-conf (sub-directory): include any confirmation settings and files
+	(done, inside both front-end backend directory)-app (sub-directory): any applications built on top of the APIs
+	(done)-contact: please provide every team member’s contact information (cell number, personal email)
+-Documents (sub-directory): in different WORD files
+(done)-access information: URL, user name/password
+(done, in tutorial)-download and installation documents with step-wise descriptions
+(done)-executive summary
+(done, in ppt)-background and motivation
+(done)-assumptions and considerations
+(done no design document)-design documents (architectural design documents and various diagrams e.g., UML files)
+(done)-presentations (ppt file)
+(done)-tutorial: step-by-step usage file with screenshots included
+(done)-future work: to-do list and descriptions
+(done)-technical report
