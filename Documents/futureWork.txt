@@ -1,0 +1,4 @@
+1. Better UI
+2. Make index db not recreated every time when server is loaded
+3. Use memory cache to boost the performance
+4. Put instance in cloud computing platform and make it auto scaleable.
