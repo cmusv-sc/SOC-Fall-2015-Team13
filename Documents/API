@@ -1,53 +1,278 @@
-# This file defines all application routes (Higher priority routes first)
-# Sign up/Log in page for Social Network
-GET         /signup                                          controllers.SignupController.signup()
-# login the social network with a user name
-GET         /login                                           controllers.LoginController.login(username ?= null, error ?=null)
-# Register a new user
-POST        /signup/newUser                                  controllers.SignupController.newUser()
-# Retrived the home page of a user given a ID
-GET         /network/home/:id                                controllers.HomeController.home(id: String)
-# Get follower info of a user given a id
-GET         /network/followers/:id                           controllers.HomeController.followers(id: String)
-# Get the profile data given a id
-GET         /network/home/profile/:id                        controllers.ProfileController.get(id: String)
-# Get profile updated given a id
-POST        /network/home/profile/update/:id                 controllers.ProfileController.update(id: String)
-# Post new doc into public wall
-POST        /network/home/newPost                            controllers.PostController.newPost()
-# Delete a doc in public wall
-POST        /network/post/delete                             controllers.PostController.deletePost()
-# Update a doc in a public wall
-POST        /network/post/update                             controllers.PostController.updatePost()
-# Share a post to personalize wall
-POST        /network/post/share                              controllers.PostController.sharePost()
-# Add comment to a post
-POST        /network/comment                                 controllers.PostController.addComment()
-# Change security of a post id to different security level, parameters are "private" and "public"
-GET         /network/post/changeSecurity/:postID/:security        controllers.PostController.changeSecurity(postID: String, security: String)
 
-# Follow/Unfollow a user
-# follow a user given a source user id and other user's id
-GET         /network/follow/:source/:target                  controllers.HomeController.follow(source: String, target: String)
-# unfollow a user given a source user id and other user's id
-GET         /network/unfollow/:source/:target                controllers.HomeController.unfollow(source: String, target: String)
+paths:
+  /signup:
+    get:
+      parameters:none
+      responses:
+        '200':
+          description: load the signup page
+          schema:
+            $ref: '#/definitions/SuccessInfo'
+  /login:
+    post:
+      parameters:none
+      responses:
+        '200':
+          description: load the login apge
+          schema:
+            $ref: '#/definitions/SuccessInfo'
+  /signup/newUser:
+    post:
+      parameters:
+      - name: username
+        in: body
+        description: username of the new user
+        requried:true
+      - name: password
+        in :body
+        description: password of the new user
+        required:true
+      - name: first name
+        in: body
+        description: first name of the new user
+        required:true
+      - name: last name
+        in: body
+        description: last name of the new user
+        required:true
+      - name: affiliation
+        in: body
+        description: research affiliation of the new user
+        required:true
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/home/:id:
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: id of the user.
+          type: number
+          format: int
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              post, comments, personal info and the following users of the user
+  /network/followers/:id:
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: the user whose followers will be retrieved.
+          type: int
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Users'
+  /network/home/profile/:id:
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: the id of the user whose profile info to be retrieved.
+          type: int
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/profileInfo'
+  /network/home/profile/update/:id:
+    post:
+      parameters:
+        - name: id
+          in: body
+          description: id of the user whose profile to be updated
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/home/newPost:
+    post:
+      parameters:
+        - name: authorId
+          in: body
+          description: author id of the new post
+          type: int
+          required:true
+        - name: content
+          in: body
+          description: content of the new post
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/post/delete:
+    post:
+      parameters:
+        - name: postId
+          in: body
+          type: string
+          description: id of the post to be deleted
+          required:true
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/post/update:
+    post:
+      parameters:
+        - name: id
+          in: body
+          description: id of the post to be updated
+          type: int
+          required: true
+        - name: content
+          in: body
+          description: edited content of the post
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/post/share:
+    post:
+      parameters:
+        - name :sharerId
+          in: body
+          description: id of the person who's sharing the post
+          type: int
+          required:true
+      
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/comment:
+    post:
+      parameters:
+        - name: commenterId
+          in: body
+          description: id of the commenter
+          type: int
+        - name: postId
+          in: body
+          description: id of the post being commented on
+          type: int
+        - name: content
+          in: body
+          description: content of the comment
+          type:string
+          required:true
+      responses:
+        '200':
+          description: Successful response
+          
+  /network/post/changeSecurity:
+    post:
+      parameters:
+        - name: postID
+          in: body
+          type: string
+          description: id of the post
+        - name: security
+          in: body
+          type: string
+          description: if the post will be public or private
+          required: true
+          
+      responses:
+        '200':
+          description: Successful response
 
-#User Search
-# search user for a user id
-POST        /network/search/user/:id                         controllers.SearchController.searchUser(id: String)
-# go to a user page given a source id to destincation user id
-GET         /network/search/go/:source/:target               controllers.SearchController.goTo(source: String, target: String)
+  /network/follow:
+    post:
+      parameters:
+        - name: source
+          description: follower id
+          in: path
+        - name: target
+          description: followee id
+          in :path
+      responses:
+        '200':
 
-#Post Search
-# search a post for a user id
-POST        /network/search/post/:id                         controllers.SearchController.searchPost(id: String)
-
-#Criteria
-# do a criteria search for a user id
-GET         /network/criteria/search/:id                     controllers.CriteriaController.search(id: String)
-
-# Keyword recommendation
-# store a keyword to recommendation respository
-GET         /network/search/keyword/put/:keyword             controllers.KeywordController.put(keyword: String)
-# get a list of recommendation keyword for auto complete
-GET         /network/search/keyword/get                      controllers.KeywordController.recommendation()
+  /network/unfollow:
+    post:
+      parameters:
+        - name: source
+          description: follower id
+          in: path
+        - name: target
+          description: followee id
+          in :path
+      responses:
+        '200':
+        
+  /network/search/user/:id:
+    post:
+      parameters:
+        - name: id
+          in: path
+          description: id of the user being displayed on the search page
+          type: int
+      responses:
+        '200':
+          description: Success
+            type: json
+  /network/search/go/:source/:target:
+    get:
+      parameters:
+        - name: source
+          in: path
+          description: id of user performing search
+        - name: target
+          in: path
+          description: id of the user being displayed on the search result page
+          required:true
+  
+  /network/search/post/:id:
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: id of post being displayed on the search page
+  
+  /network/criteria/search/:id :
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: id of the user with criteri search
+          required:true
+          
+  /network/search/keyword/put/:keyword:
+    post:
+      parameters:
+        - name: keyword
+          in: path
+          description: keyword to be stored into recommendation respository
+          requried:true
+      responses:
+        '200':
+          description: Success
+            type: json
+            
+  /network/search/keyword/get:
+    get:
+      parameters: none
+      responses:
+        '200':
+          description: Success
+            type: json with all the keywords for recommendation
+        
